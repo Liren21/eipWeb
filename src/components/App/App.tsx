@@ -1,0 +1,40 @@
+import 'devextreme/dist/css/dx.common.css';
+import '../../themes/generated/theme.base.css';
+import '../../themes/generated/theme.additional.css';
+import { HashRouter as Router } from 'react-router-dom';
+import '../../dx-styles.scss';
+import LoadPanel from 'devextreme-react/load-panel';
+import { NavigationProvider } from '../../lib/contexts/navigation';
+import { AuthProvider, useAuth } from '../../lib/contexts/auth';
+import Content from '../../Content';
+import UnauthenticatedContent from '../../UnauthenticatedContent';
+
+function App() {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <LoadPanel visible={true} />;
+  }
+
+  if (user) {
+    return <Content />;
+  }
+
+  return <UnauthenticatedContent />;
+}
+
+export default function Root() {
+  // const screenSizeClass = useScreenSizeClass();
+
+  return (
+    <Router>
+      <AuthProvider>
+        <NavigationProvider>
+          {/*<div className={`app`}>*/}
+            <App />
+          {/*</div>*/}
+        </NavigationProvider>
+      </AuthProvider>
+    </Router>
+  );
+}
