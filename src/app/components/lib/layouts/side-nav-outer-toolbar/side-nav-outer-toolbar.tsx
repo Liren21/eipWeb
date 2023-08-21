@@ -43,7 +43,7 @@ export default function SideNavOuterToolbar({ title, children }: React.PropsWith
         ? MenuStatus.Closed
         : prevMenuStatus
     );
-    return menuStatus === MenuStatus.Closed ? true : false;
+    return menuStatus === MenuStatus.Closed;
   }, [isLarge]);
 
   const onNavigationChanged = useCallback(({ itemData, event, node }: TreeViewTypes.ItemClickEvent) => {

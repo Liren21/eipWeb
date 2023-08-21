@@ -73,8 +73,8 @@ export default function SideNavInnerToolbar({ title, children }: React.PropsWith
         revealMode={isXSmall ? 'slide' : 'expand'}
         minSize={isXSmall ? 0 : 60}
         maxSize={250}
-        shading={isLarge ? false : true}
-        opened={menuStatus === MenuStatus.Closed ? false : true}
+        shading={!isLarge}
+        opened={menuStatus !== MenuStatus.Closed}
         template={'menu'}
       >
         <div className={'container'}>

@@ -1,5 +1,4 @@
 import {Global, IGlobal} from "../../../../core/lib/models/global";
-import {DepartmentCreatedByEmployee} from "./DepartmentCreatedByEmployee";
 import {CreatedByEmployee} from "./CreatedByEmployee";
 import {SignState} from "./SignState";
 import {InvolvedByEmployee} from "./InvolvedByEmployee";

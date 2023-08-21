@@ -43,7 +43,6 @@ import {
   Scrolling,
   // Setting up Pagination
   Paging,
-  ToolbarItem,
   Form,
   Lookup,
 } from 'devextreme-react/data-grid';
