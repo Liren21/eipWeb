@@ -1,0 +1,11 @@
+.cache/
+node_modules
+dist
+.tmp
+.sass-cache
+bower_components
+.idea/
+frontend.iml
+package-lock.json
+proxy.cert
+proxy.key
