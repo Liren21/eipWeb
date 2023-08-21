@@ -1,8 +1,9 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import appInfo from './components/App/app-info';
-import routes from './components/App/app-routes';
-import { SideNavOuterToolbar as SideNavBarLayout } from './lib/layouts';
-import { Footer } from './components/imports';
+
+import routes from './app/components/App/app-routes';
+import { SideNavOuterToolbar as SideNavBarLayout } from './app/components/lib/layouts';
+import { Footer } from './app/components/imports';
+import appInfo from "./app/components/App/app-info";
 
 export default function Content() {
   return (
@@ -11,7 +12,7 @@ export default function Content() {
         {routes.map(({ path, element }) => (
           <Route key={path} path={path} element={element}/>
         ))}
-        <Route path='*' element={<Navigate to='/home' />}/>
+        <Route path='*' element={<Navigate to='/home'/>}/>
       </Routes>
       <Footer>
         Copyright © 2011-{new Date().getFullYear()} {appInfo.title} Inc.

@@ -1,0 +1,20 @@
+@use "../../../../themes/generated/variables.base" as base;
+
+.create-account-form {
+  .policy-info {
+    margin: 10px 0;
+    color: rgba(base.$base-text-color, alpha(base.$base-text-color) * 0.7);
+    font-size: 14px;
+    font-style: normal;
+
+    a {
+      color: rgba(base.$base-text-color, alpha(base.$base-text-color) * 0.7);
+    }
+  }
+
+  .login-link {
+    color: base.$base-accent;
+    font-size: 16px;
+    text-align: center;
+  }
+}

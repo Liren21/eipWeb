@@ -1,0 +1,9 @@
+@use "../../../../themes/generated/variables.base" as base;
+
+.footer {
+  display: block;
+  color: rgba(base.$base-text-color, alpha(base.$base-text-color) * 0.7);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 20px;
+  padding-bottom: 24px;
+}

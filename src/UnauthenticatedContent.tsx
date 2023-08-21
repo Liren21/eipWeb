@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { SingleCard } from './lib/layouts';
-import { LoginForm, ResetPasswordForm, ChangePasswordForm, CreateAccountForm } from './components/imports';
+
+import { LoginForm, ResetPasswordForm, ChangePasswordForm, CreateAccountForm } from './app/components/imports';
+import SingleCard from './app/components/lib/layouts/single-card/single-card';
 
 export default function UnauthenticatedContent() {
   return (

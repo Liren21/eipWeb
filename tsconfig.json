@@ -1,16 +1,25 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
+    "declaration": false,
+    "removeComments": true,
+    "noLib": false,
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": false,
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "strictPropertyInitialization": false,
     "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
-    "allowJs": true,
+    "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
