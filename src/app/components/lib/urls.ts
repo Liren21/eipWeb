@@ -1,4 +1,4 @@
-import coreUrls from "./core-urls";
+import coreUrls from "../../core/lib/core-urls";
 
 export default {
     PARTNERS: `${coreUrls.BACKEND}/partners`,
