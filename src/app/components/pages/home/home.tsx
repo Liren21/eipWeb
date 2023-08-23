@@ -1,4 +1,3 @@
-import CustomStore from 'devextreme/data/custom_store';
 import {Item as ItemPopup} from 'devextreme-react/form';
 import {
     DataGrid,
@@ -40,76 +39,76 @@ import {
     Paging,
     Form,
     Lookup,
+    Button,
 } from 'devextreme-react/data-grid';
-import {Button} from 'devextreme-react/button';
-import {useAppDispatch, useAppSelector} from '../../lib/hooks/hooks';
-import {useEffect} from 'react';
+
 import './home.scss';
-import axios from 'axios';
-import urls from "../../lib/urls";
-import {
-    fetchConsumers,
-    fetchContractTypes,
-    fetchData,
-    fetchEmployee,
-    fetchSignStates
-} from '../../lib/store/services/services';
+
 import {ExportFile} from "../../lib/func/ExportFile";
+import {contractsService} from "../../lib/store/services/contractsService";
+import {employeeService} from "../../lib/store/services/employeeService";
+import {contractSignStatesService} from "../../lib/store/services/contractSignStatesService";
+import {partnersService} from "../../lib/store/services/partnersService";
+import {contractTypesService} from "../../lib/store/services/contractTypesService";
+import {counterpartyFormatsService} from "../../lib/store/services/counterpartyFormatsService";
+import {customerClassificationsService} from "../../lib/store/services/сustomerClassificationsService";
+import React, {useState} from "react";
+import Guid from "devextreme/core/guid";
 
 const exportFormats = ['xlsx'];
 
 
 export default function Home() {
-    const dispatch = useAppDispatch();
-    const {contracts} = useAppSelector((state) => state.data)
-    const {employee} = useAppSelector((state) => state.employee);
-    const {signStates} = useAppSelector((state) => state.signStates);
-    const {consumers} = useAppSelector((state) => state.consumers);
-    const {contractTypes} = useAppSelector((state) => state.contractTypes);
 
+    const {data: contractTypes} = contractTypesService.useFetchContractTypeQuery('')
+    const {data: contracts,refetch:reContracts} = contractsService.useFetchContractsQuery('')
+    const {data: employee} = employeeService.useFetchEmployeeQuery('')
+    const {data: signStates} = contractSignStatesService.useFetchContractSignStatesQuery('')
+    const {data: consumers} = partnersService.useFetchPartnersQuery('')
+    const {data: counterpartyFormats} = counterpartyFormatsService.useFetchCounterpartyFormatsQuery('')
+    const {data: customerClassifications} = customerClassificationsService.useFetchCustomerClassificationsQuery('')
+    const [changes, setChanges] = useState([]);
+    const [editRowKey, setEditRowKey] = React.useState(null);
 
-    const rentsStore = new CustomStore({
-        key: 'id',
-        loadMode: 'raw',
-        load: () => contracts,
-        insert: async (value) => {
-            refreshDataGrid();
-            return await axios.post(
-                urls.CONTRACTS,
-                {
-                    createdByEmployeeId: value.createdByEmployeeId,
-                    signStateId: value.signStateId,
-                    involvedByEmployeeId: value.involvedByEmployeeId,
-                    consumerId: value.consumerId,
-                    typeId: value.typeId,
-                    number: `${value.number}`,
-                    agreementNumber: `${value.agreementNumber}`,
-                    address: `${value.address}`,
-                    note: 'string',
-                    linkToContractFolder: 'string',
-                    linkToSignedContractFile: 'string',
-                }
-            );
-        },
-    });
+    const onAddButtonClick = React.useCallback((e) => {
+        const key = new Guid().toString();
+        setChanges([{
+            key,
+            type: 'insert',
+            insertAfterKey: e.row.key,
+        }]);
+        setEditRowKey(key);
+    }, []);
+    // const rentsStore = new CustomStore({
+    //     key: 'id',
+    //     loadMode: 'raw',
+    //     load: () => contracts,
+    //     insert: async (value) => {
+    //         refreshDataGrid();
+    //         return await axios.post(
+    //             urls.CONTRACTS,
+    //             {
+    //                 createdByEmployeeId: value.createdByEmployeeId,
+    //                 signStateId: value.signStateId,
+    //                 involvedByEmployeeId: value.involvedByEmployeeId,
+    //                 consumerId: value.consumerId,
+    //                 typeId: value.typeId,
+    //                 number: `${value.number}`,
+    //                 agreementNumber: `${value.agreementNumber}`,
+    //                 address: `${value.address}`,
+    //                 note: 'string',
+    //                 linkToContractFolder: 'string',
+    //                 linkToSignedContractFile: 'string',
+    //             }
+    //         );
+    //     },
+    // });
 
-    useEffect(() => {
-        dispatch(fetchData());
-        dispatch(fetchEmployee());
-        dispatch(fetchSignStates());
-        dispatch(fetchConsumers());
-        dispatch(fetchContractTypes());
-    }, [dispatch]);
-
-
-    const refreshDataGrid = () => {
-        dispatch(fetchData());
-    };
 
     return (
         <>
             <DataGrid
-                dataSource={rentsStore}
+                dataSource={contracts}
                 // keyExpr="id"
                 allowColumnReordering={true}
                 columnAutoWidth={true}
@@ -135,6 +134,7 @@ export default function Home() {
                 <Column dataField="created" dataType="datetime" caption="Дата" width={'auto'}/>
 
                 {/* createdByEmployee start */}
+
 
                 <Column
                     dataField="createdByEmployeeId"
@@ -375,56 +375,70 @@ export default function Home() {
 
                 {/* popup ----------------------- startt */}
 
-                <Editing mode="popup" allowUpdating={true} allowDeleting={true} allowAdding={true}>
-                    <Popup showTitle={true} title="Добавить договор" fullScreen={false}/>
-                    <Form>
-                        <ItemPopup itemType="group" caption="Основные данные" colCount={1} colSpan={2}>
-                            <ItemPopup itemType="group" colCount={4} colSpan={2}>
-                                <ItemPopup dataField="id" visible={false}/>
-                                <ItemPopup dataField="created"/>
-                                <ItemPopup dataField="number"/>
-                                <ItemPopup dataField="agreementNumber"/>
-                                <ItemPopup dataField="isValid"/>
-                            </ItemPopup>
-                            <ItemPopup itemType="group" colCount={1} colSpan={2}>
-                                <ItemPopup dataField="address"/>
-                            </ItemPopup>
-                        </ItemPopup>
+                {/*<Editing mode="popup" allowUpdating={true} allowDeleting={true} allowAdding={true}>*/}
+                {/*    <Popup showTitle={true} title="Добавить договор" fullScreen={false}/>*/}
+                {/*    <Form>*/}
+                {/*        <ItemPopup itemType="group" caption="Основные данные" colCount={1} colSpan={2}>*/}
+                {/*            <ItemPopup itemType="group" colCount={4} colSpan={2}>*/}
+                {/*                <ItemPopup dataField="id" visible={false}/>*/}
+                {/*                <ItemPopup dataField="created"/>*/}
+                {/*                <ItemPopup dataField="number"/>*/}
+                {/*                <ItemPopup dataField="agreementNumber"/>*/}
+                {/*                <ItemPopup dataField="isValid"/>*/}
+                {/*            </ItemPopup>*/}
+                {/*            <ItemPopup itemType="group" colCount={1} colSpan={2}>*/}
+                {/*                <ItemPopup dataField="address"/>*/}
+                {/*            </ItemPopup>*/}
+                {/*        </ItemPopup>*/}
 
-                        <ItemPopup itemType="group" caption="Создатель записи" colCount={2} colSpan={2}>
-                            <ItemPopup dataField="createdByEmployeeId"/>
-                            <ItemPopup dataField="createdByEmployee.department.name"/>
-                            <ItemPopup dataField="createdByEmployee.id" visible={false}/>
-                            <ItemPopup dataField="createdByEmployee.departmentId" visible={false}/>
-                            <ItemPopup dataField="createdByEmployee.department.id" visible={false}/>
-                            <ItemPopup dataField="createdByEmployee.department.sortIndex" visible={false}/>
-                        </ItemPopup>
+                {/*        <ItemPopup itemType="group" caption="Создатель записи" colCount={2} colSpan={2}>*/}
+                {/*            <ItemPopup dataField="createdByEmployeeId"/>*/}
+                {/*            <ItemPopup dataField="createdByEmployee.department.name"/>*/}
+                {/*            <ItemPopup dataField="createdByEmployee.id" visible={false}/>*/}
+                {/*            <ItemPopup dataField="createdByEmployee.departmentId" visible={false}/>*/}
+                {/*            <ItemPopup dataField="createdByEmployee.department.id" visible={false}/>*/}
+                {/*            <ItemPopup dataField="createdByEmployee.department.sortIndex" visible={false}/>*/}
+                {/*        </ItemPopup>*/}
 
-                        <ItemPopup itemType="group" caption="Статус" colCount={1} colSpan={2}>
-                            <ItemPopup dataField="signStateId"/>
-                            <ItemPopup dataField="signState.id" visible={false}/>
-                        </ItemPopup>
+                {/*        <ItemPopup itemType="group" caption="Статус" colCount={1} colSpan={2}>*/}
+                {/*            <ItemPopup dataField="signStateId"/>*/}
+                {/*            <ItemPopup dataField="signState.id" visible={false}/>*/}
+                {/*        </ItemPopup>*/}
 
-                        <ItemPopup itemType="group" caption="Исполнитель" colCount={3} colSpan={2}>
-                            <ItemPopup dataField="involvedByEmployeeId"/>
-                            <ItemPopup dataField="involvedByEmployee.department.name"/>
-                            <ItemPopup dataField="involvedByEmployee.department.shortName"/>
-                            <ItemPopup dataField="involvedByEmployee.id" visible={false}/>
-                            <ItemPopup dataField="involvedByEmployee.positionId" visible={false}/>
-                            <ItemPopup dataField="createdByEmployee.departmentId" visible={false}/>
-                            <ItemPopup dataField="involvedByEmployee.department.id" visible={false}/>
-                            <ItemPopup dataField="involvedByEmployee.department.sortIndex" visible={false}/>
-                        </ItemPopup>
+                {/*        <ItemPopup itemType="group" caption="Исполнитель" colCount={3} colSpan={2}>*/}
+                {/*            <ItemPopup dataField="involvedByEmployeeId"/>*/}
+                {/*            <ItemPopup dataField="involvedByEmployee.department.name"/>*/}
+                {/*            <ItemPopup dataField="involvedByEmployee.department.shortName"/>*/}
+                {/*            <ItemPopup dataField="involvedByEmployee.id" visible={false}/>*/}
+                {/*            <ItemPopup dataField="involvedByEmployee.positionId" visible={false}/>*/}
+                {/*            <ItemPopup dataField="createdByEmployee.departmentId" visible={false}/>*/}
+                {/*            <ItemPopup dataField="involvedByEmployee.department.id" visible={false}/>*/}
+                {/*            <ItemPopup dataField="involvedByEmployee.department.sortIndex" visible={false}/>*/}
+                {/*        </ItemPopup>*/}
 
-                        <ItemPopup itemType="group" caption="Заказчик" colCount={1} colSpan={2}>
-                            <ItemPopup dataField="consumerId"/>
-                        </ItemPopup>
+                {/*        <ItemPopup itemType="group" caption="Заказчик" colCount={1} colSpan={2}>*/}
+                {/*            <ItemPopup dataField="consumerId"/>*/}
+                {/*        </ItemPopup>*/}
 
-                        <ItemPopup itemType="group" caption="Тип договора" colCount={1} colSpan={2}>
-                            <ItemPopup dataField="typeId"/>
-                        </ItemPopup>
-                    </Form>
-                </Editing>
+                {/*        <ItemPopup itemType="group" caption="Тип договора" colCount={1} colSpan={2}>*/}
+                {/*            <ItemPopup dataField="typeId"/>*/}
+                {/*        </ItemPopup>*/}
+                {/*    </Form>*/}
+                {/*</Editing>*/}
+                <Column fixed={true} type='buttons'>
+                    <Button
+                        icon={'edit'}
+
+                        // onClick={onAddButtonClick}
+                        visible={true}
+                    />
+                    <Button
+                        icon={'delete'}
+
+                        onClick={onAddButtonClick}
+                        visible={true}
+                    />
+                </Column>
 
                 {/* popup ----------------------- end */}
 
@@ -437,13 +451,13 @@ export default function Home() {
                     <Item name="searchPanel"/>
                     <Item location="before" name="columnChooserButton"/>
                     <Item location="before">
-                        <Button icon="refresh" onClick={refreshDataGrid}/>
+                        <Button icon="refresh" onClick={()=>reContracts()}/>
                     </Item>
                 </Toolbar>
                 <Export enabled={true} allowExportSelectedData={true} formats={exportFormats}/>
                 <Scrolling rowRenderingMode="standard"/>
                 <Paging enabled={false}/>
-                {/* <Paging defaultPageSize={100} /> */}
+                 {/*<Paging defaultPageSize={100} />*/}
                 <Selection mode="multiple"/>
                 <Sorting mode="single"/>
             </DataGrid>

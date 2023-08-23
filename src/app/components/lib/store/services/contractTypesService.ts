@@ -6,28 +6,21 @@ import {Contract} from "../models/Contract";
 import {Employee} from "../models/Employee";
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 import coreUrls from "../../../../core/lib/core-urls";
-import {ITest, Test} from "../models/Test";
 
-
-
-
-export const fetchContractTypes = createAsyncThunk<ISignState[]>('data/fetchContractTypes', async () => {
-    const { data } = await axios.get(urls.CONTRACT_TYPES);
-    return data;
-});
-export const contractTypesApi = createApi({
-    reducerPath: 'posts',
-    baseQuery: fetchBaseQuery({baseUrl: coreUrls.TEST_BACKEND}),
-    tagTypes: ['Post'],
+export const contractTypesService = createApi({
+    reducerPath: 'contractTypesApi',
+    baseQuery: fetchBaseQuery({baseUrl: coreUrls.BACKEND}),
+    tagTypes: ['contractTypesApi'],
     endpoints:(build)=>({
-        fetchPosts: build.query<ITest[],number>({
+        fetchContractType: build.query({
             query: () => ({
-                url: `/posts`,
+                url: '/contractTypes',
             }),
-
         }),
     })
 })
+
+
 
 export const fetchConsumers = createAsyncThunk<ISignState[]>('data/fetchConsumers', async () => {
     const {data} = await axios.get(urls.PARTNERS);
