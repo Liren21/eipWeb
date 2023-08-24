@@ -1,6 +1,6 @@
 import {HomePage, ProfilePage} from '../pages';
 import {withNavigationWatcher} from '../lib/contexts/navigation';
-import Test from "../pages/test/Test";
+import CounterpartyContactPerson from "../pages/сounterpartyContactPerson/CounterpartyContactPerson";
 
 const routes = [
     {
@@ -12,8 +12,8 @@ const routes = [
         element: HomePage,
     },
     {
-        path: '/test',
-        element: Test,
+        path: '/сounterpartyContactPerson',
+        element: CounterpartyContactPerson,
     },
 ];
 

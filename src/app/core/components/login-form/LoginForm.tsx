@@ -10,7 +10,7 @@ import Form, {
 } from 'devextreme-react/form';
 import LoadIndicator from 'devextreme-react/load-indicator';
 import notify from 'devextreme/ui/notify';
-import { useAuth } from '../../lib/contexts/auth';
+import { useAuth } from '../../../components/lib/contexts/auth';
 
 import './LoginForm.scss';
 

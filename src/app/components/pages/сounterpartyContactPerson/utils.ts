@@ -2,7 +2,7 @@ export async function sendRequest(url, method = 'GET', data: any = {}) {
     // const params = Object.keys(data)
     //     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
     //     .join('&');
-console.log(data.values)
+
     const result = await fetch(url, {
         body: data.values,
         method,

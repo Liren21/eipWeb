@@ -376,61 +376,61 @@ export default function Home() {
 
                 {/* popup ----------------------- startt */}
 
-                {/*<Editing mode="popup" allowUpdating={true} allowDeleting={true} allowAdding={true}>*/}
-                {/*    <Popup showTitle={true} title="Добавить договор" fullScreen={false}/>*/}
-                {/*    <Form>*/}
-                {/*        <ItemPopup itemType="group" caption="Основные данные" colCount={1} colSpan={2}>*/}
-                {/*            <ItemPopup itemType="group" colCount={4} colSpan={2}>*/}
-                {/*                <ItemPopup dataField="id" visible={false}/>*/}
-                {/*                <ItemPopup dataField="created"/>*/}
-                {/*                <ItemPopup dataField="number"/>*/}
-                {/*                <ItemPopup dataField="agreementNumber"/>*/}
-                {/*                <ItemPopup dataField="isValid"/>*/}
-                {/*            </ItemPopup>*/}
-                {/*            <ItemPopup itemType="group" colCount={1} colSpan={2}>*/}
-                {/*                <ItemPopup dataField="address"/>*/}
-                {/*            </ItemPopup>*/}
-                {/*        </ItemPopup>*/}
+                <Editing mode="popup" allowUpdating={true} allowDeleting={true} allowAdding={true}>
+                    <Popup showTitle={true} title="Добавить договор" fullScreen={false}/>
+                    <Form>
+                        <ItemPopup itemType="group" caption="Основные данные" colCount={1} colSpan={2}>
+                            <ItemPopup itemType="group" colCount={4} colSpan={2}>
+                                <ItemPopup dataField="id" visible={false}/>
+                                <ItemPopup dataField="created"/>
+                                <ItemPopup dataField="number"/>
+                                <ItemPopup dataField="agreementNumber"/>
+                                <ItemPopup dataField="isValid"/>
+                            </ItemPopup>
+                            <ItemPopup itemType="group" colCount={1} colSpan={2}>
+                                <ItemPopup dataField="address"/>
+                            </ItemPopup>
+                        </ItemPopup>
 
-                {/*        <ItemPopup itemType="group" caption="Создатель записи" colCount={2} colSpan={2}>*/}
-                {/*            <ItemPopup dataField="createdByEmployeeId"/>*/}
-                {/*            <ItemPopup dataField="createdByEmployee.department.name"/>*/}
-                {/*            <ItemPopup dataField="createdByEmployee.id" visible={false}/>*/}
-                {/*            <ItemPopup dataField="createdByEmployee.departmentId" visible={false}/>*/}
-                {/*            <ItemPopup dataField="createdByEmployee.department.id" visible={false}/>*/}
-                {/*            <ItemPopup dataField="createdByEmployee.department.sortIndex" visible={false}/>*/}
-                {/*        </ItemPopup>*/}
+                        <ItemPopup itemType="group" caption="Создатель записи" colCount={2} colSpan={2}>
+                            <ItemPopup dataField="createdByEmployeeId"/>
+                            <ItemPopup dataField="createdByEmployee.department.name"/>
+                            <ItemPopup dataField="createdByEmployee.id" visible={false}/>
+                            <ItemPopup dataField="createdByEmployee.departmentId" visible={false}/>
+                            <ItemPopup dataField="createdByEmployee.department.id" visible={false}/>
+                            <ItemPopup dataField="createdByEmployee.department.sortIndex" visible={false}/>
+                        </ItemPopup>
 
-                {/*        <ItemPopup itemType="group" caption="Статус" colCount={1} colSpan={2}>*/}
-                {/*            <ItemPopup dataField="signStateId"/>*/}
-                {/*            <ItemPopup dataField="signState.id" visible={false}/>*/}
-                {/*        </ItemPopup>*/}
+                        <ItemPopup itemType="group" caption="Статус" colCount={1} colSpan={2}>
+                            <ItemPopup dataField="signStateId"/>
+                            <ItemPopup dataField="signState.id" visible={false}/>
+                        </ItemPopup>
 
-                {/*        <ItemPopup itemType="group" caption="Исполнитель" colCount={3} colSpan={2}>*/}
-                {/*            <ItemPopup dataField="involvedByEmployeeId"/>*/}
-                {/*            <ItemPopup dataField="involvedByEmployee.department.name"/>*/}
-                {/*            <ItemPopup dataField="involvedByEmployee.department.shortName"/>*/}
-                {/*            <ItemPopup dataField="involvedByEmployee.id" visible={false}/>*/}
-                {/*            <ItemPopup dataField="involvedByEmployee.positionId" visible={false}/>*/}
-                {/*            <ItemPopup dataField="createdByEmployee.departmentId" visible={false}/>*/}
-                {/*            <ItemPopup dataField="involvedByEmployee.department.id" visible={false}/>*/}
-                {/*            <ItemPopup dataField="involvedByEmployee.department.sortIndex" visible={false}/>*/}
-                {/*        </ItemPopup>*/}
+                        <ItemPopup itemType="group" caption="Исполнитель" colCount={3} colSpan={2}>
+                            <ItemPopup dataField="involvedByEmployeeId"/>
+                            <ItemPopup dataField="involvedByEmployee.department.name"/>
+                            <ItemPopup dataField="involvedByEmployee.department.shortName"/>
+                            <ItemPopup dataField="involvedByEmployee.id" visible={false}/>
+                            <ItemPopup dataField="involvedByEmployee.positionId" visible={false}/>
+                            <ItemPopup dataField="createdByEmployee.departmentId" visible={false}/>
+                            <ItemPopup dataField="involvedByEmployee.department.id" visible={false}/>
+                            <ItemPopup dataField="involvedByEmployee.department.sortIndex" visible={false}/>
+                        </ItemPopup>
 
-                {/*        <ItemPopup itemType="group" caption="Заказчик" colCount={1} colSpan={2}>*/}
-                {/*            <ItemPopup dataField="consumerId"/>*/}
-                {/*        </ItemPopup>*/}
+                        <ItemPopup itemType="group" caption="Заказчик" colCount={1} colSpan={2}>
+                            <ItemPopup dataField="consumerId"/>
+                        </ItemPopup>
 
-                {/*        <ItemPopup itemType="group" caption="Тип договора" colCount={1} colSpan={2}>*/}
-                {/*            <ItemPopup dataField="typeId"/>*/}
-                {/*        </ItemPopup>*/}
-                {/*    </Form>*/}
-                {/*</Editing>*/}
+                        <ItemPopup itemType="group" caption="Тип договора" colCount={1} colSpan={2}>
+                            <ItemPopup dataField="typeId"/>
+                        </ItemPopup>
+                    </Form>
+                </Editing>
                 <Column fixed={true} type='buttons'>
                     <Button
                         icon={'edit'}
 
-                        // onClick={onAddButtonClick}
+                        onClick={onAddButtonClick}
                         visible={true}
                     />
                     <Button

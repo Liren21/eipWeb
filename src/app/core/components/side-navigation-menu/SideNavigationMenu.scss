@@ -1,6 +1,7 @@
 @use "../../../../dx-styles" as dx;
+
 @use "../../../../themes/generated/variables.additional" as additional;
-@use "../../lib/utils/patches";
+@use "../../../components/lib/utils/patches";
 
 .side-navigation-menu {
   display: flex;

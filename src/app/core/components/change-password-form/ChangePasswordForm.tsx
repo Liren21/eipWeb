@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Form, {
   Item,
   Label,
@@ -7,25 +7,24 @@ import Form, {
   ButtonOptions,
   RequiredRule,
   CustomRule,
-  EmailRule
 } from 'devextreme-react/form';
-import notify from 'devextreme/ui/notify';
 import LoadIndicator from 'devextreme-react/load-indicator';
-import { createAccount } from '../../lib/api/auth';
+import notify from 'devextreme/ui/notify';
 import { ValidationCallbackData } from 'devextreme-react/common';
-import './CreateAccountForm.scss';
+import { changePassword } from '../../../components/lib/api/auth';
 
-export default function CreateAccountForm() {
+export default function ChangePasswordForm() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const formData = useRef({ email: '', password: '' });
+  const formData = useRef({ password: '' });
+  const { recoveryCode } = useParams();
 
   const onSubmit = useCallback(async (e: any) => {
     e.preventDefault();
-    const { email, password } = formData.current;
+    const { password } = formData.current;
     setLoading(true);
 
-    const result = await createAccount(email, password);
+    const result = await changePassword(password, recoveryCode);
     setLoading(false);
 
     if (result.isOk) {
@@ -33,7 +32,7 @@ export default function CreateAccountForm() {
     } else {
       notify(result.message, 'error', 2000);
     }
-  }, [navigate]);
+  }, [navigate, recoveryCode]);
 
   const confirmPassword = useCallback(
     ({ value }: ValidationCallbackData) => value === formData.current.password,
@@ -41,17 +40,8 @@ export default function CreateAccountForm() {
   );
 
   return (
-    <form className={'create-account-form'} onSubmit={onSubmit}>
+    <form onSubmit={onSubmit}>
       <Form formData={formData.current} disabled={loading}>
-        <Item
-          dataField={'email'}
-          editorType={'dxTextBox'}
-          editorOptions={emailEditorOptions}
-        >
-          <RequiredRule message="Email is required" />
-          <EmailRule message="Email is invalid" />
-          <Label visible={false} />
-        </Item>
         <Item
           dataField={'password'}
           editorType={'dxTextBox'}
@@ -72,11 +62,6 @@ export default function CreateAccountForm() {
           />
           <Label visible={false} />
         </Item>
-        <Item>
-          <div className='policy-info'>
-            By creating an account, you agree to the <Link to="#">Terms of Service</Link> and <Link to="#">Privacy Policy</Link>
-          </div>
-        </Item>
         <ButtonItem>
           <ButtonOptions
             width={'100%'}
@@ -87,21 +72,15 @@ export default function CreateAccountForm() {
               {
                 loading
                   ? <LoadIndicator width={'24px'} height={'24px'} visible={true} />
-                  : 'Create a new account'
+                  : 'Continue'
               }
             </span>
           </ButtonOptions>
         </ButtonItem>
-        <Item>
-          <div className={'login-link'}>
-            Have an account? <Link to={'/login'}>Sign In</Link>
-          </div>
-        </Item>
       </Form>
     </form>
   );
 }
 
-const emailEditorOptions = { stylingMode: 'filled', placeholder: 'Email', mode: 'email' };
 const passwordEditorOptions = { stylingMode: 'filled', placeholder: 'Password', mode: 'password' };
 const confirmedPasswordEditorOptions = { stylingMode: 'filled', placeholder: 'Confirm Password', mode: 'password' };

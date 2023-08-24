@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import routes from './app/components/App/app-routes';
-import { SideNavOuterToolbar as SideNavBarLayout } from './app/components/lib/layouts';
+import { SideNavOuterToolbar as SideNavBarLayout } from './app/core/components/layouts';
 import { Footer } from './app/components/imports';
 import appInfo from "./app/components/App/app-info";
 

@@ -1,4 +1,4 @@
-@import "../../../../../themes/generated/variables.base";
+@use "../../../../../themes/generated/variables.base" as base;
 
 .single-card {
 
@@ -22,14 +22,14 @@
       margin-bottom: 30px;
 
       .title {
-        color: $base-text-color;
+        color: base.$base-text-color;
         line-height: 28px;
         font-weight: 500;
         font-size: 24px;
       }
 
       .description {
-        color: rgba($base-text-color, alpha($base-text-color) * 0.7);
+        color: rgba(base.$base-text-color, alpha(base.$base-text-color) * 0.7);
         line-height: 18px;
       }
     }

@@ -5,13 +5,8 @@ export const navigation = [
     icon: 'home',
   },
   {
-    text: 'Profile',
-    path: '/profile',
-    icon: 'user',
-  },
-  {
-    text: 'test',
-    path: '/test',
-    icon: 'test',
+    text: 'Форматы контрагента',
+    path: '/сounterpartyContactPerson',
+    icon: 'CounterpartyContactPerson',
   },
 ];

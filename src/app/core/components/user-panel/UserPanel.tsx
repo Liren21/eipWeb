@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useNavigate } from "react-router-dom";
 import ContextMenu, { Position } from 'devextreme-react/context-menu';
 import List from 'devextreme-react/list';
-import { useAuth } from '../../lib/contexts/auth';
+import { useAuth } from '../../../components/lib/contexts/auth';
 import './UserPanel.scss';
 import type { UserPanelProps } from '../../../../types';
 
