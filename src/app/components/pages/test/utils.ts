@@ -1,18 +1,18 @@
-export async function sendRequest(url, method = 'GET', data = {}) {
-    const params = Object.keys(data)
-        .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
-        .join('&');
-
+export async function sendRequest(url, method = 'GET', data: any = {}) {
+    // const params = Object.keys(data)
+    //     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+    //     .join('&');
+console.log(data.values)
     const result = await fetch(url, {
+        body: data.values,
         method,
-        body: params || null,
         headers:
             method === 'GET'
                 ? {}
                 : {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true'
                 },
-        credentials: 'include',
+        // credentials: 'include',
     });
 
     if (result.ok) {

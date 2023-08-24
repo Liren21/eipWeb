@@ -1,15 +1,15 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import coreUrls from "../../../../core/lib/core-urls";
+import urls from "../../urls";
 
 
 export const partnersService = createApi({
     reducerPath: 'partners',
-    baseQuery: fetchBaseQuery({baseUrl: coreUrls.BACKEND}),
+    baseQuery: fetchBaseQuery({baseUrl: urls.PARTNERS}),
     tagTypes: ['partners'],
     endpoints:(build)=>({
         fetchPartners: build.query({
             query: () => ({
-                url: '/partners',
+                url: '',
                 // params: {
                 //     _limit: limit
                 // }

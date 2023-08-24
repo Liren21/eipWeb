@@ -10,7 +10,6 @@ export const contractSignStatesService = createApi({
         fetchContractSignStates: build.query({
             query: () => ({
                 url: '/contractSignStates',
-
             }),
         }),
     })

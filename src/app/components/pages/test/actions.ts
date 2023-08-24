@@ -1,6 +1,7 @@
-import { sendRequest } from './utils';
+import {sendRequest} from './utils';
+import urls from "../../lib/urls";
 
-const URL = 'http://localhost:5000/posts';
+const URL = urls.CUSTOMER_CLASSIFICATIONS
 
 export const FETCH_PENDING = 'FETCH_PENDING';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
@@ -13,11 +14,10 @@ export const SET_CHANGES = 'SET_CHANGES';
 export const SET_EDIT_ROW_KEY = 'SET_EDIT_ROW_KEY';
 
 export async function loadOrders(dispatch) {
-    dispatch({ type: FETCH_PENDING });
+    dispatch({type: FETCH_PENDING});
 
     try {
-        const data = await sendRequest(`${URL}`);
-console.log(data)
+        const data = await sendRequest(`${URL}/GetAll`);
         dispatch({
             type: FETCH_SUCCESS,
             payload: {
@@ -25,7 +25,7 @@ console.log(data)
             },
         });
     } catch (err) {
-        dispatch({ type: FETCH_ERROR });
+        dispatch({type: FETCH_ERROR});
         throw err;
     }
 }
@@ -34,7 +34,7 @@ export async function saveChange(dispatch, change) {
     if (change && change.type) {
         let data;
 
-        dispatch({ type: SAVING_PENDING });
+        dispatch({type: SAVING_PENDING});
 
         try {
             data = await sendChange(URL, change);
@@ -49,16 +49,17 @@ export async function saveChange(dispatch, change) {
 
             return data;
         } catch (err) {
-            dispatch({ type: SAVING_ERROR });
+            dispatch({type: SAVING_ERROR});
             throw err;
         }
     } else {
-        dispatch({ type: SAVING_CANCEL });
+        dispatch({type: SAVING_CANCEL});
         return null;
     }
 }
 
 async function sendChange(url, change) {
+    console.log(change)
     switch (change.type) {
         case 'insert':
             return sendRequest(`${url}`, 'POST', {
@@ -67,10 +68,10 @@ async function sendChange(url, change) {
         case 'update':
             return sendRequest(`${url}`, 'PUT', {
                 key: change.key,
-                values: JSON.stringify(change.data),
+                values: JSON.stringify({id: change.key, ...change.data}),
             });
         case 'remove':
-            return sendRequest(`${url}`, 'DELETE', { key: change.key });
+            return sendRequest(`${url}/${change.key}`, 'DELETE', {key: change.key});
         default:
             return null;
     }

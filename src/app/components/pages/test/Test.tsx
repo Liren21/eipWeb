@@ -1,12 +1,14 @@
 import React, {useCallback, useEffect, useReducer} from 'react';
-import DataGrid, { Column, Editing, Scrolling } from 'devextreme-react/data-grid';
-import { LoadPanel } from 'devextreme-react/load-panel';
+import DataGrid, {Column, Editing, Scrolling} from 'devextreme-react/data-grid';
+import {LoadPanel} from 'devextreme-react/load-panel';
 import 'whatwg-fetch';
 import './Test.scss'
 import reducer from './reducer';
 import {
-    saveChange, loadOrders, setChanges, setEditRowKey,
+    saveChange, loadOrders, setChanges, setEditRowKey, FETCH_SUCCESS, SET_CHANGES,
 } from './actions';
+import {customerClassificationsService} from "../../lib/store/services/сustomerClassificationsService";
+import {counterpartyFormatsService} from "../../lib/store/services/counterpartyFormatsService";
 
 const initialState = {
     data: [],
@@ -15,13 +17,16 @@ const initialState = {
     isLoading: false,
 };
 
-const loadPanelPosition = { of: '#gridContainer' };
+const loadPanelPosition = {of: '#gridContainer'};
 
-function App() {
+function Test() {
     const [state, dispatch] = useReducer(reducer, initialState);
+    // const [postCustomerClassifications] = customerClassificationsService.usePostCustomerClassificationsMutation()
+    // const [putCustomerClassifications] = customerClassificationsService.useUpdateCustomerClassificationsMutation()
+    // const {data, isLoading} = customerClassificationsService.useFetchCustomerClassificationsQuery('')
+
 
     useEffect(() => {
-
         loadOrders(dispatch);
     }, []);
 
@@ -37,7 +42,7 @@ function App() {
     const onEditRowKeyChange = useCallback((editRowKey) => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
-
+    // console.log(state)
     return (
         <React.Fragment>
             <LoadPanel
@@ -64,17 +69,14 @@ function App() {
                     editRowKey={state.editRowKey}
                     onEditRowKeyChange={onEditRowKeyChange}
                 />
-                <Column dataField="id" allowEditing={false}></Column>
-                <Column dataField="firstName"></Column>
-                <Column dataField="email"></Column>
-                <Column dataField="phone"></Column>
-                <Column dataField="secondName"></Column>
-                <Column dataField="OrderDate" dataType="date"></Column>
-                <Column dataField="Freight"></Column>
+                <Column dataField="id" allowEditing={false}/>
+                <Column dataField="name" caption='Имя'/>
+                <Column dataField="note" caption='Примечание'/>
+                <Column dataField="sortIndex" caption='Сортировочный индекс' dataType={"number"}/>
             </DataGrid>
 
         </React.Fragment>
     );
 }
 
-export default App;
+export default Test;

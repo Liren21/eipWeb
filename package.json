@@ -32,6 +32,7 @@
   },
   "scripts": {
     "dev": "react-scripts start",
+    "sj": "json-server --watch db.json --port 5000 --routes routes.json",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

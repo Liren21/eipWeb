@@ -16,7 +16,7 @@ export default function reducer(state, { type, payload }) {
 
     switch (type) {
         case SAVING_SUCCESS:
-            newData = applyChanges(state.data, [payload.change], { keyExpr: 'OrderID' });
+            newData = applyChanges(state.data, [payload.change], { keyExpr: 'id' });
 
             return {
                 ...state,

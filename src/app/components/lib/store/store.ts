@@ -6,7 +6,7 @@ import {contractSignStatesService} from "./services/contractSignStatesService";
 import {partnersService} from "./services/partnersService";
 import {counterpartyFormatsService} from "./services/counterpartyFormatsService";
 import {customerClassificationsService} from "./services/сustomerClassificationsService";
-import {PostService} from "./services/PostService";
+
 
 const rootReducer = combineReducers({
 
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
     [partnersService.reducerPath]: partnersService.reducer,
     [counterpartyFormatsService.reducerPath]: counterpartyFormatsService.reducer,
     [customerClassificationsService.reducerPath]: customerClassificationsService.reducer,
-    [PostService.reducerPath]: PostService.reducer,
+
 
 
 })
@@ -32,7 +32,6 @@ export const setupStore = () => {
             partnersService.middleware,
             counterpartyFormatsService.middleware,
             customerClassificationsService.middleware,
-            PostService.middleware,
             )
     })
 }

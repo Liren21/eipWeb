@@ -65,11 +65,12 @@ export default function Home() {
     const {data: employee} = employeeService.useFetchEmployeeQuery('')
     const {data: signStates} = contractSignStatesService.useFetchContractSignStatesQuery('')
     const {data: consumers} = partnersService.useFetchPartnersQuery('')
-    const {data: counterpartyFormats} = counterpartyFormatsService.useFetchCounterpartyFormatsQuery('')
+    // const {data: counterpartyFormats} = counterpartyFormatsService.useFetchCounterpartyFormatsQuery('')
     const {data: customerClassifications} = customerClassificationsService.useFetchCustomerClassificationsQuery('')
     const [changes, setChanges] = useState([]);
     const [editRowKey, setEditRowKey] = React.useState(null);
 
+    console.log(customerClassifications)
     const onAddButtonClick = React.useCallback((e) => {
         const key = new Guid().toString();
         setChanges([{
