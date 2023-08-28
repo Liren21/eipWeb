@@ -1,7 +1,4 @@
 import {sendRequest} from './utils';
-import urls from "../../lib/urls";
-
-const URL = urls.CUSTOMER_CLASSIFICATIONS
 
 export const FETCH_PENDING = 'FETCH_PENDING';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
@@ -13,7 +10,7 @@ export const SAVING_CANCEL = 'SAVING_CANCEL';
 export const SET_CHANGES = 'SET_CHANGES';
 export const SET_EDIT_ROW_KEY = 'SET_EDIT_ROW_KEY';
 
-export async function loadOrders(dispatch) {
+export async function loadOrders(dispatch,URL) {
     dispatch({type: FETCH_PENDING});
 
     try {
@@ -30,7 +27,7 @@ export async function loadOrders(dispatch) {
     }
 }
 
-export async function saveChange(dispatch, change) {
+export async function saveChange(dispatch, change,URL) {
     if (change && change.type) {
         let data;
 

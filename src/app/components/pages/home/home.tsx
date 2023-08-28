@@ -50,9 +50,8 @@ import {employeeService} from "../../lib/store/services/employeeService";
 import {contractSignStatesService} from "../../lib/store/services/contractSignStatesService";
 import {partnersService} from "../../lib/store/services/partnersService";
 import {contractTypesService} from "../../lib/store/services/contractTypesService";
-import {counterpartyFormatsService} from "../../lib/store/services/counterpartyFormatsService";
 import {customerClassificationsService} from "../../lib/store/services/сustomerClassificationsService";
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import Guid from "devextreme/core/guid";
 
 const exportFormats = ['xlsx'];
@@ -61,17 +60,17 @@ const exportFormats = ['xlsx'];
 export default function Home() {
 
     const {data: contractTypes} = contractTypesService.useFetchContractTypeQuery('')
-    const {data: contracts,refetch:reContracts} = contractsService.useFetchContractsQuery('')
+    const {data: contracts, refetch: reContracts} = contractsService.useFetchContractsQuery('')
     const {data: employee} = employeeService.useFetchEmployeeQuery('')
     const {data: signStates} = contractSignStatesService.useFetchContractSignStatesQuery('')
     const {data: consumers} = partnersService.useFetchPartnersQuery('')
     // const {data: counterpartyFormats} = counterpartyFormatsService.useFetchCounterpartyFormatsQuery('')
     const {data: customerClassifications} = customerClassificationsService.useFetchCustomerClassificationsQuery('')
     const [changes, setChanges] = useState([]);
-    const [editRowKey, setEditRowKey] = React.useState(null);
+    const [editRowKey, setEditRowKey] = useState(null);
 
     console.log(customerClassifications)
-    const onAddButtonClick = React.useCallback((e) => {
+    const onAddButtonClick = useCallback((e) => {
         const key = new Guid().toString();
         setChanges([{
             key,
@@ -452,13 +451,13 @@ export default function Home() {
                     <Item name="searchPanel"/>
                     <Item location="before" name="columnChooserButton"/>
                     <Item location="before">
-                        <Button icon="refresh" onClick={()=>reContracts()}/>
+                        <Button icon="refresh" onClick={() => reContracts()}/>
                     </Item>
                 </Toolbar>
                 <Export enabled={true} allowExportSelectedData={true} formats={exportFormats}/>
                 <Scrolling rowRenderingMode="standard"/>
                 <Paging enabled={false}/>
-                 {/*<Paging defaultPageSize={100} />*/}
+                {/*<Paging defaultPageSize={100} />*/}
                 <Selection mode="multiple"/>
                 <Sorting mode="single"/>
             </DataGrid>

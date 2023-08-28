@@ -1,6 +1,12 @@
 import {HomePage, ProfilePage} from '../pages';
 import {withNavigationWatcher} from '../lib/contexts/navigation';
-import CounterpartyContactPerson from "../pages/сounterpartyContactPerson/CounterpartyContactPerson";
+
+import CounterpartyFormat from "../pages/counterpartyFormats/CounterpartyFormats";
+import CustomerClassifications from "../pages/customerClassifications/CustomerClassifications";
+import SubcontractorClassifications from "../pages/subcontractorClassifications/SubcontractorClassifications";
+import ProviderClassifications from "../pages/providerClassifications/ProviderClassifications";
+import CounterpartyStatus from "../pages/counterpartyStatus/CounterpartyStatus";
+import Counterparties from "../pages/counterparties/Counterparties";
 
 const routes = [
     {
@@ -12,8 +18,32 @@ const routes = [
         element: HomePage,
     },
     {
-        path: '/сounterpartyContactPerson',
-        element: CounterpartyContactPerson,
+        path: '/counterpartyFormats',
+        element: CounterpartyFormat,
+    },
+    {
+        path: '/customerClassifications',
+        element: CustomerClassifications,
+    },
+    {
+        path: '/subcontractorClassifications',
+        element: SubcontractorClassifications,
+    },
+    {
+        path: '/providerClassifications',
+        element: ProviderClassifications,
+    },
+    {
+        path: '/counterpartyStatus',
+        element: CounterpartyStatus,
+    },
+    {
+        path: '/counterparties',
+        element: Counterparties,
+    },
+    {
+        path: '/counterpartyContactPersons',
+        element: Counterparties,
     },
 ];
 
