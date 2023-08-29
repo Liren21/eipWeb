@@ -57,7 +57,7 @@ import Guid from "devextreme/core/guid";
 const exportFormats = ['xlsx'];
 
 
-export default function Home() {
+export default () => {
 
     const {data: contractTypes} = contractTypesService.useFetchContractTypeQuery('')
     const {data: contracts, refetch: reContracts} = contractsService.useFetchContractsQuery('')
