@@ -42,7 +42,7 @@ import {
     Button,
 } from 'devextreme-react/data-grid';
 
-import './home.scss';
+import './Home.scss';
 
 import {ExportFile} from "../../lib/func/ExportFile";
 import {contractsService} from "../../lib/store/services/contractsService";
@@ -57,7 +57,7 @@ import Guid from "devextreme/core/guid";
 const exportFormats = ['xlsx'];
 
 
-export default () => {
+export const Home= () => {
 
     const {data: contractTypes} = contractTypesService.useFetchContractTypeQuery('')
     const {data: contracts, refetch: reContracts} = contractsService.useFetchContractsQuery('')

@@ -8,6 +8,7 @@ import {counterpartyFormatsService} from "./services/counterpartyFormatsService"
 import {customerClassificationsService} from "./services/сustomerClassificationsService";
 
 
+
 const rootReducer = combineReducers({
 
     [contractTypesService.reducerPath]: contractTypesService.reducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     [partnersService.reducerPath]: partnersService.reducer,
     [counterpartyFormatsService.reducerPath]: counterpartyFormatsService.reducer,
     [customerClassificationsService.reducerPath]: customerClassificationsService.reducer,
+
 
 
 

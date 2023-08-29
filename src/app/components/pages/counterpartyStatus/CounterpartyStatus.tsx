@@ -13,7 +13,7 @@ import reducer from '../../lib/func/reducer';
 import {
     saveChange, loadOrders, setChanges, setEditRowKey,
 } from '../../lib/func/actions';
-import {Counterparty} from "../../lib/store/models/true/Counterparty";
+
 import urls from "../../lib/urls";
 
 
@@ -24,7 +24,7 @@ const initialState = {
     isLoading: false,
 };
 // eslint-disable-next-line import/no-anonymous-default-export
-export default () => {
+export const CounterpartyStatus = () => {
     const URL: string = urls.COUNTERPARTY_STATUS
     const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -46,11 +46,6 @@ export default () => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
 
-
-    const hasCompanyTypeKey = (array, key: keyof Counterparty): boolean => {
-        return array.some(companyType => key in companyType);
-    }
-    console.log(state.data)
     return (
         <React.Fragment>
             <LoadPanel
@@ -69,13 +64,13 @@ export default () => {
                 allowColumnResizing={true}
                 showColumnLines={true}
                 onSaving={onSaving}
+                height={'85vh'}
             >
                 <Scrolling
                     columnRenderingMode={"virtual"}
                     mode={'virtual'}
                 />
-                {/*<Selection mode="multiple" deferred={true} />*/}
-                <FilterRow visible={true}/> {/*Добавляет поиск или же фильм в колонку*/}
+                <FilterRow visible={true}/>
 
                 <HeaderFilter visible={true}>
                     <Search enabled={true}/>

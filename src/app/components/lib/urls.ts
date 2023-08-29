@@ -8,6 +8,7 @@ export default {
     EMPLOYEES: `${coreUrls.BACKEND}/employees`,
     CONTRACT_SIGN_STATE: `${coreUrls.BACKEND}/contractSignStates`,
     CUSTOMER_CLASSIFICATIONS: `${coreUrls.BACKEND}/customerClassifications`,
+
     COUNTERPARTY_FORMATS: `${coreUrls.BACKEND}/counterpartyFormats`,
     SUBCONTRACTOR_CLASSIFICATIONS: `${coreUrls.BACKEND}/subcontractorClassifications`,
     PROVIDER_CLASSIFICATIONS: `${coreUrls.BACKEND}/providerClassifications`,
