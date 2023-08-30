@@ -6,7 +6,7 @@ export default {
     CONTRACT_TYPES: `${coreUrls.BACKEND}/contractTypes`,
     CONTRACTS: `${coreUrls.BACKEND}/contracts`,
     EMPLOYEES: `${coreUrls.BACKEND}/employees`,
-    CONTRACT_SIGN_STATE: `${coreUrls.BACKEND}/contractSignStates`,
+    CONTRACT_SIGN_STATES: `${coreUrls.BACKEND}/contractSignStates`,
     CUSTOMER_CLASSIFICATIONS: `${coreUrls.BACKEND}/customerClassifications`,
 
     COUNTERPARTY_FORMATS: `${coreUrls.BACKEND}/counterpartyFormats`,

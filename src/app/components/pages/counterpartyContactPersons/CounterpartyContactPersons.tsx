@@ -2,8 +2,8 @@ import React, {useCallback, useEffect, useReducer} from 'react';
 import DataGrid, {
     Column,
     Editing,
-    FilterRow,
-    HeaderFilter,
+    FilterRow, Form,
+    HeaderFilter, Popup,
 
     Scrolling,
     Search
@@ -16,6 +16,7 @@ import {
 } from '../../lib/func/actions';
 
 import urls from "../../lib/urls";
+import {Item} from "devextreme-react/form";
 
 
 const initialState = {
@@ -27,7 +28,9 @@ const initialState = {
 // eslint-disable-next-line import/no-anonymous-default-export
 export const CounterpartyContactPersons = () => {
     const URL: string = urls.COUNTERPARTY_CONTACT_PERSONS
+    const validationRules: any = [{type: 'required', message: 'Это поле должно быть заполнено!'}]
     const [state, dispatch] = useReducer(reducer, initialState);
+
 
 
     useEffect(() => {
@@ -85,27 +88,41 @@ export const CounterpartyContactPersons = () => {
                     changes={state.changes}
                     onChangesChange={onChangesChange}
                     editRowKey={state.editRowKey}
-                    onEditRowKeyChange={onEditRowKeyChange}
-                />
+                    onEditRowKeyChange={onEditRowKeyChange}>
+                    <Popup title="Employee Info" showTitle={true} width={700} height={525}/>
+                    <Form>
+                        <Item itemType="group" colCount={2} colSpan={2}>
+                            <Item dataField="secondName"/>
+                            <Item dataField="firstName"/>
+                            <Item dataField="patronymic"/>
+                            <Item dataField="phone"/>
+                            <Item dataField="mobilePhone"/>
+                            <Item dataField="email"/>
+                            <Item dataField="note"/>
+                            <Item dataField="isMain"/>
+                            <Item dataField="counterpartyId"/>
+                        </Item>
+                    </Form>
+                </Editing>
                 <Column fixed={true} dataField="id" caption={'Идентификатор'} allowEditing={false} dataType={"number"}/>
                 <Column dataField="secondName" allowEditing={true}
-                        caption={'Фамилия'} dataType={"string"}/>
+                        caption={'Фамилия'} dataType={"string"}  validationRules={validationRules}/>
                 <Column dataField="firstName" allowEditing={true}
-                        caption={'Имя'} dataType={"string"}/>
+                        caption={'Имя'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="patronymic" allowEditing={true}
-                        caption={'Отчество'} dataType={"string"}/>
+                        caption={'Отчество'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="phone" allowEditing={true}
-                        caption={'Телефон'} dataType={"string"}/>
+                        caption={'Телефон'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="mobilePhone" allowEditing={true}
-                        caption={'Мобильный телефон'} dataType={"string"}/>
-                <Column dataField="email" allowEditing={false}
-                        caption={'Почта'} dataType={"string"}/>
-                <Column dataField="note" allowEditing={false}
-                        caption={'Примечание'} dataType={"string"}/>
-                <Column dataField="isMain" allowEditing={false}
-                        caption={'Основной'} dataType={"boolean"}/>
+                        caption={'Мобильный телефон'} dataType={"string"} validationRules={validationRules}/>
+                <Column dataField="email" allowEditing={true}
+                        caption={'Почта'} dataType={"string"} validationRules={validationRules}/>
+                <Column dataField="note" allowEditing={true}
+                        caption={'Примечание'} dataType={"string"} validationRules={validationRules}/>
+                <Column dataField="isMain" allowEditing={true}
+                        caption={'Основной'} dataType={"boolean"} validationRules={validationRules}/>
                 <Column dataField="counterpartyId" allowEditing={true}
-                        caption={'Идентификатор контрагента'} dataType={"number"}/>
+                        caption={'Идентификатор контрагента'} dataType={"number"} validationRules={validationRules}/>
                 <Column dataField="counterparty" allowEditing={true}
                         caption={'Контрагент'}>
                     <Column dataField="counterparty.id" allowEditing={false}

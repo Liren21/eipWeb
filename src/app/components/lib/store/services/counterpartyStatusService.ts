@@ -1,14 +1,15 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 import urls from "../../urls";
 
-export const employeeService = createApi({
-    reducerPath: 'employeeOne',
-    baseQuery: fetchBaseQuery({baseUrl: urls.EMPLOYEES}),
-    tagTypes: ['employeeOne'],
+
+export const counterpartyStatusService = createApi({
+    reducerPath: 'counterpartyStatus',
+    baseQuery: fetchBaseQuery({baseUrl: urls.COUNTERPARTY_STATUS}),
+    tagTypes: ['counterpartyStatus'],
     endpoints:(build)=>({
-        fetchEmployee: build.query({
+        fetchCounterpartyStatus: build.query({
             query: () => ({
-                url: '',
+                url: '/GetAll',
                 // params: {
                 //     _limit: limit
                 // }

@@ -6,11 +6,21 @@ import {contractSignStatesService} from "./services/contractSignStatesService";
 import {partnersService} from "./services/partnersService";
 import {counterpartyFormatsService} from "./services/counterpartyFormatsService";
 import {customerClassificationsService} from "./services/сustomerClassificationsService";
-
-
+import {subcontractorClassificationsService} from "./services/subcontractorClassificationsService";
+import {providerClassificationsService} from "./services/providerClassificationsService";
+import {counterpartyStatusService} from "./services/counterpartyStatusService";
+import data from './slices/dataSlice';
+import employee from './slices/employeeSlice';
+import signStates from './slices/stateSlice';
+import consumers from './slices/consumerSlice';
+import contractTypes from './slices/contractTypesSlice';
 
 const rootReducer = combineReducers({
-
+    data,
+    employee,
+    signStates,
+    consumers,
+    contractTypes,
     [contractTypesService.reducerPath]: contractTypesService.reducer,
     [contractsService.reducerPath]: contractsService.reducer,
     [employeeService.reducerPath]: employeeService.reducer,
@@ -18,6 +28,9 @@ const rootReducer = combineReducers({
     [partnersService.reducerPath]: partnersService.reducer,
     [counterpartyFormatsService.reducerPath]: counterpartyFormatsService.reducer,
     [customerClassificationsService.reducerPath]: customerClassificationsService.reducer,
+    [subcontractorClassificationsService.reducerPath]: subcontractorClassificationsService.reducer,
+    [providerClassificationsService.reducerPath]: providerClassificationsService.reducer,
+    [counterpartyStatusService.reducerPath]: counterpartyStatusService.reducer,
 
 
 
@@ -34,6 +47,9 @@ export const setupStore = () => {
             partnersService.middleware,
             counterpartyFormatsService.middleware,
             customerClassificationsService.middleware,
+            subcontractorClassificationsService.middleware,
+            providerClassificationsService.middleware,
+            counterpartyStatusService.middleware,
             )
     })
 }

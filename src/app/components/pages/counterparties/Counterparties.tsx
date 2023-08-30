@@ -2,11 +2,13 @@ import React, {useCallback, useEffect, useReducer} from 'react';
 import DataGrid, {
     Column,
     Editing,
-    FilterRow,
-    HeaderFilter, Lookup,
+    FilterRow, Form,
+    HeaderFilter, Lookup, Popup,
+    RequiredRule,
     Scrolling,
     Search
 } from 'devextreme-react/data-grid';
+import {Item} from 'devextreme-react/form';
 import {LoadPanel} from 'devextreme-react/load-panel';
 import 'whatwg-fetch';
 import reducer from '../../lib/func/reducer';
@@ -16,6 +18,12 @@ import {
 import urls from "../../lib/urls";
 import {counterpartyFormatsService} from "../../lib/store/services/counterpartyFormatsService";
 import {customerClassificationsService} from "../../lib/store/services/сustomerClassificationsService";
+import {subcontractorClassificationsService} from "../../lib/store/services/subcontractorClassificationsService";
+import {providerClassificationsService} from "../../lib/store/services/providerClassificationsService";
+import {counterpartyStatusService} from "../../lib/store/services/counterpartyStatusService";
+import {useAppDispatch, useAppSelector} from "../../lib/hooks/hooks";
+import {RootState} from "../../lib/store/store";
+import {fetchData} from "../../lib/store/slices/dataSlice";
 
 
 const initialState = {
@@ -23,18 +31,34 @@ const initialState = {
     changes: [],
     editRowKey: null,
     isLoading: false,
+    counterpartyFormats: []
 };
-// eslint-disable-next-line import/no-anonymous-default-export
+
 export const Counterparties = () => {
     const URL: string = urls.COUNTERPARTIES
+    const dispatchO = useAppDispatch();
+    const validationRules: any = [{type: 'required', message: 'Это поле должно быть заполнено!'}]
     const [state, dispatch] = useReducer(reducer, initialState);
-    const {data: counterpartyFormats, refetch: reCounterpartyFormats} = counterpartyFormatsService.useFetchCounterpartyFormatsQuery('')
-    const {data: customerClassifications, refetch: reCustomerClassifications} = customerClassificationsService.useFetchCustomerClassificationsQuery('')
+
+    const {contracts} = useAppSelector((state: RootState) => state.data);
+
+    const {
+        data: counterpartyFormats,
+        refetch: reCounterpartyFormats
+    } = counterpartyFormatsService.useFetchCounterpartyFormatsQuery('')
+    const {data: customerClassifications} = customerClassificationsService.useFetchCustomerClassificationsQuery('')
+    const {data: subcontractorClassifications} = subcontractorClassificationsService.useFetchSubcontractorClassificationsQuery('')
+    const {data: providerClassifications} = providerClassificationsService.useFetchProviderClassificationsServiceQuery('')
+    const {data: counterpartyStatus} = counterpartyStatusService.useFetchCounterpartyStatusQuery('')
 
     useEffect(() => {
         loadOrders(dispatch, URL);
-        reCustomerClassifications()
-        reCounterpartyFormats()//TODO : исправить, оно не должно вызываться каждый раз когда пользователь вызывает данный компонент, так же, избавить от дубликатов, придумать шаблон.
+        dispatchO(fetchData());
+        // reCustomerClassifications()
+        // reSubcontractorClassifications()
+        // reCounterpartyStatus()
+        // reProviderClassifications()
+        // reCounterpartyFormats()//TODO : исправить, оно не должно вызываться каждый раз когда пользователь вызывает данный компонент, так же, избавить от дубликатов, придумать шаблон.
     }, []);
 
     const onSaving = useCallback((e) => {
@@ -49,6 +73,7 @@ export const Counterparties = () => {
     const onEditRowKeyChange = useCallback((editRowKey) => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
+
 
     return (
         <React.Fragment>
@@ -88,43 +113,46 @@ export const Counterparties = () => {
                     changes={state.changes}
                     onChangesChange={onChangesChange}
                     editRowKey={state.editRowKey}
-                    onEditRowKeyChange={onEditRowKeyChange}
-                />
+                    onEditRowKeyChange={onEditRowKeyChange}>
+                    <Popup title="Employee Info" showTitle={true} width={700} height={525}/>
+                    <Form>
+                        <Item itemType="group" colCount={2} colSpan={2}>
+                            <Item dataField="name"/>
+                            <Item dataField="note"/>
+                            <Item dataField="inn"/>
+                            <Item dataField="counterpartyFormatId"/>
+                            <Item dataField="customerClassificationId"/>
+                            <Item dataField="isWithOutNDS"/>
+                            <Item dataField="isCustomer"/>
+                            <Item dataField="counterpartyStatusId"/>
+                            <Item dataField="providerClassifications.id"/>
+                            <Item dataField="subcontractorClassifications.id"/>
+                        </Item>
+                    </Form>
+                </Editing>
                 <Column fixed={true} dataField="id" caption={'Идентификатор'} allowEditing={false} dataType={"number"}/>
-                <Column dataField="counterpartyFormatId" caption={'Идентификатор формата контрагента'} allowEditing={false} dataType={"number"}/>
-                <Column dataField="name" caption={'Имя'} allowEditing={true} dataType={"string"}/>
-                <Column dataField="inn" caption={'ИНН'} allowEditing={false} dataType={"string"}/>
-                <Column dataField="sortIndex" caption={'Сортировочный индекс'} allowEditing={false}
-                        dataType={"number"}/>
-                <Column dataField="isSmallFormatInn" caption={'isSmallFormatInn'} allowEditing={false}
-                        dataType={"boolean"}/>
-                <Column dataField="isWithOutNDS" caption={'Продается без учета НДС'} allowEditing={false}
-                        dataType={"boolean"}/>
-                <Column dataField="isCustomer" caption={'Клиент'} allowEditing={false} dataType={"boolean"}/>
-                <Column dataField="customerClassificationId" caption={'идентификационный номер клиента'}
-                        allowEditing={false}
-                        dataType={"number"}/>
-                <Column dataField="isSubcontractor" caption={'Субподрядчик'} allowEditing={false}
-                        dataType={"boolean"}/>
-                <Column dataField="isProvider" caption={'Поставщик'} allowEditing={false}
-                        dataType={"boolean"}/>
-                <Column dataField="counterpartyStatusId" caption={'Идентификатор статуса контрагента'}
-                        allowEditing={false}
-                        dataType={"number"}/>
-                <Column dataField="note" caption={'Примечание'} allowEditing={false}
-                        dataType={"string"}/>
-                <Column dataField="counterpartyFormat"
-                        caption={'Формат контрагента'}>
+                <Column allowEditing={true} dataField="counterpartyFormatId"
+                        caption={'Идентификатор формата контрагента'}
+                        validationRules={validationRules}
+                >
                     <Lookup
-                        dataSource={counterpartyFormats}
+                        dataSource={contracts}
                         valueExpr="id"
                         displayExpr={(data) => (
                             data.id
                         )}
                     />
                 </Column>
-                <Column dataField="customerClassification"
-                        caption={'Классификация заказчика'}>
+                <Column dataField="name" caption={'Имя'} allowEditing={true} dataType={"string"}
+                        validationRules={validationRules}/>
+                <Column dataField="inn" caption={'ИНН'} allowEditing={true} dataType={"string"}/>
+                <Column dataField="isWithOutNDS" caption={'Продается без учета НДС'} allowEditing={true}
+                        dataType={"boolean"}/>
+                <Column dataField="isCustomer" caption={'Клиент'} allowEditing={true} dataType={"boolean"}/>
+                <Column dataField="customerClassificationId"
+                        caption={'Классификация заказчика'}
+                        validationRules={validationRules}
+                >
                     <Lookup
                         dataSource={customerClassifications}
                         valueExpr="id"
@@ -133,90 +161,105 @@ export const Counterparties = () => {
                         )}
                     />
                 </Column>
-                <Column dataField="subcontractorClassifications"
-                        caption={'Классификация субподрядчика'}>
+                <Column dataField="isSubcontractor" caption={'Субподрядчик'} allowEditing={false}
+                        dataType={"boolean"}/>
+                <Column dataField="isProvider" caption={'Поставщик'} allowEditing={false}
+                        dataType={"boolean"}/>
+                <Column dataField="counterpartyStatusId"
+                        caption={'Классификация заказчика'}
+                        validationRules={validationRules}
+                >
                     <Lookup
-                        dataSource={state.data}
+                        dataSource={counterpartyStatus}
                         valueExpr="id"
                         displayExpr={(data) => (
                             data.id
                         )}
                     />
                 </Column>
-                <Column dataField="providerClassifications"
-                        caption={'Классификация поставщика'}>
-                    <Lookup
-                        dataSource={state.data}
-                        valueExpr="id"
-                        displayExpr={(data) => (
-                            data.id
-                        )}
-                    />
+                <Column dataField="note" caption={'Примечание'} allowEditing={true}
+                        dataType={"string"} validationRules={validationRules}/>
+
+                <Column dataField="counterpartyFormat" caption={'Формат контрагента'} allowEditing={false}>
+                    <Column dataField="counterpartyFormat.id" caption={'Идентификатор'} allowEditing={false}
+                            dataType={"number"}/>
+                    <Column dataField="counterpartyFormat.name" caption={'Имя'} allowEditing={false}
+                            dataType={"string"}/>
+                    <Column dataField="counterpartyFormat.sortIndex" caption={'Сортировочный индекс'}
+                            allowEditing={false}
+                            dataType={"number"}/>
+                    <Column dataField="counterpartyFormat.note" caption={'Примечание'} allowEditing={false}
+                            dataType={"string"}/>
                 </Column>
-                <Column dataField="counterpartyStatus"
-                        caption={'Статус контрагента'}>
-                    <Lookup
-                        dataSource={state.data}
-                        valueExpr="id"
-                        displayExpr={(data) => (
-                            data.id
-                        )}
+
+                <Column dataField="customerClassification" caption={'Классификация субподрядчиков'}
+                        allowEditing={true}>
+                    <Column dataField="customerClassification.id"
+                            caption={'Классификация субподрядчика'}
                     />
+                    <Column dataField="customerClassification.name" caption={'Имя'} allowEditing={false}
+                            dataType={"string"}/>
+                    <Column dataField="customerClassification.sortIndex" caption={'Сортировочный индекс'}
+                            allowEditing={false}
+                            dataType={"number"}/>
+                    <Column dataField="customerClassification.note" caption={'Примечание'} allowEditing={false}
+                            dataType={"string"}/>
                 </Column>
-                {/*<Column dataField="counterpartyFormat" caption={'Формат контрагента'} allowEditing={false}>*/}
-                {/*    <Column dataField="counterpartyFormat.id" caption={'Идентификатор'} allowEditing={false}*/}
-                {/*            dataType={"number"}/>*/}
-                {/*    <Column dataField="counterpartyFormat.name" caption={'Имя'} allowEditing={false}*/}
-                {/*            dataType={"string"}/>*/}
-                {/*    <Column dataField="counterpartyFormat.sortIndex" caption={'Сортировочный индекс'}*/}
-                {/*            allowEditing={false}*/}
-                {/*            dataType={"number"}/>*/}
-                {/*    <Column dataField="counterpartyFormat.note" caption={'Примечание'} allowEditing={false}*/}
-                {/*            dataType={"string"}/>*/}
-                {/*</Column>*/}
-                {/*<Column dataField="customerClassification" caption={'Классификация заказчика'} allowEditing={false}>*/}
-                {/*    <Column dataField="customerClassification.id" caption={'Идентификатор'} allowEditing={false}*/}
-                {/*            dataType={"number"}/>*/}
-                {/*    <Column dataField="customerClassification.name" caption={'Имя'} allowEditing={false}*/}
-                {/*            dataType={"string"}/>*/}
-                {/*    <Column dataField="customerClassification.sortIndex" caption={'Сортировочный индекс'}*/}
-                {/*            allowEditing={false}*/}
-                {/*            dataType={"number"}/>*/}
-                {/*    <Column dataField="customerClassification.note" caption={'Примечание'} allowEditing={false}*/}
-                {/*            dataType={"string"}/>*/}
-                {/*</Column>*/}
-                {/*<Column dataField="counterpartyStatus" caption={'Статус контрагента'} allowEditing={false}>*/}
-                {/*    <Column dataField="counterpartyStatus.id" caption={'Идентификатор'} allowEditing={false}*/}
-                {/*            dataType={"number"}/>*/}
-                {/*    <Column dataField="counterpartyStatus.name" caption={'Имя'} allowEditing={false}*/}
-                {/*            dataType={"string"}/>*/}
-                {/*    <Column dataField="counterpartyStatus.sortIndex" caption={'Сортировочный индекс'}*/}
-                {/*            allowEditing={false}*/}
-                {/*            dataType={"number"}/>*/}
-                {/*</Column>*/}
-                {/*<Column dataField="providerClassifications" caption={'Классификация поставщиков'} allowEditing={false}>*/}
-                {/*    <Column dataField="providerClassifications.id" caption={'Идентификатор'} allowEditing={false}*/}
-                {/*            dataType={"number"}/>*/}
-                {/*    <Column dataField="providerClassifications.name" caption={'Имя'} allowEditing={false}*/}
-                {/*            dataType={"string"}/>*/}
-                {/*    <Column dataField="providerClassifications.sortIndex" caption={'Сортировочный индекс'}*/}
-                {/*            allowEditing={false}*/}
-                {/*            dataType={"number"}/>*/}
-                {/*    <Column dataField="providerClassifications.note" caption={'Записка'} allowEditing={false}*/}
-                {/*            dataType={"string"}/>*/}
-                {/*</Column>*/}
-                {/*<Column dataField="subcontractorClassifications" caption={'Классификация субподрядчиков'}*/}
-                {/*        allowEditing={false}>*/}
-                {/*    <Column dataField="subcontractorClassifications.id" caption={'Идентификатор'} allowEditing={false}*/}
-                {/*            dataType={"number"}/>*/}
-                {/*    <Column dataField="subcontractorClassifications.name" caption={'Имя'} allowEditing={false}*/}
-                {/*            dataType={"string"}/>*/}
-                {/*    <Column dataField="subcontractorClassifications.sortIndex" caption={'Сортировочный индекс'}*/}
-                {/*            allowEditing={false}*/}
-                {/*            dataType={"number"}/>*/}
-                {/*    <Column dataField="subcontractorClassifications.note" caption={'Примечание'} allowEditing={false}*/}
-                {/*            dataType={"string"}/>*/}
-                {/*</Column>*/}
+
+                <Column dataField="counterpartyStatus" caption={'Статус контрагента'} allowEditing={false}>
+                    <Column dataField="counterpartyStatus.id" caption={'Идентификатор'} allowEditing={false}
+                            dataType={"number"}/>
+                    <Column dataField="counterpartyStatus.name" caption={'Имя'} allowEditing={false}
+                            dataType={"string"}/>
+                    <Column dataField="counterpartyStatus.sortIndex" caption={'Сортировочный индекс'}
+                            allowEditing={false}
+                            dataType={"number"}/>
+                </Column>
+                <Column dataField="providerClassifications" caption={'Классификация поставщиков'} allowEditing={true}>
+                    <Column dataField="providerClassifications.id"
+                            caption={'Классификация поставщика'}
+                            validationRules={validationRules}
+                    >
+                        <Lookup
+                            dataSource={providerClassifications}
+                            valueExpr="id"
+                            displayExpr={(data) => (
+                                data.id
+                            )}
+                        />
+                    </Column>
+                    <Column dataField="providerClassifications.name" caption={'Имя'} allowEditing={false}
+                            dataType={"string"}/>
+                    <Column dataField="providerClassifications.sortIndex" caption={'Сортировочный индекс'}
+                            allowEditing={false}
+                            dataType={"number"}/>
+                    <Column dataField="providerClassifications.note" caption={'Записка'} allowEditing={false}
+                            dataType={"string"}/>
+                </Column>
+
+                <Column dataField="subcontractorClassifications" caption={'Классификация субподрядчиков'}
+                        allowEditing={true}>
+                    <Column dataField="subcontractorClassifications.id"
+                            caption={'Классификация субподрядчика'}
+                            validationRules={validationRules}
+                    >
+                        <Lookup
+                            dataSource={subcontractorClassifications}
+                            valueExpr="id"
+                            displayExpr={(data) => (
+                                data.id
+                            )}
+                        />
+                    </Column>
+                    <Column dataField="subcontractorClassifications.name" caption={'Имя'} allowEditing={false}
+                            dataType={"string"}/>
+                    <Column dataField="subcontractorClassifications.sortIndex" caption={'Сортировочный индекс'}
+                            allowEditing={false}
+                            dataType={"number"}/>
+                    <Column dataField="subcontractorClassifications.note" caption={'Примечание'} allowEditing={false}
+                            dataType={"string"}/>
+                </Column>
+
             </DataGrid>
 
         </React.Fragment>

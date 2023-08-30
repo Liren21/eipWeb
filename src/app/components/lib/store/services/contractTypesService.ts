@@ -38,6 +38,6 @@ export const fetchEmployee = createAsyncThunk<Employee[]>('data/fetchEmployee', 
 });
 
 export const fetchSignStates = createAsyncThunk<SignState[]>('data/fetchSignStates', async () => {
-    const { data } = await axios.get(urls.CONTRACT_SIGN_STATE);
+    const { data } = await axios.get(urls.CONTRACT_SIGN_STATES);
     return data;
 });
