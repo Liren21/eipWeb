@@ -1,19 +1,9 @@
 import React, {useCallback, useEffect, useReducer} from 'react';
-import DataGrid, {
-    Column,
-    Editing,
-    FilterRow,
-    HeaderFilter,
-    Scrolling,
-    Search
-} from 'devextreme-react/data-grid';
+import DataGrid, {Column, Editing, FilterRow, HeaderFilter, Scrolling, Search} from 'devextreme-react/data-grid';
 import {LoadPanel} from 'devextreme-react/load-panel';
 import 'whatwg-fetch';
 import reducer from '../../lib/func/reducer';
-import {
-    saveChange, loadOrders, setChanges, setEditRowKey,
-} from '../../lib/func/actions';
-
+import {saveChange, loadOrders, setChanges, setEditRowKey} from '../../lib/func/actions';
 import urls from "../../lib/urls";
 
 
@@ -23,7 +13,7 @@ const initialState = {
     editRowKey: null,
     isLoading: false,
 };
-// eslint-disable-next-line import/no-anonymous-default-export
+
 export const CounterpartyStatus = () => {
     const URL: string = urls.COUNTERPARTY_STATUS
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -31,12 +21,12 @@ export const CounterpartyStatus = () => {
 
     useEffect(() => {
         loadOrders(dispatch, URL);
-    }, []);
+    }, [URL]);
 
     const onSaving = useCallback((e) => {
         e.cancel = true;
         e.promise = saveChange(dispatch, e.changes[0], URL);
-    }, []);
+    }, [URL]);
 
     const onChangesChange = useCallback((changes) => {
         setChanges(dispatch, changes);
@@ -88,7 +78,7 @@ export const CounterpartyStatus = () => {
                 <Column dataField="id" caption={'id'} allowEditing={false} dataType={"number"}/>
                 <Column dataField="name" allowEditing={true}
                         caption={'Имя'} dataType={"string"}/>
-                <Column dataField="sortIndex" caption={'Сортировочный индекс'} allowEditing={false}
+                <Column dataField="sortIndex" caption={'Сортировочный индекс'} allowEditing={true}
                         dataType={"number"}/>
             </DataGrid>
 

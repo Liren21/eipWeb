@@ -1,22 +1,12 @@
 import React, {useCallback, useEffect, useReducer} from 'react';
-import DataGrid, {
-    Column,
-    Editing,
-    FilterRow, Form,
-    HeaderFilter, Popup,
-
-    Scrolling,
-    Search
-} from 'devextreme-react/data-grid';
+import DataGrid, {Column, Editing, FilterRow, Form, HeaderFilter, Lookup, Popup, Scrolling, Search} from 'devextreme-react/data-grid';
 import {LoadPanel} from 'devextreme-react/load-panel';
 import 'whatwg-fetch';
 import reducer from '../../lib/func/reducer';
-import {
-    saveChange, loadOrders, setChanges, setEditRowKey,
-} from '../../lib/func/actions';
-
+import {saveChange, loadOrders, setChanges, setEditRowKey,} from '../../lib/func/actions';
 import urls from "../../lib/urls";
 import {Item} from "devextreme-react/form";
+import {counterpartiesService} from "../../lib/store/services/counterpartiesService";
 
 
 const initialState = {
@@ -25,22 +15,22 @@ const initialState = {
     editRowKey: null,
     isLoading: false,
 };
-// eslint-disable-next-line import/no-anonymous-default-export
+
 export const CounterpartyContactPersons = () => {
     const URL: string = urls.COUNTERPARTY_CONTACT_PERSONS
     const validationRules: any = [{type: 'required', message: 'Это поле должно быть заполнено!'}]
     const [state, dispatch] = useReducer(reducer, initialState);
-
+    const {data: counterparties} = counterpartiesService.useFetchCounterpartiesQuery('')
 
 
     useEffect(() => {
         loadOrders(dispatch, URL);
-    }, []);
+    }, [URL]);
 
     const onSaving = useCallback((e) => {
         e.cancel = true;
         e.promise = saveChange(dispatch, e.changes[0], URL);
-    }, []);
+    }, [URL]);
 
     const onChangesChange = useCallback((changes) => {
         setChanges(dispatch, changes);
@@ -106,7 +96,7 @@ export const CounterpartyContactPersons = () => {
                 </Editing>
                 <Column fixed={true} dataField="id" caption={'Идентификатор'} allowEditing={false} dataType={"number"}/>
                 <Column dataField="secondName" allowEditing={true}
-                        caption={'Фамилия'} dataType={"string"}  validationRules={validationRules}/>
+                        caption={'Фамилия'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="firstName" allowEditing={true}
                         caption={'Имя'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="patronymic" allowEditing={true}
@@ -120,9 +110,16 @@ export const CounterpartyContactPersons = () => {
                 <Column dataField="note" allowEditing={true}
                         caption={'Примечание'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="isMain" allowEditing={true}
-                        caption={'Основной'} dataType={"boolean"} validationRules={validationRules}/>
+                        caption={'Основной'} dataType={"boolean"} />
+
                 <Column dataField="counterpartyId" allowEditing={true}
-                        caption={'Идентификатор контрагента'} dataType={"number"} validationRules={validationRules}/>
+                        caption={'Идентификатор контрагента'} dataType={"number"} validationRules={validationRules}>
+                    <Lookup
+                        dataSource={counterparties}
+                        valueExpr="id"
+                        displayExpr={'id'}
+                    />
+                </Column>
                 <Column dataField="counterparty" allowEditing={true}
                         caption={'Контрагент'}>
                     <Column dataField="counterparty.id" allowEditing={false}
@@ -148,9 +145,7 @@ export const CounterpartyContactPersons = () => {
                     <Column dataField="counterparty.note" allowEditing={false}
                             caption={'Примечание'} dataType={"number"}/>
                 </Column>
-
             </DataGrid>
-
         </React.Fragment>
     );
 }
