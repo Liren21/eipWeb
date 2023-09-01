@@ -20,11 +20,12 @@ export const CounterpartyContactPersons = () => {
     const URL: string = urls.COUNTERPARTY_CONTACT_PERSONS
     const validationRules: any = [{type: 'required', message: 'Это поле должно быть заполнено!'}]
     const [state, dispatch] = useReducer(reducer, initialState);
-    const {data: counterparties} = counterpartiesService.useFetchCounterpartiesQuery('')
+    const {data: counterparties,refetch:reCounterparties} = counterpartiesService.useFetchCounterpartiesQuery('')
 
 
     useEffect(() => {
         loadOrders(dispatch, URL);
+        reCounterparties()
     }, [URL]);
 
     const onSaving = useCallback((e) => {
@@ -82,9 +83,9 @@ export const CounterpartyContactPersons = () => {
                     <Popup title="Employee Info" showTitle={true} width={700} height={525}/>
                     <Form>
                         <Item itemType="group" colCount={2} colSpan={2}>
-                            <Item dataField="secondName"/>
+                            <Item dataField="lastName"/>
                             <Item dataField="firstName"/>
-                            <Item dataField="patronymic"/>
+                            <Item dataField="patronymicName"/>
                             <Item dataField="phone"/>
                             <Item dataField="mobilePhone"/>
                             <Item dataField="email"/>
@@ -95,11 +96,11 @@ export const CounterpartyContactPersons = () => {
                     </Form>
                 </Editing>
                 <Column fixed={true} dataField="id" caption={'Идентификатор'} allowEditing={false} dataType={"number"}/>
-                <Column dataField="secondName" allowEditing={true}
+                <Column dataField="lastName" allowEditing={true}
                         caption={'Фамилия'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="firstName" allowEditing={true}
                         caption={'Имя'} dataType={"string"} validationRules={validationRules}/>
-                <Column dataField="patronymic" allowEditing={true}
+                <Column dataField="patronymicName" allowEditing={true}
                         caption={'Отчество'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="phone" allowEditing={true}
                         caption={'Телефон'} dataType={"string"} validationRules={validationRules}/>
