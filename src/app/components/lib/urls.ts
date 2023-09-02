@@ -14,7 +14,7 @@ export default {
     PROVIDER_CLASSIFICATIONS: `${coreUrls.BACKEND}/providerClassifications`,
     COUNTERPARTY_STATUS: `${coreUrls.BACKEND}/counterpartyStatuses`,
     COUNTERPARTIES: `${coreUrls.BACKEND}/counterparties`,
-    COUNTERPARTY_CONTACT_PERSONS: `${coreUrls.BACKEND}/CounterpartyContactPersons`,
+    COUNTERPARTY_CONTACT_PERSONS: `${coreUrls.BACKEND}/counterpartyContactPersons`,
 
 
 

@@ -1,5 +1,15 @@
 import React, {useCallback, useEffect, useReducer} from 'react';
-import DataGrid, {Column, Editing, FilterRow, Form, HeaderFilter, Lookup, Popup, Scrolling, Search} from 'devextreme-react/data-grid';
+import DataGrid, {
+    Column,
+    Editing,
+    FilterRow,
+    Form,
+    HeaderFilter,
+    Lookup,
+    Popup,
+    Scrolling,
+    Search
+} from 'devextreme-react/data-grid';
 import {Item} from 'devextreme-react/form';
 import {LoadPanel} from 'devextreme-react/load-panel';
 import 'whatwg-fetch';
@@ -10,6 +20,7 @@ import {customerClassificationsService} from "../../lib/store/services/сustomer
 import {subcontractorClassificationsService} from "../../lib/store/services/subcontractorClassificationsService";
 import {providerClassificationsService} from "../../lib/store/services/providerClassificationsService";
 import {counterpartyStatusService} from "../../lib/store/services/counterpartyStatusService";
+import {validationRules} from "../../generic/Validation/ValidationRules";
 
 
 const initialState = {
@@ -21,7 +32,7 @@ const initialState = {
 
 export const Counterparties = () => {
     const URL: string = urls.COUNTERPARTIES
-    const validationRules: any = [{type: 'required', message: 'Это поле должно быть заполнено!'}]
+
     const [state, dispatch] = useReducer(reducer, initialState);
 
 

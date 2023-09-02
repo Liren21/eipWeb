@@ -63,7 +63,7 @@ async function sendChange(url, change) {
                 values: JSON.stringify(change.data),
             });
         case 'update':
-            return sendRequest(`${url}`, 'PUT', {
+            return sendRequest(`${url}`, 'PATCH', {
                 key: change.key,
                 values: JSON.stringify({id: change.key, ...change.data}),
             });
