@@ -10,11 +10,11 @@ export const SAVING_CANCEL = 'SAVING_CANCEL';
 export const SET_CHANGES = 'SET_CHANGES';
 export const SET_EDIT_ROW_KEY = 'SET_EDIT_ROW_KEY';
 
-export async function loadOrders(dispatch,URL) {
+export async function loadOrders(dispatch, URL, block?) {
     dispatch({type: FETCH_PENDING});
-
+    const urlBlock = block ? block : "/GetAll"
     try {
-        const data = await sendRequest(`${URL}/GetAll`);
+        const data = await sendRequest(`${URL + urlBlock}`);
         dispatch({
             type: FETCH_SUCCESS,
             payload: {
@@ -27,7 +27,7 @@ export async function loadOrders(dispatch,URL) {
     }
 }
 
-export async function saveChange(dispatch, change,URL) {
+export async function saveChange(dispatch, change, URL) {
     if (change && change.type) {
         let data;
 
@@ -56,7 +56,7 @@ export async function saveChange(dispatch, change,URL) {
 }
 
 async function sendChange(url, change) {
-    console.log(change)
+
     switch (change.type) {
         case 'insert':
             return sendRequest(`${url}`, 'POST', {

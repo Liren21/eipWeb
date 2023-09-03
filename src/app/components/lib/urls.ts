@@ -15,6 +15,8 @@ export default {
     COUNTERPARTY_STATUS: `${coreUrls.BACKEND}/counterpartyStatuses`,
     COUNTERPARTIES: `${coreUrls.BACKEND}/counterparties`,
     COUNTERPARTY_CONTACT_PERSONS: `${coreUrls.BACKEND}/counterpartyContactPersons`,
+    CONTRACT_CATEGORIES: `${coreUrls.BACKEND}/ContractCategories`,
+    RASES: `${coreUrls.BACKEND}/rases`,
 
 
 

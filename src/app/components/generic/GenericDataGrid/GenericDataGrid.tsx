@@ -21,6 +21,7 @@ interface IProps {
     columns: any
     keyExpr: any
     lookupData?: any
+    AdditionalURL?:string
 }
 
 const initialState = {
@@ -30,13 +31,13 @@ const initialState = {
     isLoading: false,
 };
 
-export const GenericDataGrid = ({URL, columns, keyExpr, lookupData}: IProps) => {
+export const GenericDataGrid = ({URL, columns, keyExpr,AdditionalURL }: IProps) => {
     const validationRules: any = [{type: 'required', message: 'Это поле должно быть заполнено!'}]
     const [state, dispatch] = useReducer(reducer, initialState);
 
 
     useEffect(() => {
-        loadOrders(dispatch, URL);
+        loadOrders(dispatch, URL,AdditionalURL)
     }, [URL]);
 
     const onSaving = useCallback((e) => {
@@ -90,16 +91,16 @@ export const GenericDataGrid = ({URL, columns, keyExpr, lookupData}: IProps) => 
                     onChangesChange={onChangesChange}
                     editRowKey={state.editRowKey}
                     onEditRowKeyChange={onEditRowKeyChange}>
-                    <Popup title="Employee Info" showTitle={true} width={700} height={525}/>
+                    <Popup title="" showTitle={true} width={"50vw"} height={"70vh"}/>
                     <Form>
                         {columns.map(column => (
                             column.item ? <Item key={column.dataField} dataField={column.dataField}/> : null
                         ))}
                     </Form>
                 </Editing>
-                {columns.map(column => (
+                {columns.map((column,index) => (
                     <Column
-                        width={'180'}
+                        fixed={index===0}
                         key={column.dataField}
                         dataField={column.dataField}
                         allowEditing={column.allowEditing}
@@ -107,13 +108,33 @@ export const GenericDataGrid = ({URL, columns, keyExpr, lookupData}: IProps) => 
                         dataType={column.dataType}
                         validationRules={column.validationRules ? validationRules : null}
                     >
-                        {column.lookup && (
+                        {
+                            column.nestedColumns && column.nestedColumns.map((data) => (
+                                <Column
+                                    width={'180'}
+                                    key={data.dataField}
+                                    dataField={data.dataField}
+                                    allowEditing={data.allowEditing}
+                                    caption={data.caption}
+                                    dataType={data.dataType}
+                                    validationRules={data.validationRules ? validationRules : null}>
+                                    {data.lookup &&
+                                        <Lookup
+                                            dataSource={data.lookup}
+                                            valueExpr="id"
+                                            displayExpr={'id'}
+                                        />
+                                    }
+                                </Column>
+                            ))
+                        }
+                        {column.lookup &&
                             <Lookup
-                                dataSource={lookupData}
+                                dataSource={column.lookup}
                                 valueExpr="id"
                                 displayExpr={'id'}
                             />
-                        )}
+                        }
                     </Column>
                 ))}
             </DataGrid>

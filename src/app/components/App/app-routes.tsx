@@ -10,6 +10,11 @@ import {Profile} from "../pages/profile/Profile";
 import {Home} from "../pages/home/Home";
 import {CounterpartyFormats} from "../pages/counterpartyFormats/CounterpartyFormats";
 import {CounterpartyContactPersons} from "../pages/counterpartyContactPersons/CounterpartyContactPersons";
+import {Contracts} from "../pages/contracts/Contracts";
+import {ContractCategories} from "../pages/contractCategories/ContractCategories";
+import {Rases} from "../pages/rases/Rases";
+import {StatusDOs} from "../pages/statusDOs/StatusDOs";
+import {Employees} from "../pages/employees/Employees";
 
 const routes = [
     {
@@ -47,6 +52,26 @@ const routes = [
     {
         path: '/counterpartyContactPersons',
         element: CounterpartyContactPersons,
+    },
+    {
+        path: '/contractCategories',
+        element: ContractCategories,
+    },
+    {
+        path: '/contracts',
+        element: Contracts,
+    },
+    {
+        path: '/rases',
+        element: Rases,
+    },
+    {
+        path: '/statusDOs',
+        element: StatusDOs,
+    },
+    {
+        path: '/employees',
+        element: Employees,
     },
 ];
 
