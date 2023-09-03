@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer } from 'react';
+import React, {useCallback, useEffect, useReducer} from 'react';
 import DataGrid, {
     Column,
     Editing,
@@ -10,18 +10,17 @@ import DataGrid, {
     Scrolling,
     Search
 } from 'devextreme-react/data-grid';
-import { LoadPanel } from 'devextreme-react/load-panel';
+import {LoadPanel} from 'devextreme-react/load-panel';
 import 'whatwg-fetch';
 import reducer from '../../lib/func/reducer';
-import { saveChange, loadOrders, setChanges, setEditRowKey } from '../../lib/func/actions';
-import { Item } from "devextreme-react/form";
-import { validationRules } from "../Validation/ValidationRules";
+import {saveChange, loadOrders, setChanges, setEditRowKey} from '../../lib/func/actions';
+import {Item} from "devextreme-react/form";
 
 interface IProps {
-    URL:string
-    columns:any
-    keyExpr:any
-    lookupData?:any
+    URL: string
+    columns: any
+    keyExpr: any
+    lookupData?: any
 }
 
 const initialState = {
@@ -31,7 +30,8 @@ const initialState = {
     isLoading: false,
 };
 
- export const GenericDataGrid = ({ URL, columns, keyExpr,lookupData }:IProps) => {
+export const GenericDataGrid = ({URL, columns, keyExpr, lookupData}: IProps) => {
+    const validationRules: any = [{type: 'required', message: 'Это поле должно быть заполнено!'}]
     const [state, dispatch] = useReducer(reducer, initialState);
 
 
@@ -55,7 +55,7 @@ const initialState = {
     return (
         <React.Fragment>
             <LoadPanel
-                position={{ of: '#gridContainer' }}
+                position={{of: '#gridContainer'}}
                 visible={state.isLoading}
             />
             <DataGrid
@@ -70,17 +70,16 @@ const initialState = {
                 allowColumnResizing={true}
                 showColumnLines={true}
                 onSaving={onSaving}
-                columnWidth={180}
                 height={'85vh'}
             >
                 <Scrolling
                     columnRenderingMode={"virtual"}
                     mode={'virtual'}
                 />
-                <FilterRow visible={true} />
+                <FilterRow visible={true}/>
 
                 <HeaderFilter visible={true}>
-                    <Search enabled={true} />
+                    <Search enabled={true}/>
                 </HeaderFilter>
                 <Editing
                     mode="popup"
@@ -91,21 +90,22 @@ const initialState = {
                     onChangesChange={onChangesChange}
                     editRowKey={state.editRowKey}
                     onEditRowKeyChange={onEditRowKeyChange}>
-                    <Popup title="Employee Info" showTitle={true} width={700} height={525} />
+                    <Popup title="Employee Info" showTitle={true} width={700} height={525}/>
                     <Form>
                         {columns.map(column => (
-                            column.item?<Item key={column.dataField} dataField={column.dataField} />:null
+                            column.item ? <Item key={column.dataField} dataField={column.dataField}/> : null
                         ))}
                     </Form>
                 </Editing>
                 {columns.map(column => (
                     <Column
+                        width={'180'}
                         key={column.dataField}
                         dataField={column.dataField}
                         allowEditing={column.allowEditing}
                         caption={column.caption}
                         dataType={column.dataType}
-                        validationRules={validationRules}
+                        validationRules={column.validationRules ? validationRules : null}
                     >
                         {column.lookup && (
                             <Lookup

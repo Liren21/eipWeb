@@ -1,4 +1,3 @@
-import {validationRules} from "../../../generic/Validation/ValidationRules";
 import { ColumnDefinition} from "../../../lib/store/models/true/columns";
 
 export const columns:ColumnDefinition[] = [
@@ -14,7 +13,7 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Фамилия",
         dataType: "string",
-        validationRules: validationRules,
+        validationRules: true,
         item:true,
     },
     {
@@ -22,7 +21,7 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Имя",
         dataType: "string",
-        validationRules: validationRules,
+        validationRules: true,
         item:true,
     },
     {
@@ -30,7 +29,7 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Отчество",
         dataType: "string",
-        validationRules: validationRules,
+        validationRules: true,
         item:true,
     },
     {
@@ -38,7 +37,7 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Телефон",
         dataType: "string",
-        validationRules: validationRules,
+        validationRules: true,
         item:true,
     },
     {
@@ -46,7 +45,7 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Мобильный телефон",
         dataType: "string",
-        validationRules: validationRules,
+        validationRules: true,
         item:true,
     },
     {
@@ -54,7 +53,7 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Почта",
         dataType: "string",
-        validationRules: validationRules,
+        validationRules: true,
         item:true,
     },
     {
@@ -62,7 +61,7 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Примечание",
         dataType: "string",
-        validationRules: validationRules,
+        validationRules: true,
         item:true,
     },
     {
@@ -77,7 +76,7 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Идентификатор контрагента",
         dataType: "number",
-        validationRules: validationRules,
+        validationRules: true,
         lookup: true, // Добавьте этот параметр для колонок с поиском
         item:true,
     },
