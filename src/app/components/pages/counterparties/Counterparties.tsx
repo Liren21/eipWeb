@@ -143,7 +143,7 @@ export const Counterparties = () => {
                 </Editing>
                 <Column fixed={true} dataField="id" caption={'ИД'} allowEditing={false} dataType={"number"}/>
                 <Column dataField="counterpartyFormatId" allowEditing={true}
-                        caption={'Идентификатор формы контрагента'} dataType={"number"}
+                        caption={'ИД формы контрагента'} dataType={"number"}
                         validationRules={validationRules}>
                     <Lookup
                         dataSource={counterpartyFormats}
