@@ -19,6 +19,8 @@ import {Item} from "devextreme-react/form";
 import {counterpartiesService} from "../../../lib/services/counterpartiesService";
 import {TableVariable} from "../../../generic/Variable/TableVariable";
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
+import {onInitNewRow} from "../../../generic/Function/OnInitNewRow";
+
 
 
 export const CounterpartyContactPersons = () => {
@@ -44,9 +46,7 @@ export const CounterpartyContactPersons = () => {
     const onEditRowKeyChange = useCallback((editRowKey) => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
-    const onInitNewRow = (e: any) => {  //галочка по умолчанию активна
-        e.data.forRent = false
-    }
+
     return (
         <React.Fragment>
             <LoadPanel
@@ -67,7 +67,13 @@ export const CounterpartyContactPersons = () => {
                 onSaving={onSaving}
                 columnWidth={180}
                 height={'85vh'}
-                onInitNewRow={onInitNewRow}
+                onInitNewRow={(e) => onInitNewRow(e, {
+                    isMain: false,
+                    isWithOutNDS: false,
+                    isCustomer: false,
+                    isSubcontractor: false,
+                    isProvider: false,
+                })}
             >
                 <Scrolling
                     columnRenderingMode={"virtual"}
@@ -103,7 +109,7 @@ export const CounterpartyContactPersons = () => {
                         </Item>
                     </Form>
                 </Editing>
-                <Column fixed={true} dataField="id" caption={'Идентификатор'} allowEditing={false} dataType={"number"}/>
+                <Column fixed={true} dataField="id" caption={'ИД'} allowEditing={false} dataType={"number"}/>
                 <Column dataField="lastName" allowEditing={true}
                         caption={'Фамилия'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="firstName" allowEditing={true}
@@ -122,7 +128,7 @@ export const CounterpartyContactPersons = () => {
                         caption={'Основной'} dataType={"boolean"}/>
 
                 <Column dataField="counterpartyId" allowEditing={true}
-                        caption={'Идентификатор контрагента'} dataType={"number"} validationRules={validationRules}>
+                        caption={'ИД контрагента'} dataType={"number"} validationRules={validationRules}>
                     <Lookup
                         dataSource={counterparties}
                         valueExpr="id"
@@ -133,9 +139,9 @@ export const CounterpartyContactPersons = () => {
                         caption={'Контрагент'}>
                     <Column dataField="counterparty.id" allowEditing={false}
 
-                            caption={'Идентификатор контрагента'} dataType={"number"}/>
+                            caption={'ИД контрагента'} dataType={"number"}/>
                     <Column dataField="counterparty.counterpartyFormatId" allowEditing={false}
-                            caption={'Идентификатор формата контрагента'} dataType={"string"}/>
+                            caption={'ИД формата контрагента'} dataType={"string"}/>
                     <Column dataField="counterparty.name" allowEditing={false}
                             caption={'Имя'} dataType={"string"}/>
                     <Column dataField="counterparty.inn" allowEditing={false}
@@ -145,13 +151,13 @@ export const CounterpartyContactPersons = () => {
                     <Column dataField="counterparty.isCustomer" allowEditing={false}
                             caption={'Заказчик'} dataType={"boolean"}/>
                     <Column dataField="counterparty.customerClassificationId" allowEditing={false}
-                            caption={'Идентификационный номер клиента'} dataType={"number"}/>
+                            caption={'ИД номер клиента'} dataType={"number"}/>
                     <Column dataField="counterparty.isSubcontractor" allowEditing={false}
                             caption={'Субподрядчик'} dataType={"boolean"}/>
                     <Column dataField="counterparty.isProvider" allowEditing={false}
                             caption={'Поставщик'} dataType={"boolean"}/>
                     <Column dataField="counterparty.counterpartyStatusId" allowEditing={false}
-                            caption={'Идентификатор статуса контрагента'} dataType={"number"}/>
+                            caption={'ИД статуса контрагента'} dataType={"number"}/>
                     <Column dataField="counterparty.note" allowEditing={false}
                             caption={'Примечание'} dataType={"number"}/>
                 </Column>

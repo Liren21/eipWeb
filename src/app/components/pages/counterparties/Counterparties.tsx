@@ -22,7 +22,10 @@ import {counterpartyStatusService} from "../../../lib/services/counterpartyStatu
 import {providerClassificationsService} from "../../../lib/services/providerClassificationsService";
 import {subcontractorClassificationsService} from "../../../lib/services/subcontractorClassificationsService";
 import {TableVariable} from "../../../generic/Variable/TableVariable";
-import { ProcessClassifications } from '../../../generic/Function/ProcessClassifications';
+import {ProcessClassifications} from '../../../generic/Function/ProcessClassifications';
+import {onInitNewRow} from '../../../generic/Function/OnInitNewRow';
+import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
+
 
 export const Counterparties = () => {
     const URL: string = urls.COUNTERPARTIES
@@ -59,8 +62,8 @@ export const Counterparties = () => {
     }, [URL]);
 
     const onSaving = useCallback((e: any) => {
-        ProcessClassifications(e, 'providerClassifications[0]');
-        ProcessClassifications(e, 'subcontractorClassifications[0]');
+        ProcessClassifications(e, 'providerClassifications');
+        ProcessClassifications(e, 'subcontractorClassifications');
         e.cancel = true;
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
@@ -72,9 +75,7 @@ export const Counterparties = () => {
     const onEditRowKeyChange = useCallback((editRowKey) => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
-    const onInitNewRow = (e: any) => {  //галочка по умолчанию активна
-        e.data.forRent = false
-    }
+
     return (
         <React.Fragment>
             <LoadPanel
@@ -95,7 +96,14 @@ export const Counterparties = () => {
                 onSaving={onSaving}
                 columnWidth={180}
                 height={'85vh'}
-                onInitNewRow={onInitNewRow}
+                onInitNewRow={(e) => onInitNewRow(e, {
+                    isWithOutNDS: false,
+                    isCustomer: false,
+                    isSubcontractor: false,
+                    isProvider: false,
+                    note: '',
+
+                })}
             >
                 <Scrolling
                     columnRenderingMode={"virtual"}
@@ -115,7 +123,7 @@ export const Counterparties = () => {
                     onChangesChange={onChangesChange}
                     editRowKey={state.editRowKey}
                     onEditRowKeyChange={onEditRowKeyChange}>
-                    <Popup title="Employee Info" showTitle={true} width={700} height={525}/>
+                    <Popup title="Создание контрагента" showTitle={true} width={700} height={525}/>
                     <Form>
                         <Item itemType="group" colCount={2} colSpan={2}>
                             <Item dataField="counterpartyFormatId"/>
@@ -128,14 +136,15 @@ export const Counterparties = () => {
                             <Item dataField="isProvider"/>
                             <Item dataField="counterpartyStatusId"/>
                             <Item dataField="providerClassifications"/>
-                            <Item dataField="subcontractorClassifications[0]"/>
+                            <Item dataField="subcontractorClassifications"/>
                             <Item dataField="note"/>
                         </Item>
                     </Form>
                 </Editing>
-                <Column fixed={true} dataField="id" caption={'Идентификатор'} allowEditing={false} dataType={"number"}/>
+                <Column fixed={true} dataField="id" caption={'ИД'} allowEditing={false} dataType={"number"}/>
                 <Column dataField="counterpartyFormatId" allowEditing={true}
-                        caption={'Идентификатор формы контрагента'} dataType={"number"} >
+                        caption={'Идентификатор формы контрагента'} dataType={"number"}
+                        validationRules={validationRules}>
                     <Lookup
                         dataSource={counterpartyFormats}
                         valueExpr="id"
@@ -143,15 +152,16 @@ export const Counterparties = () => {
                     />
                 </Column>
                 <Column dataField="name" allowEditing={true}
-                        caption={'Имя'} dataType={"string"} />
+                        caption={'Имя'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="inn" allowEditing={true}
-                        caption={'ИНН'} dataType={"string"} />
+                        caption={'ИНН'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="isWithOutNDS" allowEditing={true}
-                        caption={'Указана без учета НДС'} dataType={"boolean"} />
+                        caption={'Указана без учета НДС'} dataType={"boolean"}/>
                 <Column dataField="isCustomer" allowEditing={true}
-                        caption={'Заказчик'} dataType={"boolean"} />
+                        caption={'Заказчик'} dataType={"boolean"}/>
                 <Column dataField="customerClassificationId" allowEditing={true}
-                        caption={'Идентификационный номер клиента'} dataType={"number"} >
+                        caption={'ИД номер клиента'} dataType={"number"}
+                        validationRules={validationRules}>
                     <Lookup
                         dataSource={customerClassifications}
                         valueExpr="id"
@@ -159,11 +169,12 @@ export const Counterparties = () => {
                     />
                 </Column>
                 <Column dataField="isSubcontractor" allowEditing={true}
-                        caption={'Субподрядчик'} dataType={"boolean"} />
+                        caption={'Субподрядчик'} dataType={"boolean"} validationRules={validationRules}/>
                 <Column dataField="isProvider" allowEditing={true}
-                        caption={'Поставщик'} dataType={"boolean"} />
+                        caption={'Поставщик'} dataType={"boolean"}/>
                 <Column dataField="counterpartyStatusId" allowEditing={true}
-                        caption={'Идентификатор статуса контрагента'} dataType={"number"} >
+                        caption={'ИД статуса контрагента'} dataType={"number"}
+                        validationRules={validationRules}>
                     <Lookup
                         dataSource={counterpartyStatus}
                         valueExpr="id"
@@ -175,7 +186,7 @@ export const Counterparties = () => {
                 <Column dataField="counterpartyFormat" allowEditing={true}
                         caption={'Формат контрагента'}>
                     <Column dataField="counterpartyFormat.id" allowEditing={true}
-                            caption={'id'} dataType={"number"}/>
+                            caption={'ИД'} dataType={"number"}/>
                     <Column dataField="counterpartyFormat.name" allowEditing={true}
                             caption={'Имя'} dataType={"string"}/>
                     <Column dataField="counterpartyFormat.sortIndex" allowEditing={true}
@@ -187,7 +198,7 @@ export const Counterparties = () => {
                 <Column dataField="customerClassification" allowEditing={true}
                         caption={'Классификация клиентов'}>
                     <Column dataField="customerClassification.id" allowEditing={true}
-                            caption={'id'} dataType={"number"}/>
+                            caption={'ИД'} dataType={"number"}/>
                     <Column dataField="customerClassification.name" allowEditing={true}
                             caption={'Имя'} dataType={"string"}/>
                     <Column dataField="customerClassification.sortIndex" allowEditing={true}
@@ -199,7 +210,7 @@ export const Counterparties = () => {
                 <Column dataField="counterpartyStatus" allowEditing={true}
                         caption={'Статус контрагента'}>
                     <Column dataField="counterpartyStatus.id" allowEditing={true}
-                            caption={'id'} dataType={"number"}/>
+                            caption={'ИД'} dataType={"number"}/>
                     <Column dataField="counterpartyStatus.name" allowEditing={true}
                             caption={'Имя'} dataType={"string"}/>
                     <Column dataField="counterpartyStatus.sortIndex" allowEditing={true}
@@ -210,7 +221,9 @@ export const Counterparties = () => {
                         caption={'Классификации поставщиков'}>
                     <Column allowEditing={true}
                             dataField={'providerClassifications[0].id'}
-                            dataType={"number"}/>
+                            dataType={"number"}
+                            caption={"ИД"}
+                    />
                     <Column dataField="providerClassifications[0].name" allowEditing={false}
                             caption={'Имя'} dataType={"string"}/>
                     <Column dataField="providerClassifications[0].sortIndex" allowEditing={false}
@@ -222,7 +235,7 @@ export const Counterparties = () => {
 
                 <Column dataField="providerClassifications" allowEditing={true}
                         visible={false}
-                        caption={'Классификации поставщиков'} dataType={'number'} >
+                        caption={'Классификации поставщиков'} dataType={'number'} validationRules={validationRules}>
                     <Lookup
                         dataSource={providerClassifications}
                         valueExpr="id"
@@ -233,7 +246,7 @@ export const Counterparties = () => {
                 <Column allowEditing={true}
                         caption={'Классификация субподрядчиков'}>
                     <Column dataField="subcontractorClassifications[0].id" allowEditing={true}
-                            caption={'id'} dataType={"number"}/>
+                            caption={'ИД'} dataType={"number"}/>
                     <Column dataField="subcontractorClassifications[0].name" allowEditing={true}
                             caption={'Имя'} dataType={"string"}/>
                     <Column dataField="subcontractorClassifications[0].sortIndex" allowEditing={true}
@@ -242,9 +255,10 @@ export const Counterparties = () => {
                             caption={'Заметка'} dataType={"string"}/>
                 </Column>
 
-                <Column dataField="subcontractorClassifications[0]" allowEditing={true}
+                <Column dataField="subcontractorClassifications" allowEditing={true}
                         visible={false}
                         caption={'Классификация субподрядчиков'} dataType={"number"}
+                        validationRules={validationRules}
                 >
                     <Lookup
                         dataSource={subcontractorClassifications}

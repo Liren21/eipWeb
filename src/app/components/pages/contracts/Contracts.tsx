@@ -84,7 +84,7 @@ export const Contracts = () => {
                         </Item>
                     </Form>
                 </Editing>
-                <Column fixed={true} dataField="id" caption={'Идентификатор'} allowEditing={false} dataType={"number"}/>
+                <Column fixed={true} dataField="id" caption={'ИД'} allowEditing={false} dataType={"number"}/>
                 <Column dataField="contractCategoryId" caption="ИД Категории Контракта" dataType="number" />
                 <Column dataField="address" caption="Адрес" dataType="string" />
                 <Column dataField="title" caption="Название" dataType="string" />
