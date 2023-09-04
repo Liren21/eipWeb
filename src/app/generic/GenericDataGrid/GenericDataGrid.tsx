@@ -16,6 +16,7 @@ import reducer from '../../../core/lib/api/reducer';
 import {saveChange, loadOrders, setChanges, setEditRowKey} from '../../../core/lib/api/actions';
 import {Item} from "devextreme-react/form";
 import {TableVariable} from "../Variable/TableVariable";
+import {validationRules} from "../ValidationRules/ValidationRules";
 
 interface IProps {
     URL: string
@@ -27,7 +28,6 @@ interface IProps {
 }
 
 export const GenericDataGrid = ({URL, columns, keyExpr,AdditionalURL,nameForm }: IProps) => {
-    const validationRules: any = [{type: 'required', message: 'Это поле должно быть заполнено!'}]
     const [state, dispatch] = useReducer(reducer, TableVariable);
 
 
