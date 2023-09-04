@@ -94,7 +94,7 @@ export const CounterpartyContactPersons = () => {
                     editRowKey={state.editRowKey}
                     onEditRowKeyChange={onEditRowKeyChange}
                     defaultEditRowKey={false}>
-                    <Popup title="Employee Info" showTitle={true} width={700} height={525}/>
+                    <Popup title="Создание контактной информации" showTitle={true} width={700} height={525}/>
                     <Form>
                         <Item itemType="group" colCount={2} colSpan={2}>
                             <Item dataField="lastName"/>

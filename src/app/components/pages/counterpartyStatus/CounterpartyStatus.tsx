@@ -9,6 +9,7 @@ export const CounterpartyStatus = () => {
 
     return (
         <GenericDataGrid
+            nameForm={"статуса контрагента"}
             URL={URL}
             columns={columns}
             keyExpr="id"

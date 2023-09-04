@@ -9,6 +9,7 @@ export const Rases = () => {
 
     return (
         <GenericDataGrid
+            nameForm={"названия РЭС"}
             URL={URL}
             columns={columns}
             keyExpr="id"

@@ -9,6 +9,7 @@ export const CounterpartyFormats = () => {
 
     return (
         <GenericDataGrid
+            nameForm={"формы контрагента"}
             URL={URL}
             columns={columns}
             keyExpr="id"

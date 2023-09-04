@@ -9,6 +9,7 @@ export const StatusDOs = () => {
 
     return (
         <GenericDataGrid
+            nameForm={"статуса ДО"}
             URL={URL}
             columns={columns}
             keyExpr="id"

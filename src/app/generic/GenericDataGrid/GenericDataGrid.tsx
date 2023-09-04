@@ -23,9 +23,10 @@ interface IProps {
     keyExpr: any
     lookupData?: any
     AdditionalURL?:string
+    nameForm:string
 }
 
-export const GenericDataGrid = ({URL, columns, keyExpr,AdditionalURL }: IProps) => {
+export const GenericDataGrid = ({URL, columns, keyExpr,AdditionalURL,nameForm }: IProps) => {
     const validationRules: any = [{type: 'required', message: 'Это поле должно быть заполнено!'}]
     const [state, dispatch] = useReducer(reducer, TableVariable);
 
@@ -85,7 +86,7 @@ export const GenericDataGrid = ({URL, columns, keyExpr,AdditionalURL }: IProps) 
                     onChangesChange={onChangesChange}
                     editRowKey={state.editRowKey}
                     onEditRowKeyChange={onEditRowKeyChange}>
-                    <Popup title="" showTitle={true} width={"50vw"} height={"70vh"}/>
+                    <Popup title={`Создание ${nameForm}`} showTitle={true} width={"50vw"} height={"70vh"}/>
                     <Form>
                         {columns.map(column => (
                             column.item ? <Item key={column.dataField} dataField={column.dataField}/> : null

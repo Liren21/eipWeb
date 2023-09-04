@@ -9,6 +9,7 @@ export const SubcontractorClassifications = () => {
 
     return (
         <GenericDataGrid
+            nameForm={"классификации субподрядчика"}
             URL={URL}
             columns={columns}
             keyExpr="id"
