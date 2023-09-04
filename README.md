@@ -9,4 +9,4 @@
 Откройте http://localhost:3000, чтобы просмотреть его в браузере.
 
 ### `npm run sj`
-Запускает приложение локальный backend, чтобы тестировать запрос. Подробнее здесь https://github.com/typicode/json-server
+Запускает локальный backend, чтобы тестировать запрос. Подробнее здесь https://github.com/typicode/json-server
