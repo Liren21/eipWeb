@@ -4,10 +4,10 @@ import '../../../themes/generated/theme.additional.css';
 import {HashRouter as Router} from 'react-router-dom';
 import '../../../dx-styles.scss';
 import LoadPanel from 'devextreme-react/load-panel';
-import {NavigationProvider} from '../lib/contexts/navigation';
-import {AuthProvider, useAuth} from '../lib/contexts/auth';
-import Content from '../../../Content';
-import UnauthenticatedContent from '../../../UnauthenticatedContent';
+import {NavigationProvider} from '../../../core/lib/contexts/navigation';
+import {AuthProvider, useAuth} from '../../../core/lib/contexts/auth';
+import CustomFooter from '../../generic/Custom/CustomFooter/CustomFooter';
+import UnauthenticatedContent from '../pages/UnauthenticatedContent/UnauthenticatedContent';
 
 function App() {
     const {user, loading} = useAuth();
@@ -17,7 +17,7 @@ function App() {
     }
 
     if (user) {
-        return <Content/>;
+        return <CustomFooter/>;
     }
 
     return <UnauthenticatedContent/>;

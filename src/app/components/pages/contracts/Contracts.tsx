@@ -2,24 +2,16 @@ import React, {useCallback, useEffect, useReducer} from 'react';
 import DataGrid, {Column, Editing, FilterRow, Form, HeaderFilter, Popup, Scrolling, Search} from 'devextreme-react/data-grid';
 import {LoadPanel} from 'devextreme-react/load-panel';
 import 'whatwg-fetch';
-import reducer from '../../lib/func/reducer';
-import {saveChange, loadOrders, setChanges, setEditRowKey,} from '../../lib/func/actions';
-import urls from "../../lib/urls";
+import reducer from '../../../../core/lib/api/reducer';
+import {saveChange, loadOrders, setChanges, setEditRowKey,} from '../../../../core/lib/api/actions';
+import urls from "../../../lib/urls";
 import {Item} from "devextreme-react/form";
+import {TableVariable} from "../../../generic/Variable/TableVariable";
 
-
-const initialState = {
-    data: [],
-    changes: [],
-    editRowKey: null,
-    isLoading: false,
-};
 
 export const Contracts = () => {
     const URL: string = urls.CONTRACTS
-    const validationRules: any = [{type: 'required', message: 'Это поле должно быть заполнено!'}]
-    const [state, dispatch] = useReducer(reducer, initialState);
-
+    const [state, dispatch] = useReducer(reducer, TableVariable);
 
     useEffect(() => {
         loadOrders(dispatch, URL);

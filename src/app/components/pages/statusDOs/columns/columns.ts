@@ -1,4 +1,4 @@
-import { ColumnDefinition} from "../../../lib/store/models/true/columns";
+import { ColumnDefinition} from "../../../../lib/models/columns";
 
 export const columns:ColumnDefinition[] = [
     {

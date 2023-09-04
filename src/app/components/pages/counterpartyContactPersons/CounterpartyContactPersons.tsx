@@ -1,25 +1,29 @@
 import React, {useCallback, useEffect, useReducer} from 'react';
-import DataGrid, {Column, Editing, FilterRow, Form, HeaderFilter, Lookup, Popup, Scrolling, Search} from 'devextreme-react/data-grid';
+import DataGrid, {
+    Column,
+    Editing,
+    FilterRow,
+    Form,
+    HeaderFilter,
+    Lookup,
+    Popup,
+    Scrolling,
+    Search
+} from 'devextreme-react/data-grid';
 import {LoadPanel} from 'devextreme-react/load-panel';
 import 'whatwg-fetch';
-import reducer from '../../lib/func/reducer';
-import {saveChange, loadOrders, setChanges, setEditRowKey,} from '../../lib/func/actions';
-import urls from "../../lib/urls";
+import reducer from '../../../../core/lib/api/reducer';
+import {saveChange, loadOrders, setChanges, setEditRowKey,} from '../../../../core/lib/api/actions';
+import urls from "../../../lib/urls";
 import {Item} from "devextreme-react/form";
-import {counterpartiesService} from "../../lib/store/services/counterpartiesService";
+import {counterpartiesService} from "../../../lib/services/counterpartiesService";
+import {TableVariable} from "../../../generic/Variable/TableVariable";
+import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 
-
-const initialState = {
-    data: [],
-    changes: [],
-    editRowKey: null,
-    isLoading: false,
-};
 
 export const CounterpartyContactPersons = () => {
     const URL: string = urls.COUNTERPARTY_CONTACT_PERSONS
-    const validationRules: any = [{type: 'required', message: 'Это поле должно быть заполнено!'}]
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducer, TableVariable);
     const {data: counterparties, refetch: reCounterparties} = counterpartiesService.useFetchCounterpartiesQuery('')
 
 
@@ -40,7 +44,9 @@ export const CounterpartyContactPersons = () => {
     const onEditRowKeyChange = useCallback((editRowKey) => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
-
+    const onInitNewRow = (e: any) => {  //галочка по умолчанию активна
+        e.data.forRent = false
+    }
     return (
         <React.Fragment>
             <LoadPanel
@@ -61,6 +67,7 @@ export const CounterpartyContactPersons = () => {
                 onSaving={onSaving}
                 columnWidth={180}
                 height={'85vh'}
+                onInitNewRow={onInitNewRow}
             >
                 <Scrolling
                     columnRenderingMode={"virtual"}
@@ -79,7 +86,8 @@ export const CounterpartyContactPersons = () => {
                     changes={state.changes}
                     onChangesChange={onChangesChange}
                     editRowKey={state.editRowKey}
-                    onEditRowKeyChange={onEditRowKeyChange}>
+                    onEditRowKeyChange={onEditRowKeyChange}
+                    defaultEditRowKey={false}>
                     <Popup title="Employee Info" showTitle={true} width={700} height={525}/>
                     <Form>
                         <Item itemType="group" colCount={2} colSpan={2}>
@@ -118,12 +126,13 @@ export const CounterpartyContactPersons = () => {
                     <Lookup
                         dataSource={counterparties}
                         valueExpr="id"
-                        displayExpr={'id'}
+                        displayExpr={'name'}
                     />
                 </Column>
                 <Column dataField="counterparty" allowEditing={true}
                         caption={'Контрагент'}>
                     <Column dataField="counterparty.id" allowEditing={false}
+
                             caption={'Идентификатор контрагента'} dataType={"number"}/>
                     <Column dataField="counterparty.counterpartyFormatId" allowEditing={false}
                             caption={'Идентификатор формата контрагента'} dataType={"string"}/>

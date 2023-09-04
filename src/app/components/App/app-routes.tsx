@@ -1,4 +1,4 @@
-import {withNavigationWatcher} from '../lib/contexts/navigation';
+import {withNavigationWatcher} from '../../../core/lib/contexts/navigation';
 
 import {CustomerClassifications} from "../pages/customerClassifications/CustomerClassifications";
 import {SubcontractorClassifications} from "../pages/subcontractorClassifications/SubcontractorClassifications";
@@ -7,7 +7,7 @@ import {CounterpartyStatus} from "../pages/counterpartyStatus/CounterpartyStatus
 import {Counterparties} from "../pages/counterparties/Counterparties";
 
 import {Profile} from "../pages/profile/Profile";
-import {Home} from "../pages/home/Home";
+import {Home} from "../home/Home";
 import {CounterpartyFormats} from "../pages/counterpartyFormats/CounterpartyFormats";
 import {CounterpartyContactPersons} from "../pages/counterpartyContactPersons/CounterpartyContactPersons";
 import {Contracts} from "../pages/contracts/Contracts";

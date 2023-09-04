@@ -12,28 +12,21 @@ import DataGrid, {
 } from 'devextreme-react/data-grid';
 import {LoadPanel} from 'devextreme-react/load-panel';
 import 'whatwg-fetch';
-import reducer from '../../lib/func/reducer';
-import {saveChange, loadOrders, setChanges, setEditRowKey,} from '../../lib/func/actions';
-import urls from "../../lib/urls";
+import reducer from '../../../../core/lib/api/reducer';
+import {saveChange, loadOrders, setChanges, setEditRowKey,} from '../../../../core/lib/api/actions';
+import urls from "../../../lib/urls";
 import {Item} from "devextreme-react/form";
-import {counterpartyFormatsService} from "../../lib/store/services/counterpartyFormatsService";
-import {customerClassificationsService} from "../../lib/store/services/сustomerClassificationsService";
-import {counterpartyStatusService} from "../../lib/store/services/counterpartyStatusService";
-import {providerClassificationsService} from "../../lib/store/services/providerClassificationsService";
-import {subcontractorClassificationsService} from "../../lib/store/services/subcontractorClassificationsService";
-
-
-const initialState = {
-    data: [],
-    changes: [],
-    editRowKey: null,
-    isLoading: false,
-};
+import {counterpartyFormatsService} from "../../../lib/services/counterpartyFormatsService";
+import {customerClassificationsService} from "../../../lib/services/сustomerClassificationsService";
+import {counterpartyStatusService} from "../../../lib/services/counterpartyStatusService";
+import {providerClassificationsService} from "../../../lib/services/providerClassificationsService";
+import {subcontractorClassificationsService} from "../../../lib/services/subcontractorClassificationsService";
+import {TableVariable} from "../../../generic/Variable/TableVariable";
+import { ProcessClassifications } from '../../../generic/Function/ProcessClassifications';
 
 export const Counterparties = () => {
     const URL: string = urls.COUNTERPARTIES
-    const validationRules: any = [{type: 'required', message: 'Это поле должно быть заполнено!'}]
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducer, TableVariable);
     const {
         data: counterpartyFormats,
         refetch: reCounterpartyFormats
@@ -62,22 +55,12 @@ export const Counterparties = () => {
         reCustomerClassifications()
         reCounterpartyStatus()
         reProviderClassifications()
+        reSubcontractorClassifications()
     }, [URL]);
 
     const onSaving = useCallback((e: any) => {
-
-        if (e.changes[0].data && e.changes[0].data.providerClassifications) {//todo вывести в одну функцию
-            const providerClassifications = e.changes[0].data.providerClassifications
-            delete e.changes[0].data.providerClassifications
-            e.changes[0].data['providerClassifications'] = [{id: providerClassifications}]
-        }
-
-        if (e.changes[0].data && e.changes[0].data.subcontractorClassifications) {//todo вывести в одну функцию
-            const subcontractorClassifications = e.changes[0].data.subcontractorClassifications
-            delete e.changes[0].data.subcontractorClassifications
-            e.changes[0].data['subcontractorClassifications'] = [{id: subcontractorClassifications}]
-        }
-
+        ProcessClassifications(e, 'providerClassifications[0]');
+        ProcessClassifications(e, 'subcontractorClassifications[0]');
         e.cancel = true;
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
@@ -89,7 +72,9 @@ export const Counterparties = () => {
     const onEditRowKeyChange = useCallback((editRowKey) => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
-
+    const onInitNewRow = (e: any) => {  //галочка по умолчанию активна
+        e.data.forRent = false
+    }
     return (
         <React.Fragment>
             <LoadPanel
@@ -110,6 +95,7 @@ export const Counterparties = () => {
                 onSaving={onSaving}
                 columnWidth={180}
                 height={'85vh'}
+                onInitNewRow={onInitNewRow}
             >
                 <Scrolling
                     columnRenderingMode={"virtual"}
@@ -121,7 +107,6 @@ export const Counterparties = () => {
                     <Search enabled={true}/>
                 </HeaderFilter>
                 <Editing
-
                     mode="popup"
                     allowAdding={true}
                     allowDeleting={true}
@@ -143,14 +128,14 @@ export const Counterparties = () => {
                             <Item dataField="isProvider"/>
                             <Item dataField="counterpartyStatusId"/>
                             <Item dataField="providerClassifications"/>
-                            <Item dataField="subcontractorClassifications"/>
+                            <Item dataField="subcontractorClassifications[0]"/>
                             <Item dataField="note"/>
                         </Item>
                     </Form>
                 </Editing>
                 <Column fixed={true} dataField="id" caption={'Идентификатор'} allowEditing={false} dataType={"number"}/>
                 <Column dataField="counterpartyFormatId" allowEditing={true}
-                        caption={'Идентификатор формы контрагента'} dataType={"number"}>
+                        caption={'Идентификатор формы контрагента'} dataType={"number"} >
                     <Lookup
                         dataSource={counterpartyFormats}
                         valueExpr="id"
@@ -158,15 +143,15 @@ export const Counterparties = () => {
                     />
                 </Column>
                 <Column dataField="name" allowEditing={true}
-                        caption={'Имя'} dataType={"string"}/>
+                        caption={'Имя'} dataType={"string"} />
                 <Column dataField="inn" allowEditing={true}
-                        caption={'ИНН'} dataType={"string"}/>
+                        caption={'ИНН'} dataType={"string"} />
                 <Column dataField="isWithOutNDS" allowEditing={true}
-                        caption={'Указана без учета НДС'} dataType={"boolean"}/>
+                        caption={'Указана без учета НДС'} dataType={"boolean"} />
                 <Column dataField="isCustomer" allowEditing={true}
-                        caption={'Заказчик'} dataType={"boolean"}/>
+                        caption={'Заказчик'} dataType={"boolean"} />
                 <Column dataField="customerClassificationId" allowEditing={true}
-                        caption={'Идентификационный номер клиента'} dataType={"number"}>
+                        caption={'Идентификационный номер клиента'} dataType={"number"} >
                     <Lookup
                         dataSource={customerClassifications}
                         valueExpr="id"
@@ -174,11 +159,11 @@ export const Counterparties = () => {
                     />
                 </Column>
                 <Column dataField="isSubcontractor" allowEditing={true}
-                        caption={'Субподрядчик'} dataType={"boolean"}/>
+                        caption={'Субподрядчик'} dataType={"boolean"} />
                 <Column dataField="isProvider" allowEditing={true}
-                        caption={'Поставщик'} dataType={"boolean"}/>
+                        caption={'Поставщик'} dataType={"boolean"} />
                 <Column dataField="counterpartyStatusId" allowEditing={true}
-                        caption={'Идентификатор статуса контрагента'} dataType={"number"}>
+                        caption={'Идентификатор статуса контрагента'} dataType={"number"} >
                     <Lookup
                         dataSource={counterpartyStatus}
                         valueExpr="id"
@@ -237,7 +222,7 @@ export const Counterparties = () => {
 
                 <Column dataField="providerClassifications" allowEditing={true}
                         visible={false}
-                        caption={'Классификации поставщиков'} dataType={'object'}>
+                        caption={'Классификации поставщиков'} dataType={'number'} >
                     <Lookup
                         dataSource={providerClassifications}
                         valueExpr="id"
@@ -257,9 +242,10 @@ export const Counterparties = () => {
                             caption={'Заметка'} dataType={"string"}/>
                 </Column>
 
-                <Column dataField="subcontractorClassifications" allowEditing={true}
+                <Column dataField="subcontractorClassifications[0]" allowEditing={true}
                         visible={false}
-                        caption={'Классификация субподрядчиков'} dataType={'object'}>
+                        caption={'Классификация субподрядчиков'} dataType={"number"}
+                >
                     <Lookup
                         dataSource={subcontractorClassifications}
                         valueExpr="id"
