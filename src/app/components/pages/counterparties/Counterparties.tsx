@@ -59,7 +59,8 @@ export const Counterparties = () => {
         reCounterpartyStatus()
         reProviderClassifications()
         reSubcontractorClassifications()
-    }, [URL]);
+    }, [URL, reCounterpartyFormats, reCounterpartyStatus, reCustomerClassifications, reProviderClassifications, reSubcontractorClassifications]);
+
 
     const onSaving = useCallback((e: any) => {
         ProcessClassifications(e, 'providerClassifications');
@@ -135,13 +136,33 @@ export const Counterparties = () => {
                             <Item dataField="isSubcontractor"/>
                             <Item dataField="isProvider"/>
                             <Item dataField="counterpartyStatusId"/>
-                            <Item dataField="providerClassifications"/>
-                            <Item dataField="subcontractorClassifications"/>
+                            <Item dataField="providerClassifications[0].name"/>
+                            <Item dataField="subcontractorClassifications[0].name"/>
                             <Item dataField="note"/>
                         </Item>
                     </Form>
                 </Editing>
                 <Column fixed={true} dataField="id" caption={'ИД'} allowEditing={false} dataType={"number"}/>
+                <Column dataField="subcontractorClassifications[0].name" allowEditing={true}
+                        visible={false}
+                        caption={'Классификация субподрядчиков'} dataType={"number"}
+                        validationRules={validationRules}
+                >
+                    <Lookup
+                        dataSource={subcontractorClassifications}
+                        valueExpr="id"
+                        displayExpr={'name'}
+                    />
+                </Column>
+                <Column dataField="providerClassifications[0].name" allowEditing={true}
+                        visible={false}
+                        caption={'Классификации поставщиков'} dataType={'number'} validationRules={validationRules}>
+                    <Lookup
+                        dataSource={providerClassifications}
+                        valueExpr="id"
+                        displayExpr={'name'}
+                    />
+                </Column>
                 <Column dataField="counterpartyFormatId" allowEditing={true}
                         caption={'ИД формы контрагента'} dataType={"number"}
                         validationRules={validationRules}>
@@ -232,17 +253,6 @@ export const Counterparties = () => {
                             caption={'Заметка'} dataType={"string"}/>
                 </Column>
 
-
-                <Column dataField="providerClassifications" allowEditing={true}
-                        visible={false}
-                        caption={'Классификации поставщиков'} dataType={'number'} validationRules={validationRules}>
-                    <Lookup
-                        dataSource={providerClassifications}
-                        valueExpr="id"
-                        displayExpr={'name'}
-                    />
-                </Column>
-
                 <Column allowEditing={true}
                         caption={'Классификация субподрядчиков'}>
                     <Column dataField="subcontractorClassifications[0].id" allowEditing={true}
@@ -254,19 +264,6 @@ export const Counterparties = () => {
                     <Column dataField="subcontractorClassifications[0].note" allowEditing={true}
                             caption={'Заметка'} dataType={"string"}/>
                 </Column>
-
-                <Column dataField="subcontractorClassifications" allowEditing={true}
-                        visible={false}
-                        caption={'Классификация субподрядчиков'} dataType={"number"}
-                        validationRules={validationRules}
-                >
-                    <Lookup
-                        dataSource={subcontractorClassifications}
-                        valueExpr="id"
-                        displayExpr={'name'}
-                    />
-                </Column>
-
             </DataGrid>
         </React.Fragment>
     );
