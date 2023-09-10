@@ -4,7 +4,8 @@ import DataGrid, {
     Editing,
     FilterRow,
     Form,
-    HeaderFilter, Lookup,
+    HeaderFilter,
+    Lookup,
     Popup,
     Scrolling,
     Search
@@ -12,19 +13,15 @@ import DataGrid, {
 import {LoadPanel} from 'devextreme-react/load-panel';
 import 'whatwg-fetch';
 import reducer from '../../../../core/lib/api/reducer';
-import {saveChange, loadOrders, setChanges, setEditRowKey,} from '../../../../core/lib/api/actions';
+import {loadOrders, saveChange, setChanges, setEditRowKey,} from '../../../../core/lib/api/actions';
 import urls from "../../../lib/urls";
 import {Item} from "devextreme-react/form";
 import {TableVariable} from "../../../generic/Variable/TableVariable";
-import {counterpartyFormatsService} from "../../../lib/services/counterpartyFormatsService";
-import {customerClassificationsService} from "../../../lib/services/сustomerClassificationsService";
-import {counterpartyStatusService} from "../../../lib/services/counterpartyStatusService";
-import {providerClassificationsService} from "../../../lib/services/providerClassificationsService";
-import {subcontractorClassificationsService} from "../../../lib/services/subcontractorClassificationsService";
 import {ProcessClassificationsObj} from "../../../generic/Function/ProcessClassifications";
 import {counterpartiesService} from "../../../lib/services/counterpartiesService";
 import {contractCategoriesService} from "../../../lib/services/contractCategoriesService";
 import {statusDOsService} from "../../../lib/services/statusDOsService";
+import {counterpartyContactPersonsService} from "../../../lib/services/counterpartyContactPersonsService";
 
 
 export const Contracts = () => {
@@ -33,10 +30,8 @@ export const Contracts = () => {
 
     const {data: counterparties, refetch: reCounterparties} = counterpartiesService.useFetchCounterpartiesQuery('')
     const {data: statusDOs, refetch: reStatusDOs} = statusDOsService.useFetchStatusDOsQuery('')
-    const {
-        data: contractCategories,
-        refetch: reContractCategories
-    } = contractCategoriesService.useFetchContractSignStatesQuery('')
+    const {data: contractCategories, refetch: reContractCategories} = contractCategoriesService.useFetchContractSignStatesQuery('')
+    const {data: counterpartyContact, refetch: reCounterpartyContact} = counterpartyContactPersonsService.useFetchCounterpartyContactPersonsQuery('')
 
 
     useEffect(() => {
@@ -44,6 +39,7 @@ export const Contracts = () => {
     }, [URL]);
 
     const onSaving = useCallback((e) => {
+
         ProcessClassificationsObj(e.changes[0].data, "counterpartyCustomer");
         ProcessClassificationsObj(e.changes[0].data, "contractCategory");
         ProcessClassificationsObj(e.changes[0].data, "counterpartyProvider");
@@ -60,7 +56,8 @@ export const Contracts = () => {
     const onEditRowKeyChange = useCallback((editRowKey) => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
-    console.log(counterparties)
+
+console.log(counterparties)
     return (
         <React.Fragment>
             <LoadPanel
@@ -163,17 +160,17 @@ export const Contracts = () => {
                 <Column dataField="address" caption={'Адресс'} dataType={"string"}/>
                 <Column dataField="title" caption={'Название'} dataType={"string"}/>
 
-                <Column dataField="counterpartyCustomer.id" caption={'ИД клиента контрагента'} visible={false}
+                <Column dataField="counterpartyCustomer.id" caption={'Контрагент-заказчик'} visible={false}
                         allowEditing={true}
                         dataType={"number"}>
                     <Lookup
                         dataSource={counterparties}
-                        valueExpr="customerClassification.id"
+                        valueExpr="id"
                         displayExpr={'customerClassification.name'}
                     />
                 </Column>
 
-                <Column dataField="counterpartySubcontractor.id" caption={'ИД клиента субподрядчика'} visible={false}
+                <Column dataField="counterpartySubcontractor.id" caption={'Контрагент-субподрядчик'} visible={false}
                         allowEditing={true}
                         dataType={"number"}>
                     <Lookup
@@ -183,17 +180,7 @@ export const Contracts = () => {
                     />
                 </Column>
 
-                <Column dataField="counterpartyProvider.id" caption={'ИД клиента поставщика'} visible={false}
-                        allowEditing={true}
-                        dataType={"number"}>
-                    <Lookup
-                        dataSource={counterparties}
-                        valueExpr="id"
-                        displayExpr={'providerClassifications[0].name'}
-                    />
-                </Column>
-
-                <Column dataField="counterpartyProvider.id" caption={'ИД клиента поставщика'} visible={false}
+                <Column dataField="counterpartyProvider.id" caption={'Контрагент-поставщик'} visible={false}
                         allowEditing={true}
                         dataType={"number"}>
                     <Lookup
@@ -202,6 +189,16 @@ export const Contracts = () => {
                         displayExpr={'providerClassifications[0].name'}
                     />
                 </Column>
+
+                {/*<Column dataField="counterpartyProvider.id" caption={'ИД клиента поставщика'} visible={false}*/}
+                {/*        allowEditing={true}*/}
+                {/*        dataType={"number"}>*/}
+                {/*    <Lookup*/}
+                {/*        dataSource={counterparties}*/}
+                {/*        valueExpr="providerClassifications[0].id"*/}
+                {/*        displayExpr={'providerClassifications[0].name'}*/}
+                {/*    />*/}
+                {/*</Column>*/}
 
                 <Column dataField="statusDOId" caption={'Статус ДО'} visible={false}
                         allowEditing={true}
@@ -213,7 +210,7 @@ export const Contracts = () => {
                     />
                 </Column>
 
-                <Column dataField="counterpartyCustomer" caption={'Категория контрактов'}>
+                <Column dataField="counterpartyCustomer" caption={'Контрагент-заказчик'}>
                     <Column dataField="counterpartyCustomer.id" caption={'ИД'} allowEditing={false}
                             dataType={"number"}/>
                     <Column dataField="counterpartyCustomer.counterpartyFormatId" caption={'ИД формата контрагента'}
@@ -234,7 +231,7 @@ export const Contracts = () => {
                             dataType={"boolean"}/>
                     <Column dataField="counterpartyCustomer.counterpartyStatusId" caption={'ИД статуса контрагента'}
                             dataType={"number"}/>
-                    <Column dataField="counterpartyCustomer.note" caption={'Записка'}
+                    <Column dataField="counterpartyCustomer.note" caption={'Заметка'}
                             dataType={"string"}/>
                 </Column>
 
@@ -262,7 +259,7 @@ export const Contracts = () => {
                     <Column dataField="counterpartySubcontractor.counterpartyStatusId"
                             caption={'ИД статуса контрагента'}
                             dataType={"number"}/>
-                    <Column dataField="counterpartySubcontractor.note" caption={'Записка'}
+                    <Column dataField="counterpartySubcontractor.note" caption={'Заметка'}
                             dataType={"string"}/>
                 </Column>
 
@@ -287,7 +284,7 @@ export const Contracts = () => {
                             dataType={"boolean"}/>
                     <Column dataField="counterpartyProvider.counterpartyStatusId" caption={'ИД статуса контрагента'}
                             dataType={"number"}/>
-                    <Column dataField="counterpartyProvider.note" caption={'Записка'}
+                    <Column dataField="counterpartyProvider.note" caption={'Заметка'}
                             dataType={"string"}/>
                 </Column>
 
@@ -310,8 +307,29 @@ export const Contracts = () => {
                 <Column dataField="subscriber" caption={'Пользователь'}
                         dataType={"string"}/>
 
+
+                <Column dataField="ras" caption={'РЭС'}
+                        dataType={"number"}>
+                    <Column dataField="ras.id" caption={'ИД'}
+                            dataType={"number"}/>
+                    <Column dataField="ras.sortIndex" caption={'Сортировочный индекс'}
+                            dataType={"number"}/>
+                    <Column dataField="ras.name" caption={'Имя'}
+                            dataType={"string"}/>
+                    <Column dataField="ras.note" caption={'Заметка'}
+                            dataType={"string"}/>
+                </Column>
+                <Column dataField="projectEmployee.id" caption={'ФИО руководителя проекта'}
+                        dataType={"number"}>
+                    <Lookup
+                        dataSource={counterpartyContact}
+                        valueExpr="id"
+                        displayExpr={'lastName'}
+                    />
+                </Column>
+
                 <Column dataField="projectEmployee" caption={'Сотрудник проекта'}>
-                    <Column dataField="projectEmployee.id" caption={'ИД'}
+                    <Column dataField="projectEmployee.id" caption={'ИД '}
                             dataType={"number"}/>
                     <Column dataField="projectEmployee.lastName" caption={'Фамилия'}
                             dataType={"number"}/>

@@ -14,7 +14,7 @@ export async function sendRequest(url, method = 'GET', data: any = {}) {
                 },
         // credentials: 'include',
     });
-
+console.log(result)
     if (result.ok) {
         const text = await result.text();
 

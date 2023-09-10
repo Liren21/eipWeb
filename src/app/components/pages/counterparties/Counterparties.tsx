@@ -65,25 +65,10 @@ export const Counterparties = () => {
     const onSaving = useCallback((e: any) => {
         ProcessClassifications(e, 'providerClassifications[0]', 'providerClassifications');
         ProcessClassifications(e, 'subcontractorClassifications[0]', 'subcontractorClassifications');
+
         ProcessClassificationsObj(e.changes[0].data, "counterpartyFormat");
         ProcessClassificationsObj(e.changes[0].data, "customerClassification");
         ProcessClassificationsObj(e.changes[0].data, "counterpartyStatus");
-
-        // if (e.changes[0].data && e.changes[0].data.counterpartyFormat !== undefined) {
-        //     const classificationData = e.changes[0].data.counterpartyFormat.id;
-        //     delete e.changes[0].data.counterpartyFormat.id;
-        //     e.changes[0].data["counterpartyFormatId"] = classificationData
-        // }
-        // if (e.changes[0].data && e.changes[0].data.customerClassification !== undefined) {
-        //     const classificationData = e.changes[0].data.customerClassification.id;
-        //     delete e.changes[0].data.customerClassification.id;
-        //     e.changes[0].data["customerClassificationId"] = classificationData
-        // }
-        // if (e.changes[0].data && e.changes[0].data.counterpartyStatus !== undefined) {
-        //     const classificationData = e.changes[0].data.counterpartyStatus.id;
-        //     delete e.changes[0].data.counterpartyStatus.id;
-        //     e.changes[0].data["counterpartyStatusId"] = classificationData
-        // }
         e.cancel = true;
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);

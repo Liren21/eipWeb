@@ -23,7 +23,8 @@ export async function loadOrders(dispatch, URL, block?) {
         });
     } catch (err) {
         dispatch({type: FETCH_ERROR});
-        throw err;
+        console.log(err)
+        // throw err;
     }
 }
 
@@ -47,7 +48,7 @@ export async function saveChange(dispatch, change, URL) {
             return data;
         } catch (err) {
             dispatch({type: SAVING_ERROR});
-            throw err;
+            // throw err;
         }
     } else {
         dispatch({type: SAVING_CANCEL});

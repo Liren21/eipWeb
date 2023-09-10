@@ -40,7 +40,10 @@ export const CounterpartyContactPersons = () => {
         //     delete e.changes[0].data.counterparty.id;
         //     e.changes[0].data["counterpartyId"] = classificationData
         // }
+        // ProcessClassificationsObj(e.changes, "counterparty");
+
         ProcessClassificationsObj(e.changes[0].data, "counterparty");
+
         e.cancel = true;
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
