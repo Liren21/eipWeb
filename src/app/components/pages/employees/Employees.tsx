@@ -13,7 +13,6 @@ export const Employees = () => {
             URL={URL}
             columns={columns}
             keyExpr="id"
-            AdditionalURL={' '}
         />
     );
 }

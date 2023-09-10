@@ -20,7 +20,7 @@ import {counterpartiesService} from "../../../lib/services/counterpartiesService
 import {TableVariable} from "../../../generic/Variable/TableVariable";
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import {onInitNewRow} from "../../../generic/Function/OnInitNewRow";
-
+import {ProcessClassificationsObj} from "../../../generic/Function/ProcessClassifications";
 
 
 export const CounterpartyContactPersons = () => {
@@ -35,6 +35,12 @@ export const CounterpartyContactPersons = () => {
     }, [URL]);
 
     const onSaving = useCallback((e) => {
+        // if (e.changes[0].data && e.changes[0].data.counterparty !== undefined) {
+        //     const classificationData = e.changes[0].data.counterparty.id;
+        //     delete e.changes[0].data.counterparty.id;
+        //     e.changes[0].data["counterpartyId"] = classificationData
+        // }
+        ProcessClassificationsObj(e.changes[0].data, "counterparty");
         e.cancel = true;
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
@@ -105,7 +111,7 @@ export const CounterpartyContactPersons = () => {
                             <Item dataField="email"/>
                             <Item dataField="note"/>
                             <Item dataField="isMain"/>
-                            <Item dataField="counterpartyId"/>
+                            <Item dataField="counterparty.id"/>
                         </Item>
                     </Form>
                 </Editing>
@@ -127,19 +133,24 @@ export const CounterpartyContactPersons = () => {
                 <Column dataField="isMain" allowEditing={true}
                         caption={'Основной'} dataType={"boolean"}/>
 
-                <Column dataField="counterpartyId" allowEditing={true}
-                        caption={'ИД контрагента'} dataType={"number"} validationRules={validationRules}>
-                    <Lookup
-                        dataSource={counterparties}
-                        valueExpr="id"
-                        displayExpr={'name'}
-                    />
-                </Column>
+                {/*<Column dataField="counterpartyId" allowEditing={true}*/}
+                {/*        caption={'ИД контрагента'} dataType={"number"} validationRules={validationRules}>*/}
+                {/*    <Lookup*/}
+                {/*        dataSource={counterparties}*/}
+                {/*        valueExpr="id"*/}
+                {/*        displayExpr={'name'}*/}
+                {/*    />*/}
+                {/*</Column>*/}
                 <Column dataField="counterparty" allowEditing={true}
                         caption={'Контрагент'}>
-                    <Column dataField="counterparty.id" allowEditing={false}
-
-                            caption={'ИД контрагента'} dataType={"number"}/>
+                    <Column dataField="counterparty.id" allowEditing={true}
+                            caption={'ИД контрагента'} dataType={"number"}>
+                        <Lookup
+                            dataSource={counterparties}
+                            valueExpr="id"
+                            displayExpr={'name'}
+                        />
+                    </Column>
                     <Column dataField="counterparty.counterpartyFormatId" allowEditing={false}
                             caption={'ИД формата контрагента'} dataType={"string"}/>
                     <Column dataField="counterparty.name" allowEditing={false}

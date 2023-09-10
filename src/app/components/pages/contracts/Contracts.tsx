@@ -1,5 +1,14 @@
 import React, {useCallback, useEffect, useReducer} from 'react';
-import DataGrid, {Column, Editing, FilterRow, Form, HeaderFilter, Popup, Scrolling, Search} from 'devextreme-react/data-grid';
+import DataGrid, {
+    Column,
+    Editing,
+    FilterRow,
+    Form,
+    HeaderFilter, Lookup,
+    Popup,
+    Scrolling,
+    Search
+} from 'devextreme-react/data-grid';
 import {LoadPanel} from 'devextreme-react/load-panel';
 import 'whatwg-fetch';
 import reducer from '../../../../core/lib/api/reducer';
@@ -7,17 +16,39 @@ import {saveChange, loadOrders, setChanges, setEditRowKey,} from '../../../../co
 import urls from "../../../lib/urls";
 import {Item} from "devextreme-react/form";
 import {TableVariable} from "../../../generic/Variable/TableVariable";
+import {counterpartyFormatsService} from "../../../lib/services/counterpartyFormatsService";
+import {customerClassificationsService} from "../../../lib/services/сustomerClassificationsService";
+import {counterpartyStatusService} from "../../../lib/services/counterpartyStatusService";
+import {providerClassificationsService} from "../../../lib/services/providerClassificationsService";
+import {subcontractorClassificationsService} from "../../../lib/services/subcontractorClassificationsService";
+import {ProcessClassificationsObj} from "../../../generic/Function/ProcessClassifications";
+import {counterpartiesService} from "../../../lib/services/counterpartiesService";
+import {contractCategoriesService} from "../../../lib/services/contractCategoriesService";
+import {statusDOsService} from "../../../lib/services/statusDOsService";
 
 
 export const Contracts = () => {
     const URL: string = urls.CONTRACTS
     const [state, dispatch] = useReducer(reducer, TableVariable);
 
+    const {data: counterparties, refetch: reCounterparties} = counterpartiesService.useFetchCounterpartiesQuery('')
+    const {data: statusDOs, refetch: reStatusDOs} = statusDOsService.useFetchStatusDOsQuery('')
+    const {
+        data: contractCategories,
+        refetch: reContractCategories
+    } = contractCategoriesService.useFetchContractSignStatesQuery('')
+
+
     useEffect(() => {
         loadOrders(dispatch, URL);
     }, [URL]);
 
     const onSaving = useCallback((e) => {
+        ProcessClassificationsObj(e.changes[0].data, "counterpartyCustomer");
+        ProcessClassificationsObj(e.changes[0].data, "contractCategory");
+        ProcessClassificationsObj(e.changes[0].data, "counterpartyProvider");
+        ProcessClassificationsObj(e.changes[0].data, "counterpartySubcontractor");
+        ProcessClassificationsObj(e.changes[0].data, "projectEmployee");
         e.cancel = true;
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
@@ -29,7 +60,7 @@ export const Contracts = () => {
     const onEditRowKeyChange = useCallback((editRowKey) => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
-
+    console.log(counterparties)
     return (
         <React.Fragment>
             <LoadPanel
@@ -72,55 +103,330 @@ export const Contracts = () => {
                     <Popup title="Создание договора" showTitle={true} width={700} height={525}/>
                     <Form>
                         <Item itemType="group" colCount={2} colSpan={2}>
-                            <Item dataField="lastName"/>
-                            <Item dataField="firstName"/>
-                            <Item dataField="patronymicName"/>
-                            <Item dataField="phone"/>
-                            <Item dataField="mobilePhone"/>
-                            <Item dataField="email"/>
-                            <Item dataField="note"/>
-                            <Item dataField="isMain"/>
-                            <Item dataField="counterpartyId"/>
+                            <Item dataField="contractCategory.id"/>
+                            <Item dataField="address"/>
+                            <Item dataField="title"/>
+                            <Item dataField="counterpartyCustomer.id"/>
+                            <Item dataField="counterpartySubcontractor.id"/>
+                            <Item dataField="counterpartyProvider.id"/>
+                            <Item dataField="contractNumberCustomer"/>
+                            <Item dataField="contractNumberSubcontractor"/>
+                            <Item dataField="contractNumberProvider"/>
+                            <Item dataField="additionalAgreementCustomer"/>
+                            <Item dataField="additionalAgreementSubcontractor"/>
+                            <Item dataField="additionalAgreementProvider"/>
+                            <Item dataField="noSap"/>
+                            <Item dataField="subscriber"/>
+                            <Item dataField="rasId"/>
+                            <Item dataField="projectEmployee.id"/>
+                            <Item dataField="executorDOId"/>
+                            <Item dataField="statusDOId"/>
+                            <Item dataField="contractSigningOption"/>
+                            <Item dataField="noteDO"/>
+                            <Item dataField="numberTechTask"/>
+                            <Item dataField="conclusionContractDate"/>
+                            <Item dataField="returnSignContractDate"/>
+                            <Item dataField="startDate"/>
+                            <Item dataField="endDate"/>
+                            <Item dataField="cancellationDate"/>
+                            <Item dataField="terminationDate"/>
+                            <Item dataField="summaPIR"/>
+                            <Item dataField="summaSMR"/>
+                            <Item dataField="summaEquipment"/>
+                            <Item dataField="summaOther"/>
                         </Item>
                     </Form>
                 </Editing>
+
                 <Column fixed={true} dataField="id" caption={'ИД'} allowEditing={false} dataType={"number"}/>
-                <Column dataField="contractCategoryId" caption="ИД Категории Контракта" dataType="number" />
-                <Column dataField="address" caption="Адрес" dataType="string" />
-                <Column dataField="title" caption="Название" dataType="string" />
-                <Column dataField="counterpartyCustomerId" caption="ИД Заказчика" dataType="number" />
-                <Column dataField="counterpartySubcontractorId" caption="ИД Субподрядчика" dataType="number" />
-                <Column dataField="counterpartyProviderId" caption="ИД Поставщика" dataType="number" />
-                <Column dataField="contractNumberCustomer" caption="Номер Контракта Заказчика" dataType="string" />
-                <Column dataField="contractNumberSubcontractor" caption="Номер Контракта Субподрядчика" dataType="string" />
-                <Column dataField="contractNumberProvider" caption="Номер Контракта Поставщика" dataType="string" />
-                <Column dataField="additionalAgreementCustomer" caption="Дополнительное Соглашение Заказчика" dataType="string" />
-                <Column dataField="additionalAgreementSubcontractor" caption="Дополнительное Соглашение Субподрядчика" dataType="string" />
-                <Column dataField="additionalAgreementProvider" caption="Дополнительное Соглашение Поставщика" dataType="string" />
-                <Column dataField="noSap" caption="Номер SAP" dataType="string" />
-                <Column dataField="subscriber" caption="Подписчик" dataType="string" />
-                <Column dataField="rasId" caption="ИД РАС" dataType="number" />
-                <Column dataField="projectEmployeeId" caption="ИД Сотрудника Проекта" dataType="number" />
-                <Column dataField="executorDOId" caption="ИД Исполнителя ДО" dataType="number" />
-                <Column dataField="statusDOId" caption="ИД Статуса ДО" dataType="number" />
-                <Column dataField="contractSigningOption" caption="Опция Подписания Контракта" dataType="string" />
-                <Column dataField="noteDO" caption="Примечание ДО" dataType="string" />
-                <Column dataField="numberTechTask" caption="Номер Технического Задания" dataType="string" />
-                <Column dataField="createdDate" caption="Дата Создания" dataType="datetime" />
-                <Column dataField="conclusionContractDate" caption="Дата Заключения Контракта" dataType="datetime" />
-                <Column dataField="returnSignContractDate" caption="Дата Возврата Подписанного Контракта" dataType="datetime" />
-                <Column dataField="createdEmployeeId" caption="ИД Создавшего Сотрудника" dataType="number" />
-                <Column dataField="startDate" caption="Дата Начала" dataType="datetime" />
-                <Column dataField="endDate" caption="Дата Окончания" dataType="datetime" />
-                <Column dataField="cancellationDate" caption="Дата Отмены" dataType="datetime" />
-                <Column dataField="terminationDate" caption="Дата Прекращения" dataType="datetime" />
-                <Column dataField="summa" caption="Сумма" dataType="number" />
-                <Column dataField="summaPIR" caption="Сумма PIR" dataType="number" />
-                <Column dataField="summaSMR" caption="Сумма SMR" dataType="number" />
-                <Column dataField="summaEquipment" caption="Сумма Оборудования" dataType="number" />
-                <Column dataField="summaOther" caption="Другие Суммы" dataType="number" />
-                <Column dataField="updateStatusDOEmployeeId" caption="ИД Сотрудника Обновления Статуса ДО" dataType="number" />
-                <Column dataField="updateStatusDODate" caption="Дата Обновления Статуса ДО" dataType="datetime" />
+                <Column dataField="contractCategory.id" caption={'ИД категории контракта'} visible={false}
+                        allowEditing={true}
+                        dataType={"number"}>
+                    <Lookup
+                        dataSource={contractCategories}
+                        valueExpr="id"
+                        displayExpr={'name'}
+                    />
+                </Column>
+                <Column dataField="contractCategory" caption={'Категория контрактов'}>
+                    <Column dataField="contractCategory.id" caption={'ИД'} allowEditing={false}
+                            dataType={"number"}/>
+                    <Column dataField="contractCategory.name" caption={'Имя'} allowEditing={false}
+                            dataType={"string"}/>
+                    <Column dataField="contractCategory.group" caption={'Группа'} allowEditing={false}
+                            dataType={"string"}/>
+                    <Column dataField="contractCategory.note" caption={'Заметка'} allowEditing={false}
+                            dataType={"string"}/>
+                    <Column dataField="contractCategory.sortIndex" caption={'Сортировочный индекс'}
+                            allowEditing={false} dataType={"number"}/>
+                </Column>
+                <Column dataField="address" caption={'Адресс'} dataType={"string"}/>
+                <Column dataField="title" caption={'Название'} dataType={"string"}/>
+
+                <Column dataField="counterpartyCustomer.id" caption={'ИД клиента контрагента'} visible={false}
+                        allowEditing={true}
+                        dataType={"number"}>
+                    <Lookup
+                        dataSource={counterparties}
+                        valueExpr="customerClassification.id"
+                        displayExpr={'customerClassification.name'}
+                    />
+                </Column>
+
+                <Column dataField="counterpartySubcontractor.id" caption={'ИД клиента субподрядчика'} visible={false}
+                        allowEditing={true}
+                        dataType={"number"}>
+                    <Lookup
+                        dataSource={counterparties}
+                        valueExpr="subcontractorClassifications[0].id"
+                        displayExpr={'subcontractorClassifications[0].name'}
+                    />
+                </Column>
+
+                <Column dataField="counterpartyProvider.id" caption={'ИД клиента поставщика'} visible={false}
+                        allowEditing={true}
+                        dataType={"number"}>
+                    <Lookup
+                        dataSource={counterparties}
+                        valueExpr="id"
+                        displayExpr={'providerClassifications[0].name'}
+                    />
+                </Column>
+
+                <Column dataField="counterpartyProvider.id" caption={'ИД клиента поставщика'} visible={false}
+                        allowEditing={true}
+                        dataType={"number"}>
+                    <Lookup
+                        dataSource={counterparties}
+                        valueExpr="providerClassifications[0].id"
+                        displayExpr={'providerClassifications[0].name'}
+                    />
+                </Column>
+
+                <Column dataField="statusDOId" caption={'Статус ДО'} visible={false}
+                        allowEditing={true}
+                        dataType={"number"}>
+                    <Lookup
+                        dataSource={statusDOs}
+                        valueExpr="id"
+                        displayExpr={'name'}
+                    />
+                </Column>
+
+                <Column dataField="counterpartyCustomer" caption={'Категория контрактов'}>
+                    <Column dataField="counterpartyCustomer.id" caption={'ИД'} allowEditing={false}
+                            dataType={"number"}/>
+                    <Column dataField="counterpartyCustomer.counterpartyFormatId" caption={'ИД формата контрагента'}
+                            dataType={"number"}/>
+                    <Column dataField="counterpartyCustomer.name" caption={'Имя'}
+                            dataType={"string"}/>
+                    <Column dataField="counterpartyCustomer.inn" caption={'ИНН'}
+                            dataType={"string"}/>
+                    <Column dataField="counterpartyCustomer.isWithOutNDS" caption={'Продается без учета НДС'}
+                            dataType={"boolean"}/>
+                    <Column dataField="counterpartyCustomer.isCustomer" caption={'Заказчик'}
+                            dataType={"boolean"}/>
+                    <Column dataField="counterpartyCustomer.customerClassificationId" caption={'ИД номер клиента'}
+                            dataType={"number"}/>
+                    <Column dataField="counterpartyCustomer.isSubcontractor" caption={'Субподрядчик'}
+                            dataType={"boolean"}/>
+                    <Column dataField="counterpartyCustomer.isProvider" caption={'Поставщик'}
+                            dataType={"boolean"}/>
+                    <Column dataField="counterpartyCustomer.counterpartyStatusId" caption={'ИД статуса контрагента'}
+                            dataType={"number"}/>
+                    <Column dataField="counterpartyCustomer.note" caption={'Записка'}
+                            dataType={"string"}/>
+                </Column>
+
+
+                <Column dataField="counterpartySubcontractor" caption={'Контрагент субподрядчик'}>
+                    <Column dataField="counterpartySubcontractor.id" caption={'ИД'} allowEditing={false}
+                            dataType={"number"}/>
+                    <Column dataField="counterpartySubcontractor.counterpartyFormatId"
+                            caption={'ИД формата контрагента'}
+                            dataType={"number"}/>
+                    <Column dataField="counterpartySubcontractor.name" caption={'Имя'}
+                            dataType={"string"}/>
+                    <Column dataField="counterpartySubcontractor.inn" caption={'ИНН'}
+                            dataType={"string"}/>
+                    <Column dataField="counterpartySubcontractor.isWithOutNDS" caption={'Продается без учета НДС'}
+                            dataType={"boolean"}/>
+                    <Column dataField="counterpartySubcontractor.isCustomer" caption={'Заказчик'}
+                            dataType={"boolean"}/>
+                    <Column dataField="counterpartySubcontractor.customerClassificationId" caption={'ИД номер клиента'}
+                            dataType={"number"}/>
+                    <Column dataField="counterpartySubcontractor.isSubcontractor" caption={'Субподрядчик'}
+                            dataType={"boolean"}/>
+                    <Column dataField="counterpartySubcontractor.isProvider" caption={'Поставщик'}
+                            dataType={"boolean"}/>
+                    <Column dataField="counterpartySubcontractor.counterpartyStatusId"
+                            caption={'ИД статуса контрагента'}
+                            dataType={"number"}/>
+                    <Column dataField="counterpartySubcontractor.note" caption={'Записка'}
+                            dataType={"string"}/>
+                </Column>
+
+                <Column dataField="counterpartyProvider" caption={'Контрагент субподрядчик'}>
+                    <Column dataField="counterpartyProvider.id" caption={'ИД'} allowEditing={false}
+                            dataType={"number"}/>
+                    <Column dataField="counterpartyProvider.counterpartyFormatId" caption={'ИД формата контрагента'}
+                            dataType={"number"}/>
+                    <Column dataField="counterpartyProvider.name" caption={'Имя'}
+                            dataType={"string"}/>
+                    <Column dataField="counterpartyProvider.inn" caption={'ИНН'}
+                            dataType={"string"}/>
+                    <Column dataField="counterpartyProvider.isWithOutNDS" caption={'Продается без учета НДС'}
+                            dataType={"boolean"}/>
+                    <Column dataField="counterpartyProvider.isCustomer" caption={'Заказчик'}
+                            dataType={"boolean"}/>
+                    <Column dataField="counterpartyProvider.customerClassificationId" caption={'ИД номер клиента'}
+                            dataType={"number"}/>
+                    <Column dataField="counterpartyProvider.isSubcontractor" caption={'Субподрядчик'}
+                            dataType={"boolean"}/>
+                    <Column dataField="counterpartyProvider.isProvider" caption={'Поставщик'}
+                            dataType={"boolean"}/>
+                    <Column dataField="counterpartyProvider.counterpartyStatusId" caption={'ИД статуса контрагента'}
+                            dataType={"number"}/>
+                    <Column dataField="counterpartyProvider.note" caption={'Записка'}
+                            dataType={"string"}/>
+                </Column>
+
+
+                <Column dataField="contractNumberCustomer" caption={'Контрактный номер клиента'}
+                        dataType={"string"}/>
+                <Column dataField="contractNumberSubcontractor" caption={'Контрактный номер субподрядчика'}
+                        dataType={"string"}/>
+                <Column dataField="contractNumberProvider" caption={'Контрактный номер поставщика'}
+                        dataType={"string"}/>
+                <Column dataField="additionalAgreementCustomer" caption={'Дополнительное соглашение с заказчиком'}
+                        dataType={"string"}/>
+                <Column dataField="additionalAgreementSubcontractor"
+                        caption={'Дополнительные соглашения с субподрядчиком'}
+                        dataType={"string"}/>
+                <Column dataField="additionalAgreementProvider" caption={'Поставщик дополнительных соглашений'}
+                        dataType={"string"}/>
+                <Column dataField="noSap"
+                        dataType={"string"}/>
+                <Column dataField="subscriber" caption={'Пользователь'}
+                        dataType={"string"}/>
+
+                <Column dataField="projectEmployee" caption={'Сотрудник проекта'}>
+                    <Column dataField="projectEmployee.id" caption={'ИД'}
+                            dataType={"number"}/>
+                    <Column dataField="projectEmployee.lastName" caption={'Фамилия'}
+                            dataType={"number"}/>
+                    <Column dataField="projectEmployee.firstName" caption={'Имя'}
+                            dataType={"number"}/>
+                    <Column dataField="projectEmployee.patronymicName" caption={'Отчество'}
+                            dataType={"number"}/>
+                    <Column dataField="projectEmployee.isActive" caption={'Активен'}
+                            dataType={"boolean"}/>
+                    <Column dataField="projectEmployee.departmentId" caption={'ИД отдела'}
+                            dataType={"number"}/>
+                    <Column dataField="projectEmployee.positionId" caption={'ИД позиции'}
+                            dataType={"number"}/>
+                    <Column dataField="projectEmployee.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
+                            dataType={"boolean"}/>
+                </Column>
+
+                <Column dataField="executorDO" caption={'Исполнитель ДО'}>
+                    <Column dataField="executorDO.id" caption={'ИД'}
+                            dataType={"number"}/>
+                    <Column dataField="executorDO.lastName" caption={'Фамилия'}
+                            dataType={"number"}/>
+                    <Column dataField="executorDO.firstName" caption={'Имя'}
+                            dataType={"number"}/>
+                    <Column dataField="executorDO.patronymicName" caption={'Отчество'}
+                            dataType={"number"}/>
+                    <Column dataField="executorDO.isActive" caption={'Активен'}
+                            dataType={"boolean"}/>
+                    <Column dataField="executorDO.departmentId" caption={'ИД отдела'}
+                            dataType={"number"}/>
+                    <Column dataField="executorDO.positionId" caption={'ИД позиции'}
+                            dataType={"number"}/>
+                    <Column dataField="executorDO.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
+                            dataType={"boolean"}/>
+                </Column>
+
+                <Column dataField="statusDO" caption={'Статус ДО'}>
+                    <Column dataField="statusDO.id" caption={'ИД'}
+                            dataType={"number"}/>
+                    <Column dataField="statusDO.sortIndex" caption={'Сортировочный индекс'}
+                            dataType={"number"}/>
+                    <Column dataField="statusDO.name" caption={'Имя'}
+                            dataType={"string"}/>
+                </Column>
+
+                <Column dataField="contractSigningOption" caption={'Вариант подписания контракта'}
+                        dataType={"string"}/>
+                <Column dataField="noteDO" caption={'Заметка ДО'}
+                        dataType={"string"}/>
+                <Column dataField="numberTechTask" caption={'Номер техничесткой задачи'}
+                        dataType={"string"}/>
+                <Column dataField="createdDate" caption={'Дата создания'}
+                        dataType={"datetime"}/>
+                <Column dataField="conclusionContractDate" caption={'Дата заключения контракта'}
+                        dataType={"datetime"}/>
+                <Column dataField="returnSignContractDate" caption={'Дата подписания контракта на возврат'}
+                        dataType={"datetime"}/>
+
+                <Column dataField="createdEmployee" caption={'Созданный сотрудник'}>
+                    <Column dataField="createdEmployee.id" caption={'ИД'}
+                            dataType={"number"}/>
+                    <Column dataField="createdEmployee.lastName" caption={'Фамилия'}
+                            dataType={"number"}/>
+                    <Column dataField="createdEmployee.firstName" caption={'Имя'}
+                            dataType={"number"}/>
+                    <Column dataField="createdEmployee.patronymicName" caption={'Отчество'}
+                            dataType={"number"}/>
+                    <Column dataField="createdEmployee.isActive" caption={'Активен'}
+                            dataType={"boolean"}/>
+                    <Column dataField="createdEmployee.departmentId" caption={'ИД отдела'}
+                            dataType={"number"}/>
+                    <Column dataField="createdEmployee.positionId" caption={'ИД позиции'}
+                            dataType={"number"}/>
+                    <Column dataField="createdEmployee.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
+                            dataType={"boolean"}/>
+                </Column>
+                <Column dataField="startDate" caption={'Начальная дата'}
+                        dataType={"datetime"}/>
+                <Column dataField="endDate" caption={'Конечная дата'}
+                        dataType={"datetime"}/>
+                <Column dataField="cancellationDate" caption={'Дата отмены'}
+                        dataType={"datetime"}/>
+                <Column dataField="terminationDate" caption={'Дата завершения'}
+                        dataType={"datetime"}/>
+                <Column dataField="summaPIR" caption={'Подводящий итог'}
+                        dataType={"number"}/>
+                <Column dataField="summaSMR" caption={'Итог'}
+                        dataType={"number"}/>
+                <Column dataField="summaEquipment" caption={'Итоговое оборудование'}
+                        dataType={"number"}/>
+                <Column dataField="summaOther" caption={'Итог другой'}
+                        dataType={"number"}/>
+
+                <Column dataField="updateStatusDOEmployee" caption={'Созданный сотрудник'}>
+                    <Column dataField="updateStatusDOEmployee.id" caption={'ИД'}
+                            dataType={"number"}/>
+                    <Column dataField="updateStatusDOEmployee.lastName" caption={'Фамилия'}
+                            dataType={"number"}/>
+                    <Column dataField="updateStatusDOEmployee.firstName" caption={'Имя'}
+                            dataType={"number"}/>
+                    <Column dataField="updateStatusDOEmployee.patronymicName" caption={'Отчество'}
+                            dataType={"number"}/>
+                    <Column dataField="updateStatusDOEmployee.isActive" caption={'Активен'}
+                            dataType={"boolean"}/>
+                    <Column dataField="updateStatusDOEmployee.departmentId" caption={'ИД отдела'}
+                            dataType={"number"}/>
+                    <Column dataField="updateStatusDOEmployee.positionId" caption={'ИД позиции'}
+                            dataType={"number"}/>
+                    <Column dataField="updateStatusDOEmployee.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
+                            dataType={"boolean"}/>
+                </Column>
+
+
+                <Column dataField="updateStatusDODate" caption={'Обновление даты статуса ДО'}
+                        dataType={"datetime"}/>
             </DataGrid>
         </React.Fragment>
     );

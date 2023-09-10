@@ -15,6 +15,8 @@ import signStates from './slices/stateSlice';
 import consumers from './slices/consumerSlice';
 import contractTypes from './slices/contractTypesSlice';
 import {counterpartiesService} from "../services/counterpartiesService";
+import {contractCategoriesService} from "../services/contractCategoriesService";
+import {statusDOsService} from "../services/statusDOsService";
 
 const rootReducer = combineReducers({
     data,
@@ -33,6 +35,8 @@ const rootReducer = combineReducers({
     [providerClassificationsService.reducerPath]: providerClassificationsService.reducer,
     [counterpartyStatusService.reducerPath]: counterpartyStatusService.reducer,
     [counterpartiesService.reducerPath]: counterpartiesService.reducer,
+    [contractCategoriesService.reducerPath]: contractCategoriesService.reducer,
+    [statusDOsService.reducerPath]: statusDOsService.reducer,
 
 
 
@@ -53,6 +57,8 @@ export const setupStore = () => {
             providerClassificationsService.middleware,
             counterpartyStatusService.middleware,
             counterpartiesService.middleware,
+            contractCategoriesService.middleware,
+            statusDOsService.middleware,
             )
     })
 }

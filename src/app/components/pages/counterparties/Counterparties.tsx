@@ -22,7 +22,7 @@ import {counterpartyStatusService} from "../../../lib/services/counterpartyStatu
 import {providerClassificationsService} from "../../../lib/services/providerClassificationsService";
 import {subcontractorClassificationsService} from "../../../lib/services/subcontractorClassificationsService";
 import {TableVariable} from "../../../generic/Variable/TableVariable";
-import {ProcessClassifications} from '../../../generic/Function/ProcessClassifications';
+import {ProcessClassifications, ProcessClassificationsObj} from '../../../generic/Function/ProcessClassifications';
 import {onInitNewRow} from '../../../generic/Function/OnInitNewRow';
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 
@@ -63,8 +63,27 @@ export const Counterparties = () => {
 
 
     const onSaving = useCallback((e: any) => {
-        ProcessClassifications(e, 'providerClassifications');
-        ProcessClassifications(e, 'subcontractorClassifications');
+        ProcessClassifications(e, 'providerClassifications[0]', 'providerClassifications');
+        ProcessClassifications(e, 'subcontractorClassifications[0]', 'subcontractorClassifications');
+        ProcessClassificationsObj(e.changes[0].data, "counterpartyFormat");
+        ProcessClassificationsObj(e.changes[0].data, "customerClassification");
+        ProcessClassificationsObj(e.changes[0].data, "counterpartyStatus");
+
+        // if (e.changes[0].data && e.changes[0].data.counterpartyFormat !== undefined) {
+        //     const classificationData = e.changes[0].data.counterpartyFormat.id;
+        //     delete e.changes[0].data.counterpartyFormat.id;
+        //     e.changes[0].data["counterpartyFormatId"] = classificationData
+        // }
+        // if (e.changes[0].data && e.changes[0].data.customerClassification !== undefined) {
+        //     const classificationData = e.changes[0].data.customerClassification.id;
+        //     delete e.changes[0].data.customerClassification.id;
+        //     e.changes[0].data["customerClassificationId"] = classificationData
+        // }
+        // if (e.changes[0].data && e.changes[0].data.counterpartyStatus !== undefined) {
+        //     const classificationData = e.changes[0].data.counterpartyStatus.id;
+        //     delete e.changes[0].data.counterpartyStatus.id;
+        //     e.changes[0].data["counterpartyStatusId"] = classificationData
+        // }
         e.cancel = true;
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
@@ -127,15 +146,15 @@ export const Counterparties = () => {
                     <Popup title="Создание контрагента" showTitle={true} width={700} height={525}/>
                     <Form>
                         <Item itemType="group" colCount={2} colSpan={2}>
-                            <Item dataField="counterpartyFormatId"/>
+                            <Item dataField="counterpartyFormat.id"/>
                             <Item dataField="name"/>
                             <Item dataField="inn"/>
                             <Item dataField="isWithOutNDS"/>
                             <Item dataField="isCustomer"/>
-                            <Item dataField="customerClassificationId"/>
+                            <Item dataField="customerClassification.id"/>
                             <Item dataField="isSubcontractor"/>
                             <Item dataField="isProvider"/>
-                            <Item dataField="counterpartyStatusId"/>
+                            <Item dataField="counterpartyStatus.id"/>
                             <Item dataField="providerClassifications[0].name"/>
                             <Item dataField="subcontractorClassifications[0].name"/>
                             <Item dataField="note"/>
@@ -180,7 +199,7 @@ export const Counterparties = () => {
                         caption={'Указана без учета НДС'} dataType={"boolean"}/>
                 <Column dataField="isCustomer" allowEditing={true}
                         caption={'Заказчик'} dataType={"boolean"}/>
-                <Column dataField="customerClassificationId" allowEditing={true}
+                <Column dataField="customerClassification.id" allowEditing={true}
                         caption={'ИД номер клиента'} dataType={"number"}
                         validationRules={validationRules}>
                     <Lookup
@@ -193,7 +212,7 @@ export const Counterparties = () => {
                         caption={'Субподрядчик'} dataType={"boolean"} validationRules={validationRules}/>
                 <Column dataField="isProvider" allowEditing={true}
                         caption={'Поставщик'} dataType={"boolean"}/>
-                <Column dataField="counterpartyStatusId" allowEditing={true}
+                <Column dataField="counterpartyStatus.id" allowEditing={true}
                         caption={'ИД статуса контрагента'} dataType={"number"}
                         validationRules={validationRules}>
                     <Lookup
@@ -207,7 +226,13 @@ export const Counterparties = () => {
                 <Column dataField="counterpartyFormat" allowEditing={true}
                         caption={'Формат контрагента'}>
                     <Column dataField="counterpartyFormat.id" allowEditing={true}
-                            caption={'ИД'} dataType={"number"}/>
+                            caption={'ИД'} dataType={"number"}>
+                        <Lookup
+                            dataSource={counterpartyFormats}
+                            valueExpr="id"
+                            displayExpr={'name'}
+                        />
+                    </Column>
                     <Column dataField="counterpartyFormat.name" allowEditing={true}
                             caption={'Имя'} dataType={"string"}/>
                     <Column dataField="counterpartyFormat.sortIndex" allowEditing={true}
@@ -218,7 +243,7 @@ export const Counterparties = () => {
 
                 <Column dataField="customerClassification" allowEditing={true}
                         caption={'Классификация клиентов'}>
-                    <Column dataField="customerClassification.id" allowEditing={true}
+                    <Column dataField="customerClassification.id" allowEditing={false}
                             caption={'ИД'} dataType={"number"}/>
                     <Column dataField="customerClassification.name" allowEditing={true}
                             caption={'Имя'} dataType={"string"}/>
@@ -230,7 +255,7 @@ export const Counterparties = () => {
 
                 <Column dataField="counterpartyStatus" allowEditing={true}
                         caption={'Статус контрагента'}>
-                    <Column dataField="counterpartyStatus.id" allowEditing={true}
+                    <Column dataField="counterpartyStatus.id" allowEditing={false}
                             caption={'ИД'} dataType={"number"}/>
                     <Column dataField="counterpartyStatus.name" allowEditing={true}
                             caption={'Имя'} dataType={"string"}/>
@@ -264,6 +289,28 @@ export const Counterparties = () => {
                     <Column dataField="subcontractorClassifications[0].note" allowEditing={true}
                             caption={'Заметка'} dataType={"string"}/>
                 </Column>
+                <Column dataField='counterpartyContactPersons[0]' allowEditing={true}
+                        caption={'Классификация субподрядчиков'}>
+                    <Column dataField="counterpartyContactPersons[0].id" allowEditing={true}
+                            caption={'ИД'} dataType={"number"}/>
+                    <Column dataField="counterpartyContactPersons[0].firstName" allowEditing={true}
+                            caption={'Имя'} dataType={"string"}/>
+                    <Column dataField="counterpartyContactPersons[0].lastName" allowEditing={true}
+                            caption={'Фамилия'} dataType={"string"}/>
+                    <Column dataField="counterpartyContactPersons[0].patronymicName" allowEditing={true}
+                            caption={'Отчество'} dataType={"string"}/>
+                    <Column dataField="counterpartyContactPersons[0].phone" allowEditing={true}
+                            caption={'Телефон'} dataType={"string"}/>
+                    <Column dataField="counterpartyContactPersons[0].mobilePhone" allowEditing={true}
+                            caption={'Мобильный телефон'} dataType={"string"}/>
+                    <Column dataField="counterpartyContactPersons[0].email" allowEditing={true}
+                            caption={'Почта'} dataType={"string"}/>
+                    <Column dataField="counterpartyContactPersons[0].note" allowEditing={true}
+                            caption={'Заметка'} dataType={"string"}/>
+                    <Column dataField="counterpartyContactPersons[0].isMain" allowEditing={true}
+                            caption={'Основной'} dataType={"boolean"}/>
+                </Column>
+
             </DataGrid>
         </React.Fragment>
     );

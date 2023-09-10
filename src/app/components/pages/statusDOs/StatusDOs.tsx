@@ -5,7 +5,7 @@ import {columns} from "./columns/columns";
 
 
 export const StatusDOs = () => {
-    const URL: string = urls.SUBCONTRACTOR_CLASSIFICATIONS
+    const URL: string = urls.STATUS_DO
 
     return (
         <GenericDataGrid
