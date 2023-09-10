@@ -30,8 +30,14 @@ export const Contracts = () => {
 
     const {data: counterparties, refetch: reCounterparties} = counterpartiesService.useFetchCounterpartiesQuery('')
     const {data: statusDOs, refetch: reStatusDOs} = statusDOsService.useFetchStatusDOsQuery('')
-    const {data: contractCategories, refetch: reContractCategories} = contractCategoriesService.useFetchContractSignStatesQuery('')
-    const {data: counterpartyContact, refetch: reCounterpartyContact} = counterpartyContactPersonsService.useFetchCounterpartyContactPersonsQuery('')
+    const {
+        data: contractCategories,
+        refetch: reContractCategories
+    } = contractCategoriesService.useFetchContractSignStatesQuery('')
+    const {
+        data: counterpartyContact,
+        refetch: reCounterpartyContact
+    } = counterpartyContactPersonsService.useFetchCounterpartyContactPersonsQuery('')
 
 
     useEffect(() => {
@@ -57,7 +63,7 @@ export const Contracts = () => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
 
-console.log(counterparties)
+    console.log(counterparties)
     return (
         <React.Fragment>
             <LoadPanel
@@ -166,7 +172,7 @@ console.log(counterparties)
                     <Lookup
                         dataSource={counterparties}
                         valueExpr="id"
-                        displayExpr={'customerClassification.name'}
+                        displayExpr={'name'}
                     />
                 </Column>
 
@@ -175,8 +181,8 @@ console.log(counterparties)
                         dataType={"number"}>
                     <Lookup
                         dataSource={counterparties}
-                        valueExpr="subcontractorClassifications[0].id"
-                        displayExpr={'subcontractorClassifications[0].name'}
+                        valueExpr="id"
+                        displayExpr={'name'}
                     />
                 </Column>
 
@@ -185,8 +191,8 @@ console.log(counterparties)
                         dataType={"number"}>
                     <Lookup
                         dataSource={counterparties}
-                        valueExpr="providerClassifications[0].id"
-                        displayExpr={'providerClassifications[0].name'}
+                        valueExpr="id"
+                        displayExpr={'name'}
                     />
                 </Column>
 
