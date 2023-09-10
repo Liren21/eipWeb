@@ -23,7 +23,7 @@ export async function loadOrders(dispatch, URL, block?) {
         });
     } catch (err) {
         dispatch({type: FETCH_ERROR});
-        console.log(err)
+        // console.log(err)
         // throw err;
     }
 }

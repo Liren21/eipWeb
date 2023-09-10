@@ -77,6 +77,7 @@ export default function SideNavigationMenu(props: React.PropsWithChildren<SideNa
             {children}
             <div className={'menu-container'}>
                 <TreeView
+
                     ref={treeViewRef}
                     items={items}
                     keyExpr={'path'}

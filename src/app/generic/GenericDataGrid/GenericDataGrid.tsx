@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useReducer} from 'react';
+import React, {Fragment, useCallback, useEffect, useReducer} from 'react';
 import DataGrid, {
     Column,
     Editing,
@@ -17,22 +17,24 @@ import {saveChange, loadOrders, setChanges, setEditRowKey} from '../../../core/l
 import {Item} from "devextreme-react/form";
 import {TableVariable} from "../Variable/TableVariable";
 import {validationRules} from "../ValidationRules/ValidationRules";
-
+import {navigation} from "../../components/App/app-navigation";
+import Toolbar from "devextreme-react/toolbar";
+import './GenericDataGrid.scss'
 interface IProps {
     URL: string
     columns: any
     keyExpr: any
     lookupData?: any
-    AdditionalURL?:string
-    nameForm:string
+    AdditionalURL?: string
+    nameForm: string
 }
 
-export const GenericDataGrid = ({URL, columns, keyExpr,AdditionalURL,nameForm }: IProps) => {
+export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm}: IProps) => {
     const [state, dispatch] = useReducer(reducer, TableVariable);
 
 
     useEffect(() => {
-        loadOrders(dispatch, URL,AdditionalURL)
+        loadOrders(dispatch, URL, AdditionalURL)
     }, [URL]);
 
     const onSaving = useCallback((e) => {
@@ -47,9 +49,16 @@ export const GenericDataGrid = ({URL, columns, keyExpr,AdditionalURL,nameForm }:
     const onEditRowKeyChange = useCallback((editRowKey) => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
-
+    console.log(window.location.hash)
     return (
-        <React.Fragment>
+        <Fragment>
+            <Toolbar  className='generic__title'>
+                <Item label={{alignment:'left'}}>
+                    {
+                        navigation.map((data) => window.location.hash.includes(data.path) && data.text)
+                    }
+                </Item>
+            </Toolbar>
             <LoadPanel
                 position={{of: '#gridContainer'}}
                 visible={state.isLoading}
@@ -66,7 +75,7 @@ export const GenericDataGrid = ({URL, columns, keyExpr,AdditionalURL,nameForm }:
                 allowColumnResizing={true}
                 showColumnLines={true}
                 onSaving={onSaving}
-                height={'85vh'}
+                height={'100vh'}
             >
                 <Scrolling
                     columnRenderingMode={"virtual"}
@@ -77,6 +86,7 @@ export const GenericDataGrid = ({URL, columns, keyExpr,AdditionalURL,nameForm }:
                 <HeaderFilter visible={true}>
                     <Search enabled={true}/>
                 </HeaderFilter>
+
                 <Editing
                     mode="popup"
                     allowAdding={true}
@@ -86,16 +96,16 @@ export const GenericDataGrid = ({URL, columns, keyExpr,AdditionalURL,nameForm }:
                     onChangesChange={onChangesChange}
                     editRowKey={state.editRowKey}
                     onEditRowKeyChange={onEditRowKeyChange}>
-                    <Popup title={`Создание ${nameForm}`} showTitle={true} width={"50vw"} height={"70vh"}/>
+                    <Popup title={`Создание ${nameForm}`} showTitle={true}/>
                     <Form>
                         {columns.map(column => (
                             column.item ? <Item key={column.dataField} dataField={column.dataField}/> : null
                         ))}
                     </Form>
                 </Editing>
-                {columns.map((column,index) => (
+                {columns.map((column, index) => (
                     <Column
-                        fixed={index===0}
+                        fixed={index === 0}
                         key={column.dataField}
                         dataField={column.dataField}
                         allowEditing={column.allowEditing}
@@ -133,6 +143,6 @@ export const GenericDataGrid = ({URL, columns, keyExpr,AdditionalURL,nameForm }:
                     </Column>
                 ))}
             </DataGrid>
-        </React.Fragment>
+        </Fragment>
     );
 }

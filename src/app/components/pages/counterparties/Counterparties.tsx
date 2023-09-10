@@ -100,7 +100,7 @@ export const Counterparties = () => {
                 showColumnLines={true}
                 onSaving={onSaving}
                 columnWidth={180}
-                height={'85vh'}
+                height={'100vh'}
                 onInitNewRow={(e) => onInitNewRow(e, {
                     isWithOutNDS: false,
                     isCustomer: false,

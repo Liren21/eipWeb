@@ -42,6 +42,10 @@ export const Contracts = () => {
 
     useEffect(() => {
         loadOrders(dispatch, URL);
+        reCounterparties()
+        reStatusDOs()
+        reContractCategories()
+        reCounterpartyContact()
     }, [URL]);
 
     const onSaving = useCallback((e) => {
@@ -63,7 +67,6 @@ export const Contracts = () => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
 
-    console.log(counterparties)
     return (
         <React.Fragment>
             <LoadPanel
@@ -83,7 +86,7 @@ export const Contracts = () => {
                 showColumnLines={true}
                 onSaving={onSaving}
                 columnWidth={180}
-                height={'85vh'}
+                height={'100vh'}
             >
                 <Scrolling
                     columnRenderingMode={"virtual"}

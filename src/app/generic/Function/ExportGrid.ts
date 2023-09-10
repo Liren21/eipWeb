@@ -4,7 +4,7 @@ import {saveAs} from "file-saver";
 import {jsPDF} from "jspdf";
 import {exportDataGrid as exportDataGridToPdf} from "devextreme/pdf_exporter";
 
-export const ExportFile = (e) => {
+export const ExportGrid = (e: any) => {
     if (e.format === 'xlsx') {
         const workbook = new Workbook();
         const worksheet = workbook.addWorksheet('Main sheet');
@@ -13,7 +13,7 @@ export const ExportFile = (e) => {
             component: e.component,
         }).then(function () {
             workbook.xlsx.writeBuffer().then(function (buffer) {
-                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'GenericDataGrid.xlsx');
+                saveAs(new Blob([buffer], {type: 'application/octet-stream'}), 'GenericDataGrid.xlsx');
             });
         });
     } else if (e.format === 'pdf') {

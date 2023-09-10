@@ -36,34 +36,8 @@ import {fetchData} from "../../lib/store/slices/dataSlice";
 import axios from "axios";
 import urls from "../../lib/urls";
 import CustomStore from "devextreme/data/custom_store";
+import {ExportGrid} from "../../generic/Function/ExportGrid";
 
-
-const exportFormats = ['xlsx'];
-
-function exportGrid(e: any) {
-    if (e.format === 'xlsx') {
-        const workbook = new Workbook();
-        const worksheet = workbook.addWorksheet('Main sheet');
-        exportDataGrid({
-            worksheet: worksheet,
-            component: e.component,
-        }).then(function () {
-            workbook.xlsx.writeBuffer().then(function (buffer) {
-                saveAs(new Blob([buffer], {type: 'application/octet-stream'}), 'GenericDataGrid.xlsx');
-            });
-        });
-    } else if (e.format === 'pdf') {
-        const doc = new jsPDF({
-            orientation: 'landscape',
-        });
-        exportDataGridToPdf({
-            jsPDFDocument: doc,
-            component: e.component,
-        }).then(() => {
-            doc.save('GenericDataGrid.pdf');
-        });
-    }
-}
 
 export const Home = () => {
     const dispatch = useAppDispatch();
@@ -111,7 +85,7 @@ export const Home = () => {
                 showColumnLines={true}
                 // remoteOperations={true}
                 height={'90vh'}
-                onExporting={exportGrid}>
+                onExporting={ExportGrid}>
                 <ColumnFixing enabled={true}/>
                 <ColumnChooser enabled={true}/>
 
@@ -435,7 +409,7 @@ export const Home = () => {
                         <Button icon="refresh" onClick={refreshDataGrid}/>
                     </Item>
                 </Toolbar>
-                <Export enabled={true} allowExportSelectedData={true} formats={exportFormats}/>
+                <Export enabled={true} allowExportSelectedData={true} formats={['xlsx']}/>
                 <Scrolling rowRenderingMode="standard"></Scrolling>
                 <Paging enabled={false}/>
                 {/* <Paging defaultPageSize={100} /> */}
