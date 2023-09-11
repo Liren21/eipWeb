@@ -8,7 +8,8 @@ import DataGrid, {
     Lookup,
     Popup,
     Scrolling,
-    Search
+    Search,
+    SearchPanel
 } from 'devextreme-react/data-grid';
 import {LoadPanel} from 'devextreme-react/load-panel';
 import 'whatwg-fetch';
@@ -20,6 +21,7 @@ import {validationRules} from "../ValidationRules/ValidationRules";
 import {navigation} from "../../components/App/app-navigation";
 import Toolbar from "devextreme-react/toolbar";
 import './GenericDataGrid.scss'
+
 interface IProps {
     URL: string
     columns: any
@@ -49,13 +51,15 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm}
     const onEditRowKeyChange = useCallback((editRowKey) => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
-    console.log(window.location.hash)
+
     return (
         <Fragment>
             <Toolbar  className='generic__title'>
                 <Item label={{alignment:'left'}}>
                     {
-                        navigation.map((data) => window.location.hash.includes(data.path) && data.text)
+                        navigation.map((data) =>data.items.map((item)=>(
+                            window.location.hash.includes(item.path) && item.text
+                        )))
                     }
                 </Item>
             </Toolbar>
@@ -82,7 +86,7 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm}
                     mode={'virtual'}
                 />
                 <FilterRow visible={true}/>
-
+                <SearchPanel visible={true}/>
                 <HeaderFilter visible={true}>
                     <Search enabled={true}/>
                 </HeaderFilter>
@@ -98,9 +102,11 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm}
                     onEditRowKeyChange={onEditRowKeyChange}>
                     <Popup title={`Создание ${nameForm}`} showTitle={true}/>
                     <Form>
-                        {columns.map(column => (
-                            column.item ? <Item key={column.dataField} dataField={column.dataField}/> : null
-                        ))}
+                       <Item itemType="group" colCount={3} colSpan={2}>
+                           {columns.map(column => (
+                               column.item ? <Item  key={column.dataField} dataField={column.dataField}/> : null
+                           ))}
+                       </Item>
                     </Form>
                 </Editing>
                 {columns.map((column, index) => (

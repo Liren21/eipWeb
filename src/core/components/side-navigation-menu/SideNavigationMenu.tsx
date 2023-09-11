@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useCallback, useMemo} from 'react';
+import React, {useEffect, useRef, useCallback} from 'react';
 import TreeView, {TreeViewTypes} from 'devextreme-react/tree-view';
 import {navigation} from '../../../app/components/App/app-navigation';
 import {useNavigation} from '../../lib/contexts/navigation';
@@ -22,20 +22,6 @@ export default function SideNavigationMenu(props: React.PropsWithChildren<SideNa
         compactMode,
         onMenuReady
     } = props;
-
-    const {isLarge} = useScreenSize();
-
-    function normalizePath() {
-        return navigation.map((item) => (
-            {...item, expanded: isLarge, path: item.path && !(/^\//.test(item.path)) ? `/${item.path}` : item.path}
-        ))
-    }
-
-    const items = useMemo(
-        normalizePath,
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        []
-    );
 
     const {navigationData: {currentPath}} = useNavigation();
 
@@ -77,9 +63,9 @@ export default function SideNavigationMenu(props: React.PropsWithChildren<SideNa
             {children}
             <div className={'menu-container'}>
                 <TreeView
-
+                    expandNodesRecursive={false}
                     ref={treeViewRef}
-                    items={items}
+                    items={navigation}
                     keyExpr={'path'}
                     selectionMode={'single'}
                     focusStateEnabled={false}

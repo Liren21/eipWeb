@@ -106,9 +106,9 @@ export const Contracts = () => {
                     onChangesChange={onChangesChange}
                     editRowKey={state.editRowKey}
                     onEditRowKeyChange={onEditRowKeyChange}>
-                    <Popup title="Создание договора" showTitle={true} width={700} height={525}/>
+                    <Popup title="Создание договора" showTitle={true} />
                     <Form>
-                        <Item itemType="group" colCount={2} colSpan={2}>
+                        <Item itemType="group" colCount={3} colSpan={2}>
                             <Item dataField="contractCategory.id"/>
                             <Item dataField="address"/>
                             <Item dataField="title"/>
