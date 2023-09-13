@@ -18,9 +18,8 @@ import {saveChange, loadOrders, setChanges, setEditRowKey} from '../../../core/l
 import {Item} from "devextreme-react/form";
 import {TableVariable} from "../Variable/TableVariable";
 import {validationRules} from "../ValidationRules/ValidationRules";
-import {navigation} from "../../components/App/app-navigation";
-import Toolbar from "devextreme-react/toolbar";
 import './GenericDataGrid.scss'
+import TableName from "../../components/UI/TableName/TableName";
 
 interface IProps {
     URL: string
@@ -54,15 +53,7 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm}
 
     return (
         <Fragment>
-            <Toolbar  className='generic__title'>
-                <Item label={{alignment:'left'}}>
-                    {
-                        navigation.map((data) =>data.items.map((item)=>(
-                            window.location.hash.includes(item.path) && item.text
-                        )))
-                    }
-                </Item>
-            </Toolbar>
+            <TableName/>
             <LoadPanel
                 position={{of: '#gridContainer'}}
                 visible={state.isLoading}
@@ -79,7 +70,7 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm}
                 allowColumnResizing={true}
                 showColumnLines={true}
                 onSaving={onSaving}
-                height={'100vh'}
+                height={'87vh'}
             >
                 <Scrolling
                     columnRenderingMode={"virtual"}
@@ -99,14 +90,15 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm}
                     changes={state.changes}
                     onChangesChange={onChangesChange}
                     editRowKey={state.editRowKey}
-                    onEditRowKeyChange={onEditRowKeyChange}>
+                    onEditRowKeyChange={onEditRowKeyChange}
+                >
                     <Popup title={`Создание ${nameForm}`} showTitle={true}/>
                     <Form>
-                       <Item itemType="group" colCount={3} colSpan={2}>
-                           {columns.map(column => (
-                               column.item ? <Item  key={column.dataField} dataField={column.dataField}/> : null
-                           ))}
-                       </Item>
+                        <Item itemType="group" colCount={3} colSpan={2}>
+                            {columns.map(column => (
+                                column.item ? <Item key={column.dataField} dataField={column.dataField}/> : null
+                            ))}
+                        </Item>
                     </Form>
                 </Editing>
                 {columns.map((column, index) => (

@@ -1,4 +1,7 @@
 import {sendRequest} from './utils';
+import axios from "axios";
+import Toaster from "../toaster/toaster";
+import {toast} from "react-toastify";
 
 export const FETCH_PENDING = 'FETCH_PENDING';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
@@ -10,11 +13,12 @@ export const SAVING_CANCEL = 'SAVING_CANCEL';
 export const SET_CHANGES = 'SET_CHANGES';
 export const SET_EDIT_ROW_KEY = 'SET_EDIT_ROW_KEY';
 
-export async function loadOrders(dispatch, URL, block?) {
+
+export async function loadOrders(dispatch, URL, block = '/GetAll') {
     dispatch({type: FETCH_PENDING});
-    const urlBlock = block ? block : "/GetAll"
+
     try {
-        const data = await sendRequest(`${URL + urlBlock}`);
+        const data = await sendRequest(`${URL + block}`, 'GET');
         dispatch({
             type: FETCH_SUCCESS,
             payload: {
@@ -23,10 +27,11 @@ export async function loadOrders(dispatch, URL, block?) {
         });
     } catch (err) {
         dispatch({type: FETCH_ERROR});
-        // console.log(err)
+        console.log(err)
         // throw err;
     }
 }
+
 
 export async function saveChange(dispatch, change, URL) {
     if (change && change.type) {
@@ -48,6 +53,9 @@ export async function saveChange(dispatch, change, URL) {
             return data;
         } catch (err) {
             dispatch({type: SAVING_ERROR});
+            err.response.data.map((data) => (
+                new Toaster({msg: `${data.errorMessage} поле ${data.propertyName}`, type: toast.TYPE.ERROR})
+            ))
             // throw err;
         }
     } else {
@@ -57,21 +65,37 @@ export async function saveChange(dispatch, change, URL) {
 }
 
 async function sendChange(url, change) {
+    try {
+        switch (change.type) {
+            case 'insert':
+                const insertResponse = await axios.post(url, change.data, {
+                    headers: {
+                        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+                    },
+                });
+                return insertResponse.data;
 
-    switch (change.type) {
-        case 'insert':
-            return sendRequest(`${url}`, 'POST', {
-                values: JSON.stringify(change.data),
-            });
-        case 'update':
-            return sendRequest(`${url}`, 'PATCH', {
-                key: change.key,
-                values: JSON.stringify({id: change.key, ...change.data}),
-            });
-        case 'remove':
-            return sendRequest(`${url}/${change.key}`, 'DELETE', {key: change.key});
-        default:
-            return null;
+            case 'update':
+                const updateResponse = await axios.patch(url, {...change.data, id: change.key}, {
+                    headers: {
+                        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+                    },
+                });
+                return updateResponse.data;
+
+            case 'remove':
+                const removeResponse = await axios.delete(`${url}/${change.key}`, {
+                    headers: {
+                        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+                    },
+                });
+                return removeResponse.data;
+
+            default:
+                return null;
+        }
+    } catch (error) {
+        throw error;
     }
 }
 

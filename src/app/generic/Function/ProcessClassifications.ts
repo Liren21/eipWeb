@@ -10,6 +10,5 @@ export const ProcessClassificationsObj = (data, key) => {
         const classificationData = data[key].id;
         delete data[key].id;
         data[`${key}Id`] = classificationData;
-        delete data[key];
     }
 }

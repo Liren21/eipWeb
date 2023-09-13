@@ -4,7 +4,7 @@ export const columns:ColumnDefinition[] = [
     {
         dataField: "id",
         allowEditing: false,
-        caption: "ИД",
+        caption: "ID",
         dataType: "number",
         item:false,
     },

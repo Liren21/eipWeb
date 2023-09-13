@@ -4,7 +4,7 @@ export const columns:ColumnDefinition[] = [
     {
         dataField: "id",
         allowEditing: false,
-        caption: "ИД",
+        caption: "ID",
         dataType: "number",
         validationRules:true,
         item:false,
@@ -12,7 +12,7 @@ export const columns:ColumnDefinition[] = [
     {
         dataField: "sortIndex",
         allowEditing: false,
-        caption: "Сортировочный индекс",
+        caption: "Сортировка",
         dataType: "number",
         validationRules:true,
         item:false,

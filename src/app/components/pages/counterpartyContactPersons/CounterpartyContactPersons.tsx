@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useReducer} from 'react';
+import React, {useCallback, useEffect, useMemo, useReducer} from 'react';
 import DataGrid, {
     Column,
     Editing,
@@ -21,10 +21,11 @@ import {TableVariable} from "../../../generic/Variable/TableVariable";
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import {onInitNewRow} from "../../../generic/Function/OnInitNewRow";
 import {ProcessClassificationsObj} from "../../../generic/Function/ProcessClassifications";
+import TableName from "../../UI/TableName/TableName";
 
 
 export const CounterpartyContactPersons = () => {
-    const URL: string = urls.COUNTERPARTY_CONTACT_PERSONS
+    const URL = useMemo(() => urls.COUNTERPARTY_CONTACT_PERSONS, []);
     const [state, dispatch] = useReducer(reducer, TableVariable);
     const {data: counterparties, refetch: reCounterparties} = counterpartiesService.useFetchCounterpartiesQuery('')
 
@@ -35,15 +36,7 @@ export const CounterpartyContactPersons = () => {
     }, [URL]);
 
     const onSaving = useCallback((e) => {
-        // if (e.changes[0].data && e.changes[0].data.counterparty !== undefined) {
-        //     const classificationData = e.changes[0].data.counterparty.id;
-        //     delete e.changes[0].data.counterparty.id;
-        //     e.changes[0].data["counterpartyId"] = classificationData
-        // }
-        // ProcessClassificationsObj(e.changes, "counterparty");
-
         ProcessClassificationsObj(e.changes[0].data, "counterparty");
-
         e.cancel = true;
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
@@ -58,6 +51,7 @@ export const CounterpartyContactPersons = () => {
 
     return (
         <React.Fragment>
+            <TableName/>
             <LoadPanel
                 position={{of: '#gridContainer'}}
                 visible={state.isLoading}
@@ -103,9 +97,9 @@ export const CounterpartyContactPersons = () => {
                     editRowKey={state.editRowKey}
                     onEditRowKeyChange={onEditRowKeyChange}
                     defaultEditRowKey={false}>
-                    <Popup title="Создание контактной информации" showTitle={true} width={700} height={525}/>
+                    <Popup title="Создание контактной информации" showTitle={true}/>
                     <Form>
-                        <Item itemType="group" colCount={2} colSpan={2}>
+                        <Item itemType="group" colCount={3} colSpan={2}>
                             <Item dataField="lastName"/>
                             <Item dataField="firstName"/>
                             <Item dataField="patronymicName"/>
@@ -126,7 +120,7 @@ export const CounterpartyContactPersons = () => {
                 <Column dataField="patronymicName" allowEditing={true}
                         caption={'Отчество'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="phone" allowEditing={true}
-                        caption={'Телефон'} dataType={"string"} validationRules={validationRules}/>
+                        caption={'Телефон'} dataType={"string"}/>
                 <Column dataField="mobilePhone" allowEditing={true}
                         caption={'Мобильный телефон'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="email" allowEditing={true}
@@ -136,14 +130,6 @@ export const CounterpartyContactPersons = () => {
                 <Column dataField="isMain" allowEditing={true}
                         caption={'Основной'} dataType={"boolean"}/>
 
-                {/*<Column dataField="counterpartyId" allowEditing={true}*/}
-                {/*        caption={'ИД контрагента'} dataType={"number"} validationRules={validationRules}>*/}
-                {/*    <Lookup*/}
-                {/*        dataSource={counterparties}*/}
-                {/*        valueExpr="id"*/}
-                {/*        displayExpr={'name'}*/}
-                {/*    />*/}
-                {/*</Column>*/}
                 <Column dataField="counterparty" allowEditing={true}
                         caption={'Контрагент'}>
                     <Column dataField="counterparty.id" allowEditing={true}

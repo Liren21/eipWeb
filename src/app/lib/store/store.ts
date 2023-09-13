@@ -18,6 +18,7 @@ import {counterpartiesService} from "../services/counterpartiesService";
 import {contractCategoriesService} from "../services/contractCategoriesService";
 import {statusDOsService} from "../services/statusDOsService";
 import {counterpartyContactPersonsService} from "../services/counterpartyContactPersonsService";
+import {rasesService} from "../services/rasesService";
 
 const rootReducer = combineReducers({
     data,
@@ -39,6 +40,7 @@ const rootReducer = combineReducers({
     [contractCategoriesService.reducerPath]: contractCategoriesService.reducer,
     [statusDOsService.reducerPath]: statusDOsService.reducer,
     [counterpartyContactPersonsService.reducerPath]: counterpartyContactPersonsService.reducer,
+    [rasesService.reducerPath]: rasesService.reducer,
 
 
 
@@ -62,6 +64,7 @@ export const setupStore = () => {
             contractCategoriesService.middleware,
             statusDOsService.middleware,
             counterpartyContactPersonsService.middleware,
+            rasesService.middleware,
             )
     })
 }

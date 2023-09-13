@@ -8,6 +8,7 @@ import {NavigationProvider} from '../../../core/lib/contexts/navigation';
 import {AuthProvider, useAuth} from '../../../core/lib/contexts/auth';
 import CustomFooter from '../../generic/Custom/CustomFooter/CustomFooter';
 import UnauthenticatedContent from '../pages/UnauthenticatedContent/UnauthenticatedContent';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
     const {user, loading} = useAuth();
@@ -30,6 +31,7 @@ export default function Root() {
         <Router>
             <AuthProvider>
                 <NavigationProvider>
+                    <ToastContainer/>
                     <App/>
                 </NavigationProvider>
             </AuthProvider>

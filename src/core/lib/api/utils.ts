@@ -1,26 +1,25 @@
-export async function sendRequest(url, method = 'GET', data: any = {}) {
-    // const params = Object.keys(data)
-    //     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
-    //     .join('&');
+import axios from 'axios';
 
-    const result = await fetch(url, {
-        body: data.values,
-        method,
-        headers:
-            method === 'GET'
-                ? {}
-                : {
-                    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true'
-                },
-        // credentials: 'include',
-    });
+export async function sendRequest(url, method = 'GET', data = {}) {
+     console.log(data)
+    try {
+        const axiosConfig = {
+            method,
+            url,
+            headers: method === 'GET' ? {} : {
+                'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+            },
+            data: method === 'GET' ? undefined : data,
+        };
 
-    if (result.ok) {
-        const text = await result.text();
+        const response = await axios(axiosConfig);
 
-        return text && JSON.parse(text);
+        if (response.status === 200 || response.status === 201) {
+            return response.data;
+        } else {
+            throw new Error(response.data.Message);
+        }
+    } catch (error) {
+        throw error;
     }
-    const json = await result.json();
-
-    throw json.Message;
 }

@@ -46,7 +46,7 @@ export const navigation = [
         items: [
 
             {
-                text: 'Контрагент',
+                text: 'Контрагенты',
                 path: '/counterparties',
             },
             {
