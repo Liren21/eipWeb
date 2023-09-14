@@ -6,15 +6,14 @@ export const columns:ColumnDefinition[] = [
         allowEditing: false,
         caption: "ID",
         dataType: "number",
-        validationRules:true,
         item:false,
+        defaultSortOrder:'asc'
     },
     {
         dataField: "sortIndex",
-        allowEditing: false,
+        allowEditing: true,
         caption: "Сортировка",
         dataType: "number",
-        validationRules:true,
         item:false,
     },
     {
@@ -22,7 +21,6 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Имя",
         dataType: "string",
-        validationRules:true,
         item:true,
     },
     {
@@ -30,7 +28,6 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Группа",
         dataType: "string",
-        validationRules:true,
         item:true,
     },
     {
@@ -38,15 +35,13 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Причечание",
         dataType: "string",
-        validationRules:true,
         item:true,
     },
     {
         dataField: "style",
         allowEditing: true,
-        caption: "Стиль",
+        caption: "Цветовое обозначение",
         dataType: "string",
-        validationRules:true,
         item:true,
     },
 ];

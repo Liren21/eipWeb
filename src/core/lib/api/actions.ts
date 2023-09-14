@@ -28,6 +28,9 @@ export async function loadOrders(dispatch, URL, block = '/GetAll') {
     } catch (err) {
         dispatch({type: FETCH_ERROR});
         console.log(err)
+        err.response.data.map((data) => (
+            new Toaster({msg: `${data.errorMessage} поле ${data.propertyName}`, type: toast.TYPE.ERROR})
+        ))
         // throw err;
     }
 }
@@ -49,7 +52,7 @@ export async function saveChange(dispatch, change, URL) {
                     change,
                 },
             });
-
+            new Toaster({msg: "Поле создано!", type: toast.TYPE.SUCCESS})
             return data;
         } catch (err) {
             dispatch({type: SAVING_ERROR});

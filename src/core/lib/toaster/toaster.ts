@@ -36,7 +36,7 @@ class Toaster implements IToaster {
     notify(msg: string, type?: TypeOptions): void {
 
         // @ts-ignore
-        this.toastId = toast(msg, { type: type, autoClose: 10000, transition: fade ,position: "top-right",
+        this.toastId = toast(msg, { type: type, autoClose: false, transition: fade ,position: "top-right",
             hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,

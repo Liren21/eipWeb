@@ -24,6 +24,7 @@ import {statusDOsService} from "../../../lib/services/statusDOsService";
 import {counterpartyContactPersonsService} from "../../../lib/services/counterpartyContactPersonsService";
 import {rasesService} from "../../../lib/services/rasesService";
 import TableName from "../../UI/TableName/TableName";
+import {dataColumns} from "./columns/dataColumns";
 
 
 export const Contracts = () => {
@@ -90,13 +91,14 @@ export const Contracts = () => {
                 showBorders={true}
                 repaintChangesOnly
                 allowColumnReordering={true}
-                rowAlternationEnabled={true}
+                // rowAlternationEnabled={true}
                 columnAutoWidth={true}
                 allowColumnResizing={true}
                 showColumnLines={true}
                 onSaving={onSaving}
                 columnWidth={180}
                 height={'87vh'}
+                hoverStateEnabled={true}
             >
                 <Scrolling
                     columnRenderingMode={"virtual"}
@@ -115,7 +117,9 @@ export const Contracts = () => {
                     changes={state.changes}
                     onChangesChange={onChangesChange}
                     editRowKey={state.editRowKey}
-                    onEditRowKeyChange={onEditRowKeyChange}>
+                    onEditRowKeyChange={onEditRowKeyChange}
+
+                >
                     <Popup title="Создание договора" showTitle={true}/>
                     <Form>
                         <Item itemType="group" colCount={3} colSpan={2}>
@@ -154,7 +158,7 @@ export const Contracts = () => {
                     </Form>
                 </Editing>
 
-                <Column fixed={true} dataField="id" caption={'ИД'} allowEditing={false} dataType={"number"}/>
+                <Column fixed={true} dataField="id" defaultSortOrder={"asc"} caption={'ID договора'} allowEditing={false} dataType={"number"}/>
                 <Column dataField="contractCategory.id" caption={'Категория договора'} visible={false}
                         allowEditing={true}
                         dataType={"number"}>
@@ -164,27 +168,6 @@ export const Contracts = () => {
                         displayExpr={'name'}
                     />
                 </Column>
-                <Column dataField="contractCategory" caption={'Категория контрактов'}>
-                    <Column dataField="contractCategory.group" caption={'Группа'} allowEditing={false}
-                            dataType={"string"}/>
-                    <Column dataField="contractCategory.id" caption={'ИД'} allowEditing={false}
-                            dataType={"number"}/>
-                    <Column dataField="contractCategory.name" caption={'Имя'} allowEditing={false}
-                            dataType={"string"}/>
-                    <Column dataField="contractCategory.note" caption={'Примечание'} allowEditing={false}
-                            dataType={"string"}/>
-                    <Column dataField="contractCategory.sortIndex" caption={'Сортировочный индекс'}
-                            allowEditing={false} dataType={"number"}/>
-                    <Column dataField="contractCategory.contractNumberCustomer" caption={'Номер договора с заказчиком'}
-                            allowEditing={false} dataType={"string"}/>
-                    <Column dataField="contractCategory.contractNumberProvider" caption={'Номер договора с поставщиком'}
-                            allowEditing={false} dataType={"string"}/>
-                    <Column dataField="contractCategory.contractNumberSubcontractor"
-                            caption={'Номер договора с субподрядчиком'}
-                            allowEditing={false} dataType={"string"}/>
-                </Column>
-                <Column dataField="address" caption={'Адрес договора'} dataType={"string"}/>
-                <Column dataField="title" caption={'Титул полный'} dataType={"string"}/>
 
                 <Column dataField="counterpartyCustomer.id" caption={'Контрагент-заказчик'} visible={false}
                         allowEditing={true}
@@ -245,45 +228,27 @@ export const Contracts = () => {
                         displayExpr={'name'}
                     />
                 </Column>
-
-                <Column dataField="counterpartyCustomer" caption={'Контрагент-заказчик'}>
-                    <Column dataField="counterpartyCustomer.counterpartyFormatId" caption={'ИД формата контрагента'}
-                            dataType={"number"}/>
-                    <Column dataField="counterpartyCustomer.counterpartyStatusId" caption={'ИД статуса контрагента'}
-                            dataType={"number"}/>
-
-                    <Column dataField="counterpartyCustomer.customerClassificationId" caption={'ИД номер клиента'}
-                            dataType={"number"}/>
-                    <Column dataField="counterpartyCustomer.id" caption={'ИД'} allowEditing={false}
-                            dataType={"number"}/>
-                    <Column dataField="counterpartyCustomer.inn" caption={'ИНН'}
-                            dataType={"string"}/>
-                    <Column dataField="counterpartyCustomer.isCustomer" caption={'Заказчик'}
-                            dataType={"boolean"}/>
-                    <Column dataField="counterpartyCustomer.isProvider" caption={'Поставщик'}
-                            dataType={"boolean"}/>
-                    <Column dataField="counterpartyCustomer.isSubcontractor" caption={'Субподрядчик'}
-                            dataType={"boolean"}/>
-                    <Column dataField="counterpartyCustomer.isWithOutNDS" caption={'Продается без учета НДС'}
-                            dataType={"boolean"}/>
-                    <Column dataField="counterpartyCustomer.name" caption={'Имя'}
-                            dataType={"string"}/>
-                    <Column dataField="counterpartyCustomer.note" caption={'Примечание'}
-                            dataType={"string"}/>
+                <Column dataField="projectEmployee.id" caption={'ФИО руководителя проекта'}
+                        dataType={"number"}>
+                    <Lookup
+                        dataSource={counterpartyContact}
+                        valueExpr="id"
+                        displayExpr={'lastName'}
+                    />
                 </Column>
 
 
                 <Column dataField="counterpartySubcontractor" caption={'Контрагент субподрядчик'}>
 
                     <Column dataField="counterpartySubcontractor.counterpartyFormatId"
-                            caption={'ИД формата контрагента'}
+                            caption={'ID формата контрагента'}
                             dataType={"number"}/>
                     <Column dataField="counterpartySubcontractor.counterpartyStatusId"
-                            caption={'ИД статуса контрагента'}
+                            caption={'ID статуса контрагента'}
                             dataType={"number"}/>
-                    <Column dataField="counterpartySubcontractor.customerClassificationId" caption={'ИД номер клиента'}
+                    <Column dataField="counterpartySubcontractor.customerClassificationId" caption={'ID номер клиента'}
                             dataType={"number"}/>
-                    <Column dataField="counterpartySubcontractor.id" caption={'ИД'} allowEditing={false}
+                    <Column dataField="counterpartySubcontractor.id" caption={'ID'} allowEditing={false}
                             dataType={"number"}/>
                     <Column dataField="counterpartySubcontractor.inn" caption={'ИНН'}
                             dataType={"string"}/>
@@ -302,13 +267,13 @@ export const Contracts = () => {
                 </Column>
 
                 <Column dataField="counterpartyProvider" caption={'Контрагент субподрядчик'}>
-                    <Column dataField="counterpartyProvider.counterpartyFormatId" caption={'ИД формата контрагента'}
+                    <Column dataField="counterpartyProvider.counterpartyFormatId" caption={'ID формата контрагента'}
                             dataType={"number"}/>
-                    <Column dataField="counterpartyProvider.counterpartyStatusId" caption={'ИД статуса контрагента'}
+                    <Column dataField="counterpartyProvider.counterpartyStatusId" caption={'ID статуса контрагента'}
                             dataType={"number"}/>
-                    <Column dataField="counterpartyProvider.customerClassificationId" caption={'ИД номер клиента'}
+                    <Column dataField="counterpartyProvider.customerClassificationId" caption={'ID номер клиента'}
                             dataType={"number"}/>
-                    <Column dataField="counterpartyProvider.id" caption={'ИД'} allowEditing={false}
+                    <Column dataField="counterpartyProvider.id" caption={'ID'} allowEditing={false}
                             dataType={"number"}/>
                     <Column dataField="counterpartyProvider.inn" caption={'ИНН'}
                             dataType={"string"}/>
@@ -350,7 +315,7 @@ export const Contracts = () => {
 
                 <Column dataField="ras" caption={'РЭС'}
                         dataType={"number"}>
-                    <Column dataField="ras.id" caption={'ИД'}
+                    <Column dataField="ras.id" caption={'ID'}
                             dataType={"number"}/>
                     <Column dataField="ras.sortIndex" caption={'Сортировочный индекс'}
                             dataType={"number"}/>
@@ -369,7 +334,7 @@ export const Contracts = () => {
                 </Column>
 
                 <Column dataField="projectEmployee" caption={'Сотрудник проекта'}>
-                    <Column dataField="projectEmployee.id" caption={'ИД '}
+                    <Column dataField="projectEmployee.id" caption={'ID '}
                             dataType={"number"}/>
                     <Column dataField="projectEmployee.lastName" caption={'Фамилия'}
                             dataType={"number"}/>
@@ -379,16 +344,16 @@ export const Contracts = () => {
                             dataType={"number"}/>
                     <Column dataField="projectEmployee.isActive" caption={'Активен'}
                             dataType={"boolean"}/>
-                    <Column dataField="projectEmployee.departmentId" caption={'ИД отдела'}
+                    <Column dataField="projectEmployee.departmentId" caption={'ID отдела'}
                             dataType={"number"}/>
-                    <Column dataField="projectEmployee.positionId" caption={'ИД позиции'}
+                    <Column dataField="projectEmployee.positionId" caption={'ID позиции'}
                             dataType={"number"}/>
                     <Column dataField="projectEmployee.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
                             dataType={"boolean"}/>
                 </Column>
 
                 <Column dataField="executorDO" caption={'Исполнитель | ДО'}>
-                    <Column dataField="executorDO.id" caption={'ИД'}
+                    <Column dataField="executorDO.id" caption={'ID'}
                             dataType={"number"}/>
                     <Column dataField="executorDO.lastName" caption={'Фамилия'}
                             dataType={"number"}/>
@@ -398,16 +363,16 @@ export const Contracts = () => {
                             dataType={"number"}/>
                     <Column dataField="executorDO.isActive" caption={'Активен'}
                             dataType={"boolean"}/>
-                    <Column dataField="executorDO.departmentId" caption={'ИД отдела'}
+                    <Column dataField="executorDO.departmentId" caption={'ID отдела'}
                             dataType={"number"}/>
-                    <Column dataField="executorDO.positionId" caption={'ИД позиции'}
+                    <Column dataField="executorDO.positionId" caption={'ID позиции'}
                             dataType={"number"}/>
                     <Column dataField="executorDO.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
                             dataType={"boolean"}/>
                 </Column>
 
                 <Column dataField="statusDO" caption={'Статус ДО'}>
-                    <Column dataField="statusDO.id" caption={'ИД'}
+                    <Column dataField="statusDO.id" caption={'ID'}
                             dataType={"number"}/>
                     <Column dataField="statusDO.sortIndex" caption={'Сортировочный индекс'}
                             dataType={"number"}/>
@@ -429,7 +394,7 @@ export const Contracts = () => {
                         dataType={"datetime"}/>
 
                 <Column dataField="createdEmployee" caption={'Созданный сотрудник'}>
-                    <Column dataField="createdEmployee.departmentId" caption={'ИД отдела'}
+                    <Column dataField="createdEmployee.departmentId" caption={'ID отдела'}
                             dataType={"number"}/>
                     <Column dataField="createdEmployee.lastName" caption={'Фамилия'}
                             dataType={"number"}/>
@@ -437,11 +402,11 @@ export const Contracts = () => {
                             dataType={"number"}/>
                     <Column dataField="createdEmployee.patronymicName" caption={'Отчество'}
                             dataType={"number"}/>
-                    <Column dataField="createdEmployee.id" caption={'ИД'}
+                    <Column dataField="createdEmployee.id" caption={'ID'}
                             dataType={"number"}/>
                     <Column dataField="createdEmployee.isActive" caption={'Активен'}
                             dataType={"boolean"}/>
-                    <Column dataField="createdEmployee.positionId" caption={'ИД позиции'}
+                    <Column dataField="createdEmployee.positionId" caption={'ID позиции'}
                             dataType={"number"}/>
                     <Column dataField="createdEmployee.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
                             dataType={"boolean"}/>
@@ -464,7 +429,7 @@ export const Contracts = () => {
                         dataType={"number"}/>
 
                 <Column dataField="updateStatusDOEmployee" caption={'Созданный сотрудник'}>
-                    <Column dataField="updateStatusDOEmployee.id" caption={'ИД'}
+                    <Column dataField="updateStatusDOEmployee.id" caption={'ID'}
                             dataType={"number"}/>
                     <Column dataField="updateStatusDOEmployee.lastName" caption={'Фамилия'}
                             dataType={"number"}/>
@@ -474,9 +439,9 @@ export const Contracts = () => {
                             dataType={"number"}/>
                     <Column dataField="updateStatusDOEmployee.isActive" caption={'Активен'}
                             dataType={"boolean"}/>
-                    <Column dataField="updateStatusDOEmployee.departmentId" caption={'ИД отдела'}
+                    <Column dataField="updateStatusDOEmployee.departmentId" caption={'ID отдела'}
                             dataType={"number"}/>
-                    <Column dataField="updateStatusDOEmployee.positionId" caption={'ИД позиции'}
+                    <Column dataField="updateStatusDOEmployee.positionId" caption={'ID позиции'}
                             dataType={"number"}/>
                     <Column dataField="updateStatusDOEmployee.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
                             dataType={"boolean"}/>

@@ -20,6 +20,7 @@ import {TableVariable} from "../Variable/TableVariable";
 import {validationRules} from "../ValidationRules/ValidationRules";
 import './GenericDataGrid.scss'
 import TableName from "../../components/UI/TableName/TableName";
+import {onInitNewRow} from "../Function/OnInitNewRow";
 
 interface IProps {
     URL: string
@@ -28,9 +29,10 @@ interface IProps {
     lookupData?: any
     AdditionalURL?: string
     nameForm: string
+    dataOnInitNewRow?:any
 }
 
-export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm}: IProps) => {
+export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm,dataOnInitNewRow}: IProps) => {
     const [state, dispatch] = useReducer(reducer, TableVariable);
 
 
@@ -65,12 +67,16 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm}
                 showBorders={true}
                 repaintChangesOnly
                 allowColumnReordering={true}
-                rowAlternationEnabled={true}
+                // rowAlternationEnabled={true}
                 columnAutoWidth={true}
                 allowColumnResizing={true}
                 showColumnLines={true}
                 onSaving={onSaving}
                 height={'87vh'}
+                className='custom-row-height'
+                onInitNewRow={(e) => onInitNewRow(e, {...dataOnInitNewRow})}
+                hoverStateEnabled={true}
+
             >
                 <Scrolling
                     columnRenderingMode={"virtual"}
@@ -78,8 +84,8 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm}
                 />
                 <FilterRow visible={true}/>
                 <SearchPanel visible={true}/>
-                <HeaderFilter visible={true}>
-                    <Search enabled={true}/>
+                <HeaderFilter  visible={true}>
+                    <Search  enabled={true}/>
                 </HeaderFilter>
 
                 <Editing
@@ -106,6 +112,7 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm}
                         fixed={index === 0}
                         key={column.dataField}
                         dataField={column.dataField}
+                        defaultSortOrder={column.defaultSortOrder}
                         allowEditing={column.allowEditing}
                         caption={column.caption}
                         dataType={column.dataType}

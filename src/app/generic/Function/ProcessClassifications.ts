@@ -6,6 +6,7 @@ export const ProcessClassifications = (e, classificationType,classificationName)
     }
 }
 export const ProcessClassificationsObj = (data, key) => {
+
     if (data && data[key] !== undefined) {
         const classificationData = data[key].id;
         delete data[key].id;

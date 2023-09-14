@@ -13,6 +13,7 @@ export const CounterpartyFormats = () => {
             URL={URL}
             columns={columns}
             keyExpr="id"
+            dataOnInitNewRow={{isSmallFormatInn:false}}
         />
     );
 }

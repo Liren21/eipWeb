@@ -8,35 +8,35 @@ export const navigation = [
             //     icon: 'home',
             // },
             {
-                text: 'Форматы контрагентов',
+                text: 'Формат контрагента',
                 path: '/counterpartyFormats',
             },
             {
-                text: 'Классификации заказчиков',
+                text: 'Классификация заказчика',
                 path: '/customerClassifications',
             },
             {
-                text: 'Классификации субподрядчиков',
+                text: 'Классификация субподрядчика',
                 path: '/subcontractorClassifications',
             },
             {
-                text: 'Классификации поставщиков',
+                text: 'Классификация поставщика',
                 path: '/providerClassifications',
             },
             {
-                text: 'Статусы контрагентов',
+                text: 'Статус контрагента',
                 path: '/counterpartyStatus',
             },
             {
-                text: 'Названии РЭС',
+                text: 'Названия РЭС',
                 path: '/rases',
             },
             {
-                text: 'Категории договора',
+                text: 'Категория договора',
                 path: '/contractCategories',
             },
             {
-                text: 'Статусы ДО',
+                text: 'Статус ДО',
                 path: '/statusDOs',
             },
         ]

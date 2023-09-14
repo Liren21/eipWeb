@@ -1,26 +1,27 @@
-import { ColumnDefinition} from "../../../../lib/models/columns";
+import {ColumnDefinition} from "../../../../lib/models/columns";
 
-export const columns:ColumnDefinition[] = [
+export const columns: ColumnDefinition[] = [
     {
         dataField: "id",
         allowEditing: false,
         caption: "ID",
         dataType: "number",
-        item:false,
-    },
-    {
-        dataField: "name",
-        allowEditing: true,
-        caption: "Наименование",
-        dataType: "string",
-        item:true,
+        item: false,
+        defaultSortOrder:'asc'
     },
     {
         dataField: "sortIndex",
         allowEditing: true,
         caption: "Сортировка",
         dataType: "number",
-        item:true,
+        item: true,
+    },
+    {
+        dataField: "name",
+        allowEditing: true,
+        caption: "Наименование",
+        dataType: "string",
+        item: true,
     },
 ];
 

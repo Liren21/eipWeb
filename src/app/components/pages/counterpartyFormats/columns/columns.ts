@@ -7,6 +7,14 @@ export const columns:ColumnDefinition[] = [
         caption: "ID",
         dataType: "number",
         item:false,
+        defaultSortOrder:'asc'
+    },
+    {
+        dataField: "sortIndex",
+        allowEditing: true,
+        caption: "Сортировка",
+        dataType: "number",
+        item:true,
     },
     {
         dataField: "name",
@@ -16,10 +24,10 @@ export const columns:ColumnDefinition[] = [
         item:true,
     },
     {
-        dataField: "sortIndex",
+        dataField: "isSmallFormatInn",
         allowEditing: true,
-        caption: "Сортировка",
-        dataType: "number",
+        caption: "Количестов символов ИНН у заданного формата контрагента",
+        dataType: "boolean",
         item:true,
     },
 ];

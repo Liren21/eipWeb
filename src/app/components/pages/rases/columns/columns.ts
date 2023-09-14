@@ -6,16 +6,9 @@ export const columns:ColumnDefinition[] = [
         allowEditing: false,
         caption: "ID",
         dataType: "number",
-        validationRules:true,
+        validationRules:false,
         item:false,
-    },
-    {
-        dataField: "name",
-        allowEditing: true,
-        caption: "Наименование",
-        dataType: "string",
-        validationRules:true,
-        item:true,
+        defaultSortOrder:'asc'
     },
     {
         dataField: "sortIndex",
@@ -25,5 +18,22 @@ export const columns:ColumnDefinition[] = [
         validationRules:false,
         item:true,
     },
+    {
+        dataField: "name",
+        allowEditing: true,
+        caption: "Наименование",
+        dataType: "string",
+        validationRules:false,
+        item:true,
+    },
+    {
+        dataField: "note",
+        allowEditing: true,
+        caption: "Расшифровка",
+        dataType: "string",
+        validationRules:false,
+        item:true,
+    },
+
 ];
 

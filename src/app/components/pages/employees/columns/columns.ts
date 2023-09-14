@@ -7,6 +7,7 @@ export const columns:ColumnDefinition[] = [
         caption: "ID",
         dataType: "number",
         item:false,
+        defaultSortOrder:'asc'
     },
     {
         dataField: "lastName",
@@ -32,14 +33,14 @@ export const columns:ColumnDefinition[] = [
     {
         dataField: "departmentId",
         allowEditing: true,
-        caption: "Ид отдела",
+        caption: "ID отдела",
         dataType: "number",
         item:true,
     },
     {
         dataField: "positionId",
         allowEditing: true,
-        caption: "Ид позиции",
+        caption: "ID позиции",
         dataType: "string",
         item:true,
     },

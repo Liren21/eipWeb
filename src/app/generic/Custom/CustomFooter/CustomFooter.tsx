@@ -15,12 +15,6 @@ export default function CustomFooter() {
                 ))}
                 <Route path='*' element={<Navigate to='/home'/>}/>
             </Routes>
-            <Footer>
-                Copyright © 2011-{new Date().getFullYear()} {appInfo.title} Inc.
-                <br/>
-                All trademarks or registered trademarks are property of their
-                respective owners.
-            </Footer>
         </SideNavBarLayout>
     );
 }
