@@ -24,7 +24,7 @@ import {statusDOsService} from "../../../lib/services/statusDOsService";
 import {counterpartyContactPersonsService} from "../../../lib/services/counterpartyContactPersonsService";
 import {rasesService} from "../../../lib/services/rasesService";
 import TableName from "../../UI/TableName/TableName";
-import {dataColumns} from "./columns/dataColumns";
+import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 
 
 export const Contracts = () => {
@@ -53,6 +53,7 @@ export const Contracts = () => {
         reStatusDOs()
         reContractCategories()
         reCounterpartyContact()
+        reRases()
     }, [URL]);
 
     const onSaving = useCallback((e) => {
@@ -158,7 +159,12 @@ export const Contracts = () => {
                     </Form>
                 </Editing>
 
-                <Column fixed={true} dataField="id" defaultSortOrder={"asc"} caption={'ID договора'} allowEditing={false} dataType={"number"}/>
+                <Column fixed={true} dataField="id" defaultSortOrder={"asc"} caption={'ID договора'}
+                        allowEditing={false} dataType={"number"}/>
+                <Column dataField="address" caption={'Адрес договора'} dataType={"string"}
+                        validationRules={validationRules}/>
+                <Column dataField="title"  caption={'Титул полный'} dataType={"string"}
+                        validationRules={validationRules}/>
                 <Column dataField="contractCategory.id" caption={'Категория договора'} visible={false}
                         allowEditing={true}
                         dataType={"number"}>
@@ -171,7 +177,9 @@ export const Contracts = () => {
 
                 <Column dataField="counterpartyCustomer.id" caption={'Контрагент-заказчик'} visible={false}
                         allowEditing={true}
-                        dataType={"number"}>
+                        dataType={"number"}
+                        validationRules={validationRules}
+                >
                     <Lookup
                         dataSource={counterparties}
                         valueExpr="id"
@@ -181,7 +189,8 @@ export const Contracts = () => {
 
                 <Column dataField="counterpartySubcontractor.id" caption={'Контрагент-субподрядчик'} visible={false}
                         allowEditing={true}
-                        dataType={"number"}>
+                        dataType={"number"}
+                        validationRules={validationRules}>
                     <Lookup
                         dataSource={counterparties}
                         valueExpr="id"
@@ -191,7 +200,8 @@ export const Contracts = () => {
 
                 <Column dataField="counterpartyProvider.id" caption={'Контрагент-поставщик'} visible={false}
                         allowEditing={true}
-                        dataType={"number"}>
+                        dataType={"number"}
+                        validationRules={validationRules}>
                     <Lookup
                         dataSource={counterparties}
                         valueExpr="id"
@@ -293,24 +303,24 @@ export const Contracts = () => {
 
 
                 <Column dataField="contractNumberCustomer" caption={'Номер договора с заказчиком'}
-                        dataType={"string"}/>
+                        dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="contractNumberSubcontractor" caption={'Номер договора с субподрядчиком'}
-                        dataType={"string"}/>
+                        dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="contractNumberProvider" caption={'Номер договора с поставщиком'}
-                        dataType={"string"}/>
+                        dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="additionalAgreementCustomer"
-                        caption={'Номер дополнительного соглашения с заказчиком'}
-                        dataType={"string"}/>
+                        caption={'Номер Д/С с заказчиком'}
+                        dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="additionalAgreementSubcontractor"
-                        caption={'Номер дополнительного соглашения с субподрядчиком'}
-                        dataType={"string"}/>
+                        caption={'Номер Д/С с субподрядчиком'}
+                        dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="additionalAgreementProvider"
-                        caption={'Номер дополнительного соглашения с поставщиком'}
+                        caption={'Номер Д/С с поставщиком'}
                         dataType={"string"}/>
                 <Column dataField="noSap"
-                        dataType={"string"} caption={"No SAP"}/>
+                        dataType={"string"} caption={"No SAP"} validationRules={validationRules}/>
                 <Column dataField="subscriber" caption={'Абонент'}
-                        dataType={"string"}/>
+                        dataType={"string"} validationRules={validationRules}/>
 
 
                 <Column dataField="ras" caption={'РЭС'}
@@ -386,11 +396,11 @@ export const Contracts = () => {
                         dataType={"string"}/>
                 <Column dataField="numberTechTask" caption={'Номер ТЗ'}
                         dataType={"string"}/>
-                <Column dataField="createdDate" caption={'Дата создания'}
+                <Column dataField="createdDate" caption={'Дт создания'}
                         dataType={"datetime"}/>
-                <Column dataField="conclusionContractDate" caption={'Дата заключения договора'}
-                        dataType={"datetime"}/>
-                <Column dataField="returnSignContractDate" caption={'Дата возврата подписанного договора'}
+                <Column dataField="conclusionContractDate" caption={'Дт заключения договора'}
+                        dataType={"datetime"} validationRules={validationRules}/>
+                <Column dataField="returnSignContractDate" caption={'Дт возврата подписанного договора'}
                         dataType={"datetime"}/>
 
                 <Column dataField="createdEmployee" caption={'Созданный сотрудник'}>
@@ -411,13 +421,13 @@ export const Contracts = () => {
                     <Column dataField="createdEmployee.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
                             dataType={"boolean"}/>
                 </Column>
-                <Column dataField="startDate" caption={'Дата начала работ по договору'}
+                <Column dataField="startDate" caption={'Дт начала работ по договору'}
                         dataType={"datetime"}/>
-                <Column dataField="endDate" caption={'Дата окончания работ по договору'}
+                <Column dataField="endDate" caption={'Дт окончания работ по договору'}
                         dataType={"datetime"}/>
-                <Column dataField="cancellationDate" caption={'Дата аннуляции договора'}
+                <Column dataField="cancellationDate" caption={'Дт аннуляции договора'}
                         dataType={"datetime"}/>
-                <Column dataField="terminationDate" caption={'Дата расторжения договора'}
+                <Column dataField="terminationDate" caption={'Дт расторжения договора'}
                         dataType={"datetime"}/>
                 <Column dataField="summaPIR" caption={'Сумма | ПИР'}
                         dataType={"number"}/>

@@ -115,21 +115,21 @@ export const CounterpartyContactPersons = () => {
                 </Editing>
                 <Column fixed={true} dataField="id" caption={'ID'} allowEditing={false} dataType={"number"}/>
                 <Column dataField="lastName" allowEditing={true}
-                        caption={'Фамилия'} dataType={"string"} />
+                        caption={'Фамилия'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="firstName" allowEditing={true}
-                        caption={'Имя'} dataType={"string"} />
+                        caption={'Имя'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="patronymicName" allowEditing={true}
-                        caption={'Отчество'} dataType={"string"} />
+                        caption={'Отчество'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="phone" allowEditing={true}
-                        caption={'Телефон'} dataType={"string"}/>
+                        caption={'Рабочий телефон'} dataType={"string"} validationRules={validationRules}/>
                 <Column dataField="mobilePhone" allowEditing={true}
                         caption={'Мобильный телефон'} dataType={"string"} />
                 <Column dataField="email" allowEditing={true}
-                        caption={'Почта'} dataType={"string"} />
+                        caption={'Электронный адрес'} dataType={"string"} />
                 <Column dataField="note" allowEditing={true}
                         caption={'Примечание'} dataType={"string"} />
                 <Column dataField="isMain" allowEditing={true}
-                        caption={'Основной'} dataType={"boolean"}/>
+                        caption={'Основной контакт'} dataType={"boolean"}/>
 
                 <Column dataField="counterparty" allowEditing={true}
                         caption={'Контрагент'}>

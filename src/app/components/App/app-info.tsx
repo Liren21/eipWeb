@@ -1,5 +1,5 @@
-const appInfo = {
+export const appInfo = {
     title: 'Contract register'
 };
-export default appInfo;
+
 

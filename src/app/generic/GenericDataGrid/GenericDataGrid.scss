@@ -1,8 +1,10 @@
-.generic{
-  &__title{
-    font-size: 1.5rem!important;
+.generic {
+  &__title {
+    font-size: 1.5rem !important;
     font-weight: bold;
-    //text-align: left;
+    padding: .5rem;
+    width: 100%;
+    text-align: center;
   }
 }
 

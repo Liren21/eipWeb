@@ -14,6 +14,7 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Сортировка",
         dataType: "number",
+        validationRules:true,
         item:true,
     },
     {
@@ -28,6 +29,7 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Примечание",
         dataType: "string",
+        validationRules:true,
         item:true,
     },
 ];

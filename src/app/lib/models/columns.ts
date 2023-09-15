@@ -7,4 +7,5 @@ export interface ColumnDefinition {
     lookup?: any;
     item: boolean;
     nestedColumns?: ColumnDefinition[];
+    defaultSortOrder?:string
 }

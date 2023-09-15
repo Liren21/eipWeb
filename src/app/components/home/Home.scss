@@ -1,39 +1,46 @@
-.logos-container {
-  margin: 20px 0 40px 0;
-  text-align: center;
-  svg {
-    display: inline-block;
+@use "../App/variables";
+
+.home {
+  padding: 1rem;
+height: 100%;
+  &__title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 1rem 0;
   }
-}
 
+  &__body {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    gap: 2rem;
+  }
 
-.devextreme-logo {
-  width: 200px;
-  height: 34px;
-  margin-bottom: 19px;
-}
+  &__link {
+    padding: 2rem;
+    box-shadow: variables.$box-shadow;
+    border-radius: variables.$border-radius;
+    max-width: 21rem;
+    text-decoration: none;
+    display: flex;
+    text-align: left;
+    align-items: center;
+    color: variables.$black !important;
+    font-size: 1rem;
 
-.react-logo {
-  width: 184px;
-  height: 68px;
-}
-
-.plus {
-  margin: 23px 10px;
-  width: 22px;
-  height: 22px;
-}
-
-.screen-x-small .logos-container {
-  svg {
-    width: 100%;
-    display: block;
-    &.plus {
-      margin: 0;
+    &:hover {
+      background-color: variables.$black;
+      color: white !important;
+      transition: .2s;
     }
   }
 }
-.dx-item-content ,.dx-treeview-item-content{
+
+.dx{
+  &-widget{
+    color: variables.$black;
+  }
+}
+.dx-item-content, .dx-treeview-item-content {
   white-space: normal;
   padding-left: .5rem;
 }

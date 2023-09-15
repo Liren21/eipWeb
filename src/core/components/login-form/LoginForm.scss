@@ -1,5 +1,3 @@
-@use "../../../themes/generated/variables.base" as base;
-
 .login-form {
   .link {
     text-align: center;
@@ -13,6 +11,5 @@
 
   .form-text {
     margin: 10px 0;
-    color: rgba(base.$base-text-color, alpha(base.$base-text-color) * 0.7);
   }
 }

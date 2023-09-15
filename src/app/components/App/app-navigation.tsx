@@ -2,11 +2,6 @@ export const navigation = [
     {
         text: "Справочники",
         items: [
-            // {
-            //     text: 'Home',
-            //     path: '/home',
-            //     icon: 'home',
-            // },
             {
                 text: 'Формат контрагента',
                 path: '/counterpartyFormats',

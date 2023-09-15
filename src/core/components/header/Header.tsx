@@ -4,6 +4,7 @@ import Button, {ButtonTypes} from 'devextreme-react/button';
 import UserPanel from '../user-panel/UserPanel';
 import './Header.scss';
 import {Template} from 'devextreme-react/core/template';
+import {Link} from "react-router-dom";
 
 
 interface HeaderProps {
@@ -23,13 +24,8 @@ export default function Header({menuToggleEnabled, title, toggleMenu}: HeaderPro
                     cssClass={'menu-button'}
                 >
                     <Button icon="menu" stylingMode="text" onClick={toggleMenu}/>
+                    <Link to={'/home'} className='header__title'>{title}</Link>
                 </Item>
-                <Item
-                    location={'before'}
-                    cssClass={'header-title'}
-                    text={title}
-                    visible={!!title}
-                />
                 <Item
                     location={'after'}
                     locateInMenu={'auto'}

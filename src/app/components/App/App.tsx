@@ -2,7 +2,6 @@ import 'devextreme/dist/css/dx.common.css';
 import '../../../themes/generated/theme.base.css';
 import '../../../themes/generated/theme.additional.css';
 import {HashRouter as Router} from 'react-router-dom';
-import '../../../dx-styles.scss';
 import './App.scss'
 import LoadPanel from 'devextreme-react/load-panel';
 import {NavigationProvider} from '../../../core/lib/contexts/navigation';
