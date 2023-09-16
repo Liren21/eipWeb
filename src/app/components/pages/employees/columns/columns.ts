@@ -14,6 +14,7 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Фамилия",
         dataType: "string",
+        validationRules:true,
         item:true,
     },
     {
@@ -21,6 +22,7 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Имя",
         dataType: "string",
+        validationRules:true,
         item:true,
     },
     {
@@ -35,6 +37,7 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "ID отдела",
         dataType: "number",
+        validationRules:true,
         item:true,
     },
     {

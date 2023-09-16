@@ -1,26 +1,12 @@
 import React, {Fragment, useCallback, useEffect, useReducer} from 'react';
-import DataGrid, {
-    Column,
-    Editing,
-    FilterRow,
-    Form,
-    HeaderFilter,
-    Lookup,
-    Popup,
-    Scrolling,
-    Search,
-    SearchPanel
-} from 'devextreme-react/data-grid';
-import {LoadPanel} from 'devextreme-react/load-panel';
-import 'whatwg-fetch';
 import reducer from '../../../core/lib/api/reducer';
 import {saveChange, loadOrders, setChanges, setEditRowKey} from '../../../core/lib/api/actions';
-import {Item} from "devextreme-react/form";
+import Form, {Item} from "devextreme-react/form";
 import {TableVariable} from "../Variable/TableVariable";
 import {validationRules} from "../ValidationRules/ValidationRules";
 import './GenericDataGrid.scss'
-import TableName from "../../components/UI/TableName/TableName";
-import {onInitNewRow} from "../Function/OnInitNewRow";
+import {CustomDataGrid} from "../../components/UI/CustomDataGrid/CustomDataGrid";
+import {Column, Editing, Lookup, Popup} from 'devextreme-react/data-grid';
 
 interface IProps {
     URL: string
@@ -29,16 +15,16 @@ interface IProps {
     lookupData?: any
     AdditionalURL?: string
     nameForm: string
-    dataOnInitNewRow?:any
+    dataOnInitNewRow?: any
 }
 
-export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm,dataOnInitNewRow}: IProps) => {
+export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm, dataOnInitNewRow}: IProps) => {
     const [state, dispatch] = useReducer(reducer, TableVariable);
 
 
     useEffect(() => {
         loadOrders(dispatch, URL, AdditionalURL)
-    }, [URL]);
+    }, [AdditionalURL, URL]);
 
     const onSaving = useCallback((e) => {
         e.cancel = true;
@@ -55,39 +41,13 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm,
 
     return (
         <Fragment>
-            <TableName/>
-            <LoadPanel
-                position={{of: '#gridContainer'}}
+            <CustomDataGrid
                 visible={state.isLoading}
-            />
-            <DataGrid
-                id="gridContainer"
                 keyExpr={keyExpr}
                 dataSource={state.data}
-                showBorders={true}
-                repaintChangesOnly
-                allowColumnReordering={true}
-                // rowAlternationEnabled={true}
-                columnAutoWidth={true}
-                allowColumnResizing={true}
-                showColumnLines={true}
                 onSaving={onSaving}
-                height={'87vh'}
-                className='custom-row-height'
-                onInitNewRow={(e) => onInitNewRow(e, {...dataOnInitNewRow})}
-                hoverStateEnabled={true}
-
+                dataOnInitNewRow={dataOnInitNewRow}
             >
-                <Scrolling
-                    columnRenderingMode={"virtual"}
-                    mode={'virtual'}
-                />
-                <FilterRow visible={true}/>
-                <SearchPanel visible={true}/>
-                <HeaderFilter  visible={true}>
-                    <Search  enabled={true}/>
-                </HeaderFilter>
-
                 <Editing
                     mode="popup"
                     allowAdding={true}
@@ -121,7 +81,6 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm,
                         {
                             column.nestedColumns && column.nestedColumns.map((data) => (
                                 <Column
-                                    width={'180'}
                                     key={data.dataField}
                                     dataField={data.dataField}
                                     allowEditing={data.allowEditing}
@@ -147,7 +106,8 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm,
                         }
                     </Column>
                 ))}
-            </DataGrid>
+            </CustomDataGrid>
         </Fragment>
+
     );
 }

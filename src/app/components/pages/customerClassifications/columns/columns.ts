@@ -23,6 +23,7 @@ export const columns:ColumnDefinition[] = [
         caption: "Наименование",
         dataType: "string",
         item:true,
+        validationRules:true,
     },
     {
         dataField: "note",

@@ -1,7 +1,8 @@
 import axios from 'axios';
 
+
 export async function sendRequest(url, method = 'GET', data = {}) {
-     console.log(data)
+
     try {
         const axiosConfig = {
             method,

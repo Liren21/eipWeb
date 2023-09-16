@@ -22,6 +22,7 @@ export const columns: ColumnDefinition[] = [
         allowEditing: true,
         caption: "Наименование",
         dataType: "string",
+        validationRules:true,
         item: true,
     },
 ];

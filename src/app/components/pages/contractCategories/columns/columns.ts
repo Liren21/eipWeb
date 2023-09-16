@@ -15,7 +15,7 @@ export const columns:ColumnDefinition[] = [
         caption: "Сортировка",
         dataType: "number",
         validationRules:true,
-        item:false,
+        item:true,
     },
     {
         dataField: "name",

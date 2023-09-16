@@ -27,7 +27,6 @@ export async function loadOrders(dispatch, URL, block = '/GetAll') {
         });
     } catch (err) {
         dispatch({type: FETCH_ERROR});
-        console.log(err)
 
         // new Toaster({msg: `${err.response.data}`, type: toast.TYPE.ERROR})
         // throw err;
@@ -51,14 +50,12 @@ export async function saveChange(dispatch, change, URL) {
                     change,
                 },
             });
-            new Toaster({msg: "Поле создано!", type: toast.TYPE.SUCCESS})
             return data;
         } catch (err) {
             dispatch({type: SAVING_ERROR});
             err.response.data.map((data) => (
                 new Toaster({msg: `${data.errorMessage} поле ${data.propertyName}`, type: toast.TYPE.ERROR})
             ))
-            // throw err;
         }
     } else {
         dispatch({type: SAVING_CANCEL});
@@ -75,6 +72,7 @@ async function sendChange(url, change) {
                         'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
                     },
                 });
+                new Toaster({msg: "Поле создано!", type: toast.TYPE.SUCCESS})
                 return insertResponse.data;
 
             case 'update':
@@ -83,6 +81,7 @@ async function sendChange(url, change) {
                         'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
                     },
                 });
+                new Toaster({msg: `Поле  ID = ${change.key} обновлено !`, type: toast.TYPE.SUCCESS})
                 return updateResponse.data;
 
             case 'remove':
@@ -91,6 +90,7 @@ async function sendChange(url, change) {
                         'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
                     },
                 });
+                new Toaster({msg: `Поле c ID = ${change.key} удалено !`, type: toast.TYPE.SUCCESS})
                 return removeResponse.data;
 
             default:

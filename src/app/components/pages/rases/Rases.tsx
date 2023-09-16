@@ -5,12 +5,11 @@ import {columns} from "./columns/columns";
 
 
 export const Rases = () => {
-    const URL: string = urls.RASES
 
     return (
         <GenericDataGrid
             nameForm={"названия РЭС"}
-            URL={URL}
+            URL={urls.RASES}
             columns={columns}
             keyExpr="id"
         />
