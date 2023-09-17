@@ -3,7 +3,7 @@ import {Classification} from "./Classification";
 import {CounterpartyStatus} from "./CounterpartyStatus";
 import {ProviderOrSubcontractorClassification} from "./ProviderOrSubcontractorClassification";
 
-export interface Counterparty {
+export interface ICounterparty {
     id: number;
     counterpartyFormatId: number;
     name: string;

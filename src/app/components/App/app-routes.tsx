@@ -1,11 +1,9 @@
 import {withNavigationWatcher} from '../../../core/lib/contexts/navigation';
-
 import {CustomerClassifications} from "../pages/customerClassifications/CustomerClassifications";
 import {SubcontractorClassifications} from "../pages/subcontractorClassifications/SubcontractorClassifications";
 import {ProviderClassifications} from "../pages/providerClassifications/ProviderClassifications";
 import {CounterpartyStatus} from "../pages/counterpartyStatus/CounterpartyStatus";
 import {Counterparties} from "../pages/counterparties/Counterparties";
-
 import {Profile} from "../pages/profile/Profile";
 import {Home} from "../home/Home";
 import {CounterpartyFormats} from "../pages/counterpartyFormats/CounterpartyFormats";

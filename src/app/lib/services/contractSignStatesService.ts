@@ -1,15 +1,16 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import coreUrls from "../../../core/lib/core-urls";
+
+import urls from "../urls";
 
 
 export const contractSignStatesService = createApi({
     reducerPath: 'contractSignStates',
-    baseQuery: fetchBaseQuery({baseUrl: coreUrls.BACKEND}),
+    baseQuery: fetchBaseQuery({baseUrl: urls.CONTRACT_SIGN_STATES}),
     tagTypes: ['contractSignStates'],
     endpoints:(build)=>({
         fetchContractSignStates: build.query({
             query: () => ({
-                url: '/contractSignStates',
+                url: '',
             }),
         }),
     })

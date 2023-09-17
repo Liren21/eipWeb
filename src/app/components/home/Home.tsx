@@ -8,14 +8,17 @@ export const Home = () => {
         <div className='home'>
             {
                 navigation.map((itemMenu, index) => (
-                    itemMenu.text !== "Главная" && <div key={`home-${itemMenu}-${index}`} className='home__card'>
+                    itemMenu.text !== "Главная"
+                    &&
+                    <div key={`home-${itemMenu.text}-${index}`} className='home__card'>
                         <div className='home__title'>
                             {itemMenu.text}
                         </div>
                         <div className='home__body'>
                             {
                                 itemMenu.items.map((submenuItem) => (
-                                    <Link to={submenuItem.path} className='home__link'>
+                                    <Link key={`home-link-${submenuItem.text}-${index}`} to={submenuItem.path}
+                                          className='home__link'>
                                         {submenuItem.text}
                                     </Link>
                                 ))

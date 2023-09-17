@@ -15,7 +15,6 @@ import {validationRules} from "../../../generic/ValidationRules/ValidationRules"
 import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
 
 
-
 export const Contracts = () => {
     const URL: string = urls.CONTRACTS
     const [state, dispatch] = useReducer(reducer, TableVariable);
@@ -60,7 +59,7 @@ export const Contracts = () => {
     }, [URL]);
 
     const onChangesChange = useCallback((changes) => {
-        console.log(changes)
+
         setChanges(dispatch, changes);
     }, []);
 
@@ -93,8 +92,8 @@ export const Contracts = () => {
                         <Item dataField="address"/>
                         <Item dataField="title"/>
                         <Item dataField="counterpartyCustomer.id"/>
-                        <Item dataField="counterpartySubcontractor.id"/>
-                        <Item dataField="counterpartyProvider.id"/>
+                        <Item dataField="counterpartySubcontractor.id" label={{text: "Контрагент-субподрядчик"}}/>
+                        <Item dataField="counterpartyProvider.id" label={{text: "Контрагент-поставщик"}}/>
                         <Item dataField="contractNumberCustomer"/>
                         <Item dataField="contractNumberSubcontractor"/>
                         <Item dataField="contractNumberProvider"/>
@@ -103,9 +102,9 @@ export const Contracts = () => {
                         <Item dataField="additionalAgreementProvider"/>
                         <Item dataField="noSap"/>
                         <Item dataField="subscriber"/>
-                        <Item dataField="ras.id"/>
-                        <Item dataField="projectEmployee.id"/>
-                        <Item dataField="executorDO.id"/>
+                        <Item dataField="ras.id" label={{text: "РЭС"}}/>
+                        <Item dataField="projectEmployee.id" label={{text: 'Ф.И.О. руководителя проекта'}}/>
+                        <Item dataField="executorDO.id" label={{text: 'Исполнитель | ДО'}}/>
                         <Item dataField="statusDOId"/>
                         <Item dataField="contractSigningOption"/>
                         <Item dataField="noteDO"/>
@@ -153,30 +152,6 @@ export const Contracts = () => {
                 />
             </Column>
 
-            <Column alignment={"center"} dataField="counterpartySubcontractor.id" caption={'Контрагент-субподрядчик'}
-                    visible={false}
-                    allowEditing={true}
-                    dataType={"number"}
-                    validationRules={validationRules}>
-                <Lookup
-                    dataSource={counterparties}
-                    valueExpr="id"
-                    displayExpr={'name'}
-                />
-            </Column>
-
-            <Column alignment={"center"} dataField="counterpartyProvider.id" caption={'Контрагент-поставщик'}
-                    visible={false}
-                    allowEditing={true}
-                    dataType={"number"}
-                    validationRules={validationRules}>
-                <Lookup
-                    dataSource={counterparties}
-                    valueExpr="id"
-                    displayExpr={'name'}
-                />
-            </Column>
-
             <Column alignment={"center"} dataField="statusDOId" caption={'Статус ДО'} visible={false}
                     allowEditing={true}
                     dataType={"number"}>
@@ -186,35 +161,6 @@ export const Contracts = () => {
                     displayExpr={'name'}
                 />
             </Column>
-
-            <Column alignment={"center"} dataField="ras.id" caption={'РЭС'} visible={false}
-                    allowEditing={true}
-            >
-                <Lookup
-                    dataSource={rases}
-                    valueExpr="id"
-                    displayExpr={'name'}
-                />
-            </Column>
-
-            <Column alignment={"center"} dataField="executorDO.id" caption={'Исполнитель | ДО'} visible={false}
-                    allowEditing={true}
-            >
-                <Lookup
-                    dataSource={rases}
-                    valueExpr="id"
-                    displayExpr={'name'}
-                />
-            </Column>
-            <Column alignment={"center"} dataField="projectEmployee.id" caption={'Ф.И.О. руководителя проекта'}
-                    dataType={"number"}>
-                <Lookup
-                    dataSource={counterpartyContact}
-                    valueExpr="id"
-                    displayExpr={'lastName'}
-                />
-            </Column>
-
 
             <Column alignment={"center"} dataField="counterpartySubcontractor" caption={'Контрагент субподрядчик'}>
 
@@ -228,8 +174,14 @@ export const Contracts = () => {
                         caption={'ID номер клиента'}
                         dataType={"number"}/>
                 <Column alignment={"center"} dataField="counterpartySubcontractor.id" caption={'ID'}
-                        allowEditing={false}
-                        dataType={"number"}/>
+                        dataType={"number"}
+                        validationRules={validationRules}>
+                    <Lookup
+                        dataSource={counterparties}
+                        valueExpr="id"
+                        displayExpr={'name'}
+                    />
+                </Column>
                 <Column alignment={"center"} dataField="counterpartySubcontractor.inn" caption={'ИНН'}
                         dataType={"string"}/>
                 <Column alignment={"center"} dataField="counterpartySubcontractor.isCustomer" caption={'Заказчик'}
@@ -258,8 +210,15 @@ export const Contracts = () => {
                 <Column alignment={"center"} dataField="counterpartyProvider.customerClassificationId"
                         caption={'ID номер клиента'}
                         dataType={"number"}/>
-                <Column alignment={"center"} dataField="counterpartyProvider.id" caption={'ID'} allowEditing={false}
-                        dataType={"number"}/>
+                <Column alignment={"center"} dataField="counterpartyProvider.id" caption={'ID'}
+                        dataType={"number"}
+                        validationRules={validationRules}>
+                    <Lookup
+                        dataSource={counterparties}
+                        valueExpr="id"
+                        displayExpr={'name'}
+                    />
+                </Column>
                 <Column alignment={"center"} dataField="counterpartyProvider.inn" caption={'ИНН'}
                         dataType={"string"}/>
                 <Column alignment={"center"} dataField="counterpartyProvider.isCustomer" caption={'Заказчик'}
@@ -303,7 +262,13 @@ export const Contracts = () => {
             <Column alignment={"center"} dataField="ras" caption={'РЭС'}
                     dataType={"number"}>
                 <Column alignment={"center"} dataField="ras.id" caption={'ID'}
-                        dataType={"number"}/>
+                        dataType={"number"}>
+                    <Lookup
+                        dataSource={rases}
+                        valueExpr="id"
+                        displayExpr={'name'}
+                    />
+                </Column>
                 <Column alignment={"center"} dataField="ras.sortIndex" caption={'Сортировка'}
                         dataType={"number"}/>
                 <Column alignment={"center"} dataField="ras.name" caption={'Имя'}
@@ -311,18 +276,17 @@ export const Contracts = () => {
                 <Column alignment={"center"} dataField="ras.note" caption={'Примечание'}
                         dataType={"string"}/>
             </Column>
-            <Column alignment={"center"} dataField="projectEmployee.id" caption={'ФИО руководителя проекта'}
-                    dataType={"number"}>
-                <Lookup
-                    dataSource={counterpartyContact}
-                    valueExpr="id"
-                    displayExpr={'lastName'}
-                />
-            </Column>
+
 
             <Column alignment={"center"} dataField="projectEmployee" caption={'Сотрудник проекта'}>
                 <Column alignment={"center"} dataField="projectEmployee.id" caption={'ID '}
-                        dataType={"number"}/>
+                        dataType={"number"}>
+                    <Lookup
+                        dataSource={counterpartyContact}
+                        valueExpr="id"
+                        displayExpr={'lastName'}
+                    />
+                </Column>
                 <Column alignment={"center"} dataField="projectEmployee.lastName" caption={'Фамилия'}
                         dataType={"number"}/>
                 <Column alignment={"center"} dataField="projectEmployee.firstName" caption={'Имя'}
@@ -342,7 +306,13 @@ export const Contracts = () => {
 
             <Column alignment={"center"} dataField="executorDO" caption={'Исполнитель | ДО'}>
                 <Column alignment={"center"} dataField="executorDO.id" caption={'ID'}
-                        dataType={"number"}/>
+                        dataType={"number"}>
+                    <Lookup
+                        dataSource={rases}
+                        valueExpr="id"
+                        displayExpr={'name'}
+                    />
+                </Column>
                 <Column alignment={"center"} dataField="executorDO.lastName" caption={'Фамилия'}
                         dataType={"number"}/>
                 <Column alignment={"center"} dataField="executorDO.firstName" caption={'Имя'}
@@ -418,7 +388,7 @@ export const Contracts = () => {
                     dataType={"number"}/>
             <Column alignment={"center"} dataField="summaOther" caption={'СУММА | ПРОЧЕЕ'}
                     dataType={"number"}/>
-            <Column alignment={"center"} dataField="summaOther" caption={'СУММА | По договору'}
+            <Column alignment={"center"} dataField="summaOtherTwo" caption={'СУММА | По договору'}
                     dataType={"number"}/>
 
             <Column alignment={"center"} dataField="updateStatusDOEmployee" caption={'Созданный сотрудник'}>

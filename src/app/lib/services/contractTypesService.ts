@@ -5,16 +5,15 @@ import {ISignState, SignState} from "../models/SignState";
 import {Contract} from "../models/Contract";
 import {Employee} from "../models/Employee";
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import coreUrls from "../../../core/lib/core-urls";
 
 export const contractTypesService = createApi({
     reducerPath: 'contractTypesApi',
-    baseQuery: fetchBaseQuery({baseUrl: coreUrls.BACKEND}),
+    baseQuery: fetchBaseQuery({baseUrl: urls.CONTRACT_TYPES}),
     tagTypes: ['contractTypesApi'],
     endpoints:(build)=>({
         fetchContractType: build.query({
             query: () => ({
-                url: '/contractTypes',
+                url: '',
             }),
         }),
     })

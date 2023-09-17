@@ -1,16 +1,16 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import coreUrls from "../../../core/lib/core-urls";
 import {IContract} from "../models/Contract";
+import urls from "../urls";
 
 
 export const contractsService = createApi({
     reducerPath: 'contracts',
-    baseQuery: fetchBaseQuery({baseUrl: coreUrls.BACKEND}),
+    baseQuery: fetchBaseQuery({baseUrl: urls.CONTRACTS}),
     tagTypes: ['contracts'],
     endpoints: (build) => ({
         fetchContracts: build.query({
             query: () => ({
-                url: '/contracts',
+                url: '',
                 // params: {
                 //     _limit: limit
                 // }
@@ -19,7 +19,7 @@ export const contractsService = createApi({
         }),
         createContract: build.mutation<IContract,IContract>({
             query: (contract) => ({
-                url: `/contracts`,
+                url: ``,
                 method: 'POST',
                 body: contract
             }),

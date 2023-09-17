@@ -4,19 +4,30 @@ import reducer from '../../../../core/lib/api/reducer';
 import {loadOrders, saveChange, setChanges, setEditRowKey,} from '../../../../core/lib/api/actions';
 import urls from "../../../lib/urls";
 import {Item} from "devextreme-react/form";
-import {TableVariable} from "../../../generic/Variable/TableVariable";
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
 import ColorBox from 'devextreme-react/color-box';
+import {IContractCategories} from "../../../lib/models/contractCategories";
 
+interface ITableVariable {
+    data: IContractCategories[],
+    changes: any,
+    editRowKey: boolean,
+    isLoading: boolean,
+}
+
+const TableVariable: ITableVariable = {
+    data: [],
+    changes: [],
+    editRowKey: null,
+    isLoading: false,
+};
 
 
 export const ContractCategories = () => {
     const URL: string = urls.CONTRACT_CATEGORIES
     const [state, dispatch] = useReducer(reducer, TableVariable);
     const [color, setColor] = useState('')
-
-
 
 
     useEffect(() => {
@@ -30,8 +41,6 @@ export const ContractCategories = () => {
     }, [URL]);
 
     const onChangesChange = useCallback((changes) => {
-        console.log(changes)
-        console.log(color)
         setChanges(dispatch, changes);
     }, [color]);
 
@@ -42,6 +51,7 @@ export const ContractCategories = () => {
     const changeColor = (e) => {
         setColor(e.value)
     }
+
     return (
         <CustomDataGrid
             visible={state.isLoading}
@@ -64,7 +74,7 @@ export const ContractCategories = () => {
                 <Form>
                     <Item itemType="group" colCount={3} colSpan={2}>
 
-                        <Item dataField="style"  editorType={'dxColorBox'}>
+                        <Item dataField="style" editorType={'dxColorBox'}>
                             <ColorBox
                                 value={color}
                                 onValueChanged={changeColor}
@@ -89,7 +99,7 @@ export const ContractCategories = () => {
                     validationRules={validationRules}/>
             <Column alignment={"center"} dataField="note" caption={'Примечание'} dataType={"string"}
                     validationRules={validationRules}/>
-            <Column alignment={"center"} dataField="style"  caption={'Цветовое обозначение'} dataType={"number"}
+            <Column alignment={"center"} dataField="style" caption={'Цветовое обозначение'} dataType={"number"}
                     validationRules={validationRules}/>
 
         </CustomDataGrid>
