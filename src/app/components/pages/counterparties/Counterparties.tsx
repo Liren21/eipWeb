@@ -160,7 +160,7 @@ export const Counterparties = () => {
                     displayExpr={'name'}
                 />
             </Column>
-            <Column fixed={true} dataField="id" caption={'ID контрагента'} allowEditing={false}
+            <Column fixed={true} dataField="id" defaultSortOrder={"asc"} caption={'ID контрагента'} allowEditing={false}
                     dataType={"number"}/>
             <Column dataField="counterpartyFormat" allowEditing={true}
                     caption={'Формат контрагента'}>

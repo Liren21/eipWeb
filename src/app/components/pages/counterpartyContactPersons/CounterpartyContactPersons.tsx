@@ -76,7 +76,7 @@ export const CounterpartyContactPersons = () => {
                     </Item>
                 </Form>
             </Editing>
-            <Column fixed={true} dataField="id" caption={'ID'} allowEditing={false} dataType={"number"}/>
+            <Column fixed={true} dataField="id" defaultSortOrder={"asc"} caption={'ID'} allowEditing={false} dataType={"number"}/>
             <Column dataField="lastName" allowEditing={true}
                     caption={'Фамилия'} dataType={"string"} validationRules={validationRules}/>
             <Column dataField="firstName" allowEditing={true}

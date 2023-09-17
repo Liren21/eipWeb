@@ -1,18 +1,18 @@
 import React from 'react';
 import {navigation} from "../../App/app-navigation";
+import {useNavigation} from "../../../../core/lib/contexts/navigation";
 
-const TableName = () => {
+export const TableName = () => {
+    const {navigationData: {currentPath}} = useNavigation();
+
     return (
             <div className='generic__title'>
-
                     {
                         navigation.map((data) => data.items.map((item) => (
-                            window.location.hash.includes(item.path) && item.text
+                            currentPath.includes(item.path) && item.text
                         )))
                     }
-
             </div>
     );
 };
 
-export default TableName;

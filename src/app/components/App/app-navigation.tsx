@@ -1,5 +1,10 @@
 export const navigation = [
     {
+        text: "Главная",
+        path:'/home',
+        items: []
+    },
+    {
         text: "Справочники",
         items: [
             {

@@ -1,3 +1,4 @@
+@use "variables";
 html, body, #root {
   margin: 0;
   height: 100% !important;
@@ -10,7 +11,10 @@ html, body, #root {
 .dx-widget {
   font-family: Arial, Narrow, serif !important;
 }
-
+a{
+  text-decoration: none!important;
+  color: white!important;
+}
 .dx-datagrid-nowrap .dx-header-row > td > .dx-datagrid-text-content {
   white-space: normal !important;
 }

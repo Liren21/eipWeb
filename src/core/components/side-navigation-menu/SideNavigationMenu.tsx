@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useCallback} from 'react';
+import React, {useEffect, useRef, useCallback, ReactNode} from 'react';
 import TreeView, {TreeViewTypes} from 'devextreme-react/tree-view';
 import {navigation} from '../../../app/components/App/app-navigation';
 import {useNavigation} from '../../lib/contexts/navigation';
@@ -11,19 +11,19 @@ interface SideNavigationMenuProps {
     openMenu: (e: React.PointerEvent) => void;
     compactMode: boolean;
     onMenuReady: (e: TreeViewTypes.ContentReadyEvent) => void;
+    children: ReactNode
 }
 
-export default function SideNavigationMenu(props: React.PropsWithChildren<SideNavigationMenuProps>) {
-    const {
-        children,
-        selectedItemChanged,
-        openMenu,
-        compactMode,
-        onMenuReady
-    } = props;
+export default function SideNavigationMenu({
+                                               children,
+                                               selectedItemChanged,
+                                               openMenu,
+                                               compactMode,
+                                               onMenuReady
+                                           }: SideNavigationMenuProps) {
+
 
     const {navigationData: {currentPath}} = useNavigation();
-
     const treeViewRef = useRef<TreeView>(null);
     const wrapperRef = useRef<HTMLDivElement>();
     const getWrapperRef = useCallback((element: HTMLDivElement) => {
@@ -61,6 +61,7 @@ export default function SideNavigationMenu(props: React.PropsWithChildren<SideNa
         >
             {children}
             <div className={'menu-container'}>
+
                 <TreeView
                     expandNodesRecursive={false}
                     ref={treeViewRef}

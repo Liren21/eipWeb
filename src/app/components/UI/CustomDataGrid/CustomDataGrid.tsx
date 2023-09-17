@@ -1,7 +1,7 @@
 import DataGrid, {FilterRow, HeaderFilter, Scrolling, Search, SearchPanel} from 'devextreme-react/data-grid';
 import React, {ReactNode} from 'react';
 import {onInitNewRow} from "../../../generic/Function/OnInitNewRow";
-import TableName from "../TableName/TableName";
+import {TableName} from "../TableName/TableName";
 import {LoadPanel} from "devextreme-react/load-panel";
 import './CustomDataGrid.scss'
 
