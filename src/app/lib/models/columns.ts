@@ -7,5 +7,7 @@ export interface ColumnDefinition {
     lookup?: any;
     item?: boolean;
     nestedColumns?: ColumnDefinition[];
+    colorField?:boolean,
     defaultSortOrder?:string
+    visible?:boolean
 }

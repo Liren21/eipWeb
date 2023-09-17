@@ -22,8 +22,8 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Наименование",
         dataType: "string",
-        item:true,
         validationRules:true,
+        item:true,
     },
     {
         dataField: "note",

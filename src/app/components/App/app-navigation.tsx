@@ -64,4 +64,9 @@ export const navigation = [
             },
         ]
     },
+    {
+        text: "Тестова страница",
+        path:'/test',
+        items: []
+    },
 ]

@@ -23,7 +23,7 @@ export const columns:ColumnDefinition[] = [
         allowEditing: true,
         caption: "Наименование",
         dataType: "string",
-        validationRules:false,
+        validationRules:true,
         item:true,
     },
     {

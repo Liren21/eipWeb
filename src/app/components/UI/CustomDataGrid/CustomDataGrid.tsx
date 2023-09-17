@@ -8,7 +8,7 @@ import './CustomDataGrid.scss'
 interface ICustomDataGrid {
     dataSource: any
     onSaving: any
-    keyExpr: string
+    keyExpr?: string
     dataOnInitNewRow?: any
     children: ReactNode
     visible: boolean

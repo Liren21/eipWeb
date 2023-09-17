@@ -1,24 +1,29 @@
 import React, {useCallback, useEffect, useReducer} from 'react';
-import {Column, Editing, Form, Lookup, Popup,} from 'devextreme-react/data-grid';
-import 'whatwg-fetch';
-import reducer from '../../../../core/lib/api/reducer';
-import {saveChange, loadOrders, setChanges, setEditRowKey,} from '../../../../core/lib/api/actions';
+import {Column, Editing, Lookup, Popup,} from 'devextreme-react/data-grid';
 import urls from "../../../lib/urls";
-import {Item} from "devextreme-react/form";
+import reducer from "../../../../core/lib/api/reducer";
 import {counterpartyFormatsService} from "../../../lib/services/counterpartyFormatsService";
 import {customerClassificationsService} from "../../../lib/services/сustomerClassificationsService";
 import {counterpartyStatusService} from "../../../lib/services/counterpartyStatusService";
 import {providerClassificationsService} from "../../../lib/services/providerClassificationsService";
 import {subcontractorClassificationsService} from "../../../lib/services/subcontractorClassificationsService";
-import {TableVariable} from "../../../generic/Variable/TableVariable";
-import {ProcessClassifications, ProcessClassificationsObj} from '../../../generic/Function/ProcessClassifications';
+import {loadOrders, saveChange, setChanges, setEditRowKey} from "../../../../core/lib/api/actions";
+import {ProcessClassifications, ProcessClassificationsObj} from "../../../generic/Function/ProcessClassifications";
+import {CustomDataGrid} from '../../UI/CustomDataGrid/CustomDataGrid';
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
-import {dataFormItems} from "./columns/FormsItem";
-import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
+import {DataColumns} from "../counterparties/columns/DataColumns";
+import Form from 'devextreme-react/form';
 
 
-export const Counterparties = () => {
+const TableVariable = {
+    data: [],
+    changes: [],
+    editRowKey: null,
+    isLoading: false,
+};
+export const Test = () => {
     const URL: string = urls.COUNTERPARTIES
+    const URLTest: string[] = [urls.COUNTERPARTIES,urls.COUNTERPARTY_FORMATS,urls.CUSTOMER_CLASSIFICATIONS]
     const [state, dispatch] = useReducer(reducer, TableVariable);
     const {
         data: counterpartyFormats,
@@ -97,19 +102,24 @@ export const Counterparties = () => {
                 onEditRowKeyChange={onEditRowKeyChange}>
                 <Popup title="Создание контрагента" showTitle={true}/>
                 <Form>
-                    {
-                        dataFormItems.map((item, index) => (
-                            <Item key={`counterparties-${item.itemCaption}-${index}`} caption={item.itemCaption}
-                                  itemType="group" colCount={3} colSpan={2}>
-                                {item.data.map((data) => (
-                                    <Item key={`counterparties-${data.dataField}-${index}`}
-                                          dataField={data.dataField}/>
-                                ))}
-                            </Item>
-                        ))
-                    }
+
                 </Form>
             </Editing>
+            {
+                DataColumns.map((column) => (
+                    <Column alignment={"center"} dataField={column.dataField} allowEditing={column.allowEditing}
+                            visible={column.visible}
+                            caption={column.caption} dataType={column.dataType}
+                            validationRules={column.validationRules ? validationRules : null}
+                    >
+                        <Lookup
+                            dataSource={column.lookup.subcontractorClassifications}
+                            valueExpr={column.lookup.valueExpr}
+                            displayExpr={column.lookup.displayExpr}
+                        />
+                    </Column>
+                ))
+            }
             <Column alignment={"center"} dataField="subcontractorClassifications[0].name" allowEditing={true}
                     visible={false}
                     caption={'Классификация субподрядчика'} dataType={"number"}
@@ -160,7 +170,8 @@ export const Counterparties = () => {
                     displayExpr={'name'}
                 />
             </Column>
-            <Column fixed={true} alignment={"center"} dataField="id" defaultSortOrder={"asc"} caption={'ID контрагента'} allowEditing={false}
+            <Column fixed={true} alignment={"center"} dataField="id" defaultSortOrder={"asc"} caption={'ID контрагента'}
+                    allowEditing={false}
                     dataType={"number"}/>
             <Column alignment={"center"} dataField="counterpartyFormat" allowEditing={true}
                     caption={'Формат контрагента'}>
@@ -246,7 +257,8 @@ export const Counterparties = () => {
                         caption={'Фамилия'} dataType={"string"}/>
                 <Column alignment={"center"} dataField="counterpartyContactPersons[0].firstName" allowEditing={true}
                         caption={'Имя'} dataType={"string"}/>
-                <Column alignment={"center"} dataField="counterpartyContactPersons[0].patronymicName" allowEditing={true}
+                <Column alignment={"center"} dataField="counterpartyContactPersons[0].patronymicName"
+                        allowEditing={true}
                         caption={'Отчество'} dataType={"string"}/>
                 <Column alignment={"center"} dataField="counterpartyContactPersons[0].phone" allowEditing={true}
                         caption={'Рабочий телефон'} dataType={"string"}/>

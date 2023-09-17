@@ -1,12 +1,13 @@
-import React, {Fragment, useCallback, useEffect, useReducer} from 'react';
-import reducer from '../../../core/lib/api/reducer';
-import {saveChange, loadOrders, setChanges, setEditRowKey} from '../../../core/lib/api/actions';
+import React, {Fragment, useCallback, useEffect, useReducer, useState} from 'react';
+import reducer from '../../../../core/lib/api/reducer';
+import {saveChange, loadOrders, setChanges, setEditRowKey} from '../../../../core/lib/api/actions';
 import Form, {Item} from "devextreme-react/form";
-import {TableVariable} from "../Variable/TableVariable";
-import {validationRules} from "../ValidationRules/ValidationRules";
+import {TableVariable} from "../../../generic/Variable/TableVariable";
+import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import './GenericDataGrid.scss'
-import {CustomDataGrid} from "../../components/UI/CustomDataGrid/CustomDataGrid";
+import {CustomDataGrid} from "../CustomDataGrid/CustomDataGrid";
 import {Column, Editing, Popup} from 'devextreme-react/data-grid';
+import ColorBox from 'devextreme-react/color-box';
 
 interface IProps {
     URL: string
@@ -20,7 +21,7 @@ interface IProps {
 
 export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm, dataOnInitNewRow}: IProps) => {
     const [state, dispatch] = useReducer(reducer, TableVariable);
-
+    const [color, setColor] = useState('#f2f2f2')
 
     useEffect(() => {
         loadOrders(dispatch, URL, AdditionalURL)
@@ -39,6 +40,9 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm,
         setEditRowKey(dispatch, editRowKey);
     }, []);
 
+    const changeColor = (e) => {
+        setColor(e.value)
+    }
     return (
         <Fragment>
             <CustomDataGrid
@@ -47,7 +51,6 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm,
                 dataSource={state.data}
                 onSaving={onSaving}
                 dataOnInitNewRow={dataOnInitNewRow}
-
             >
                 <Editing
                     mode="popup"
@@ -84,6 +87,5 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm,
                 ))}
             </CustomDataGrid>
         </Fragment>
-
     );
 }
