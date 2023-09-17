@@ -26,7 +26,7 @@ export async function loadOrders(dispatch, URL, block = '/GetAll') {
             },
         });
     } catch (err) {
-        dispatch({type: FETCH_ERROR});
+        // dispatch({type: FETCH_ERROR});
 
         // new Toaster({msg: `${err.response.data}`, type: toast.TYPE.ERROR})
         // throw err;

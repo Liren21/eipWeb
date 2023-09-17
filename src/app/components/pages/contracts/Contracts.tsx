@@ -122,13 +122,13 @@ export const Contracts = () => {
                 </Form>
             </Editing>
 
-            <Column fixed={true} dataField="id" defaultSortOrder={"asc"} caption={'ID договора'}
+            <Column alignment={"center"} fixed={true} dataField="id" defaultSortOrder={"asc"} caption={'ID договора'}
                     allowEditing={false} dataType={"number"}/>
-            <Column dataField="address" caption={'Адрес договора'} dataType={"string"}
+            <Column alignment={"center"} dataField="address" caption={'Адрес договора'} dataType={"string"}
                     validationRules={validationRules}/>
-            <Column dataField="title" caption={'Титул полный'} dataType={"string"}
+            <Column alignment={"center"} dataField="title" caption={'Титул полный'} dataType={"string"}
                     validationRules={validationRules}/>
-            <Column dataField="contractCategory.id" caption={'Категория договора'} visible={false}
+            <Column alignment={"center"} dataField="contractCategory.id" caption={'Категория договора'} visible={false}
                     allowEditing={true}
                     dataType={"number"}>
                 <Lookup
@@ -138,7 +138,8 @@ export const Contracts = () => {
                 />
             </Column>
 
-            <Column dataField="counterpartyCustomer.id" caption={'Контрагент-заказчик'} visible={false}
+            <Column alignment={"center"} dataField="counterpartyCustomer.id" caption={'Контрагент-заказчик'}
+                    visible={false}
                     allowEditing={true}
                     dataType={"number"}
                     validationRules={validationRules}
@@ -150,7 +151,8 @@ export const Contracts = () => {
                 />
             </Column>
 
-            <Column dataField="counterpartySubcontractor.id" caption={'Контрагент-субподрядчик'} visible={false}
+            <Column alignment={"center"} dataField="counterpartySubcontractor.id" caption={'Контрагент-субподрядчик'}
+                    visible={false}
                     allowEditing={true}
                     dataType={"number"}
                     validationRules={validationRules}>
@@ -161,7 +163,8 @@ export const Contracts = () => {
                 />
             </Column>
 
-            <Column dataField="counterpartyProvider.id" caption={'Контрагент-поставщик'} visible={false}
+            <Column alignment={"center"} dataField="counterpartyProvider.id" caption={'Контрагент-поставщик'}
+                    visible={false}
                     allowEditing={true}
                     dataType={"number"}
                     validationRules={validationRules}>
@@ -172,7 +175,7 @@ export const Contracts = () => {
                 />
             </Column>
 
-            <Column dataField="statusDOId" caption={'Статус ДО'} visible={false}
+            <Column alignment={"center"} dataField="statusDOId" caption={'Статус ДО'} visible={false}
                     allowEditing={true}
                     dataType={"number"}>
                 <Lookup
@@ -182,7 +185,7 @@ export const Contracts = () => {
                 />
             </Column>
 
-            <Column dataField="ras.id" caption={'РЭС'} visible={false}
+            <Column alignment={"center"} dataField="ras.id" caption={'РЭС'} visible={false}
                     allowEditing={true}
             >
                 <Lookup
@@ -192,7 +195,7 @@ export const Contracts = () => {
                 />
             </Column>
 
-            <Column dataField="executorDO.id" caption={'Исполнитель | ДО'} visible={false}
+            <Column alignment={"center"} dataField="executorDO.id" caption={'Исполнитель | ДО'} visible={false}
                     allowEditing={true}
             >
                 <Lookup
@@ -201,7 +204,7 @@ export const Contracts = () => {
                     displayExpr={'name'}
                 />
             </Column>
-            <Column dataField="projectEmployee.id" caption={'ФИО руководителя проекта'}
+            <Column alignment={"center"} dataField="projectEmployee.id" caption={'ФИО руководителя проекта'}
                     dataType={"number"}>
                 <Lookup
                     dataSource={counterpartyContact}
@@ -211,93 +214,97 @@ export const Contracts = () => {
             </Column>
 
 
-            <Column dataField="counterpartySubcontractor" caption={'Контрагент субподрядчик'}>
+            <Column alignment={"center"} dataField="counterpartySubcontractor" caption={'Контрагент субподрядчик'}>
 
-                <Column dataField="counterpartySubcontractor.counterpartyFormatId"
+                <Column alignment={"center"} dataField="counterpartySubcontractor.counterpartyFormatId"
                         caption={'ID формата контрагента'}
                         dataType={"number"}/>
-                <Column dataField="counterpartySubcontractor.counterpartyStatusId"
+                <Column alignment={"center"} dataField="counterpartySubcontractor.counterpartyStatusId"
                         caption={'ID статуса контрагента'}
                         dataType={"number"}/>
-                <Column dataField="counterpartySubcontractor.customerClassificationId" caption={'ID номер клиента'}
+                <Column alignment={"center"} dataField="counterpartySubcontractor.customerClassificationId"
+                        caption={'ID номер клиента'}
                         dataType={"number"}/>
-                <Column dataField="counterpartySubcontractor.id" caption={'ID'} allowEditing={false}
+                <Column alignment={"center"} dataField="counterpartySubcontractor.id" caption={'ID'}
+                        allowEditing={false}
                         dataType={"number"}/>
-                <Column dataField="counterpartySubcontractor.inn" caption={'ИНН'}
+                <Column alignment={"center"} dataField="counterpartySubcontractor.inn" caption={'ИНН'}
                         dataType={"string"}/>
-                <Column dataField="counterpartySubcontractor.isCustomer" caption={'Заказчик'}
+                <Column alignment={"center"} dataField="counterpartySubcontractor.isCustomer" caption={'Заказчик'}
                         dataType={"boolean"}/>
-                <Column dataField="counterpartySubcontractor.isProvider" caption={'Поставщик'}
+                <Column alignment={"center"} dataField="counterpartySubcontractor.isProvider" caption={'Поставщик'}
                         dataType={"boolean"}/>
-                <Column dataField="counterpartySubcontractor.isSubcontractor" caption={'Субподрядчик'}
+                <Column alignment={"center"} dataField="counterpartySubcontractor.isSubcontractor"
+                        caption={'Субподрядчик'}
                         dataType={"boolean"}/>
-                <Column dataField="counterpartySubcontractor.isWithOutNDS" caption={'Продается без учета НДС'}
+                <Column alignment={"center"} dataField="counterpartySubcontractor.isWithOutNDS"
+                        caption={'Продается без учета НДС'}
                         dataType={"boolean"}/>
-                <Column dataField="counterpartySubcontractor.name" caption={'Имя'}
+                <Column alignment={"center"} dataField="counterpartySubcontractor.name" caption={'Имя'}
                         dataType={"string"}/>
-                <Column dataField="counterpartySubcontractor.note" caption={'Примечание'}
-                        dataType={"string"}/>
-            </Column>
-
-            <Column dataField="counterpartyProvider" caption={'Контрагент субподрядчик'}>
-                <Column dataField="counterpartyProvider.counterpartyFormatId" caption={'ID формата контрагента'}
-                        dataType={"number"}/>
-                <Column dataField="counterpartyProvider.counterpartyStatusId" caption={'ID статуса контрагента'}
-                        dataType={"number"}/>
-                <Column dataField="counterpartyProvider.customerClassificationId" caption={'ID номер клиента'}
-                        dataType={"number"}/>
-                <Column dataField="counterpartyProvider.id" caption={'ID'} allowEditing={false}
-                        dataType={"number"}/>
-                <Column dataField="counterpartyProvider.inn" caption={'ИНН'}
-                        dataType={"string"}/>
-                <Column dataField="counterpartyProvider.isCustomer" caption={'Заказчик'}
-                        dataType={"boolean"}/>
-                <Column dataField="counterpartyProvider.isProvider" caption={'Поставщик'}
-                        dataType={"boolean"}/>
-                <Column dataField="counterpartyProvider.isSubcontractor" caption={'Субподрядчик'}
-                        dataType={"boolean"}/>
-                <Column dataField="counterpartyProvider.isWithOutNDS" caption={'Продается без учета НДС'}
-                        dataType={"boolean"}/>
-                <Column dataField="counterpartyProvider.name" caption={'Имя'}
-                        dataType={"string"}/>
-                <Column dataField="counterpartyProvider.note" caption={'Примечание'}
+                <Column   alignment={"center"} dataField="counterpartySubcontractor.note" caption={'Примечание'}
                         dataType={"string"}/>
             </Column>
 
+            <Column   alignment={"center"} dataField="counterpartyProvider" caption={'Контрагент субподрядчик'}>
+                <Column   alignment={"center"} dataField="counterpartyProvider.counterpartyFormatId" caption={'ID формата контрагента'}
+                        dataType={"number"}/>
+                <Column   alignment={"center"} dataField="counterpartyProvider.counterpartyStatusId" caption={'ID статуса контрагента'}
+                        dataType={"number"}/>
+                <Column   alignment={"center"} dataField="counterpartyProvider.customerClassificationId" caption={'ID номер клиента'}
+                        dataType={"number"}/>
+                <Column   alignment={"center"} dataField="counterpartyProvider.id" caption={'ID'} allowEditing={false}
+                        dataType={"number"}/>
+                <Column   alignment={"center"} dataField="counterpartyProvider.inn" caption={'ИНН'}
+                        dataType={"string"}/>
+                <Column   alignment={"center"} dataField="counterpartyProvider.isCustomer" caption={'Заказчик'}
+                        dataType={"boolean"}/>
+                <Column   alignment={"center"} dataField="counterpartyProvider.isProvider" caption={'Поставщик'}
+                        dataType={"boolean"}/>
+                <Column   alignment={"center"} dataField="counterpartyProvider.isSubcontractor" caption={'Субподрядчик'}
+                        dataType={"boolean"}/>
+                <Column   alignment={"center"} dataField="counterpartyProvider.isWithOutNDS" caption={'Продается без учета НДС'}
+                        dataType={"boolean"}/>
+                <Column   alignment={"center"} dataField="counterpartyProvider.name" caption={'Имя'}
+                        dataType={"string"}/>
+                <Column   alignment={"center"} dataField="counterpartyProvider.note" caption={'Примечание'}
+                        dataType={"string"}/>
+            </Column>
 
-            <Column dataField="contractNumberCustomer" caption={'Номер договора с заказчиком'}
+
+            <Column   alignment={"center"} dataField="contractNumberCustomer" caption={'Номер договора с заказчиком'}
                     dataType={"string"} validationRules={validationRules}/>
-            <Column dataField="contractNumberSubcontractor" caption={'Номер договора с субподрядчиком'}
+            <Column   alignment={"center"} dataField="contractNumberSubcontractor" caption={'Номер договора с субподрядчиком'}
                     dataType={"string"} validationRules={validationRules}/>
-            <Column dataField="contractNumberProvider" caption={'Номер договора с поставщиком'}
+            <Column   alignment={"center"} dataField="contractNumberProvider" caption={'Номер договора с поставщиком'}
                     dataType={"string"} validationRules={validationRules}/>
-            <Column dataField="additionalAgreementCustomer"
+            <Column   alignment={"center"} dataField="additionalAgreementCustomer"
                     caption={'Номер Д/С с заказчиком'}
                     dataType={"string"} validationRules={validationRules}/>
-            <Column dataField="additionalAgreementSubcontractor"
+            <Column   alignment={"center"} dataField="additionalAgreementSubcontractor"
                     caption={'Номер Д/С с субподрядчиком'}
                     dataType={"string"} validationRules={validationRules}/>
-            <Column dataField="additionalAgreementProvider"
+            <Column   alignment={"center"} dataField="additionalAgreementProvider"
                     caption={'Номер Д/С с поставщиком'}
                     dataType={"string"}/>
-            <Column dataField="noSap"
+            <Column   alignment={"center"} dataField="noSap"
                     dataType={"string"} caption={"No SAP"} validationRules={validationRules}/>
-            <Column dataField="subscriber" caption={'Абонент'}
+            <Column   alignment={"center"} dataField="subscriber" caption={'Абонент'}
                     dataType={"string"} validationRules={validationRules}/>
 
 
-            <Column dataField="ras" caption={'РЭС'}
+            <Column   alignment={"center"} dataField="ras" caption={'РЭС'}
                     dataType={"number"}>
-                <Column dataField="ras.id" caption={'ID'}
+                <Column   alignment={"center"} dataField="ras.id" caption={'ID'}
                         dataType={"number"}/>
-                <Column dataField="ras.sortIndex" caption={'Сортировочный индекс'}
+                <Column   alignment={"center"} dataField="ras.sortIndex" caption={'Сортировочный индекс'}
                         dataType={"number"}/>
-                <Column dataField="ras.name" caption={'Имя'}
+                <Column   alignment={"center"} dataField="ras.name" caption={'Имя'}
                         dataType={"string"}/>
-                <Column dataField="ras.note" caption={'Примечание'}
+                <Column   alignment={"center"} dataField="ras.note" caption={'Примечание'}
                         dataType={"string"}/>
             </Column>
-            <Column dataField="projectEmployee.id" caption={'ФИО руководителя проекта'}
+            <Column   alignment={"center"} dataField="projectEmployee.id" caption={'ФИО руководителя проекта'}
                     dataType={"number"}>
                 <Lookup
                     dataSource={counterpartyContact}
@@ -306,122 +313,122 @@ export const Contracts = () => {
                 />
             </Column>
 
-            <Column dataField="projectEmployee" caption={'Сотрудник проекта'}>
-                <Column dataField="projectEmployee.id" caption={'ID '}
+            <Column   alignment={"center"} dataField="projectEmployee" caption={'Сотрудник проекта'}>
+                <Column   alignment={"center"} dataField="projectEmployee.id" caption={'ID '}
                         dataType={"number"}/>
-                <Column dataField="projectEmployee.lastName" caption={'Фамилия'}
+                <Column   alignment={"center"} dataField="projectEmployee.lastName" caption={'Фамилия'}
                         dataType={"number"}/>
-                <Column dataField="projectEmployee.firstName" caption={'Имя'}
+                <Column   alignment={"center"} dataField="projectEmployee.firstName" caption={'Имя'}
                         dataType={"number"}/>
-                <Column dataField="projectEmployee.patronymicName" caption={'Отчество'}
+                <Column   alignment={"center"} dataField="projectEmployee.patronymicName" caption={'Отчество'}
                         dataType={"number"}/>
-                <Column dataField="projectEmployee.isActive" caption={'Активен'}
+                <Column   alignment={"center"} dataField="projectEmployee.isActive" caption={'Активен'}
                         dataType={"boolean"}/>
-                <Column dataField="projectEmployee.departmentId" caption={'ID отдела'}
+                <Column   alignment={"center"} dataField="projectEmployee.departmentId" caption={'ID отдела'}
                         dataType={"number"}/>
-                <Column dataField="projectEmployee.positionId" caption={'ID позиции'}
+                <Column   alignment={"center"} dataField="projectEmployee.positionId" caption={'ID позиции'}
                         dataType={"number"}/>
-                <Column dataField="projectEmployee.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
-                        dataType={"boolean"}/>
-            </Column>
-
-            <Column dataField="executorDO" caption={'Исполнитель | ДО'}>
-                <Column dataField="executorDO.id" caption={'ID'}
-                        dataType={"number"}/>
-                <Column dataField="executorDO.lastName" caption={'Фамилия'}
-                        dataType={"number"}/>
-                <Column dataField="executorDO.firstName" caption={'Имя'}
-                        dataType={"number"}/>
-                <Column dataField="executorDO.patronymicName" caption={'Отчество'}
-                        dataType={"number"}/>
-                <Column dataField="executorDO.isActive" caption={'Активен'}
-                        dataType={"boolean"}/>
-                <Column dataField="executorDO.departmentId" caption={'ID отдела'}
-                        dataType={"number"}/>
-                <Column dataField="executorDO.positionId" caption={'ID позиции'}
-                        dataType={"number"}/>
-                <Column dataField="executorDO.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
+                <Column   alignment={"center"} dataField="projectEmployee.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
                         dataType={"boolean"}/>
             </Column>
 
-            <Column dataField="statusDO" caption={'Статус ДО'}>
-                <Column dataField="statusDO.id" caption={'ID'}
+            <Column   alignment={"center"} dataField="executorDO" caption={'Исполнитель | ДО'}>
+                <Column   alignment={"center"} dataField="executorDO.id" caption={'ID'}
                         dataType={"number"}/>
-                <Column dataField="statusDO.sortIndex" caption={'Сортировочный индекс'}
+                <Column   alignment={"center"} dataField="executorDO.lastName" caption={'Фамилия'}
                         dataType={"number"}/>
-                <Column dataField="statusDO.name" caption={'Имя'}
+                <Column   alignment={"center"} dataField="executorDO.firstName" caption={'Имя'}
+                        dataType={"number"}/>
+                <Column   alignment={"center"} dataField="executorDO.patronymicName" caption={'Отчество'}
+                        dataType={"number"}/>
+                <Column   alignment={"center"} dataField="executorDO.isActive" caption={'Активен'}
+                        dataType={"boolean"}/>
+                <Column   alignment={"center"} dataField="executorDO.departmentId" caption={'ID отдела'}
+                        dataType={"number"}/>
+                <Column   alignment={"center"} dataField="executorDO.positionId" caption={'ID позиции'}
+                        dataType={"number"}/>
+                <Column   alignment={"center"} dataField="executorDO.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
+                        dataType={"boolean"}/>
+            </Column>
+
+            <Column   alignment={"center"} dataField="statusDO" caption={'Статус ДО'}>
+                <Column   alignment={"center"} dataField="statusDO.id" caption={'ID'}
+                        dataType={"number"}/>
+                <Column   alignment={"center"} dataField="statusDO.sortIndex" caption={'Сортировочный индекс'}
+                        dataType={"number"}/>
+                <Column   alignment={"center"} dataField="statusDO.name" caption={'Имя'}
                         dataType={"string"}/>
             </Column>
 
-            <Column dataField="contractSigningOption" caption={'Вариант подписания договора'}
+            <Column   alignment={"center"} dataField="contractSigningOption" caption={'Вариант подписания договора'}
                     dataType={"string"}/>
-            <Column dataField="noteDO" caption={'Примечание от ДО'}
+            <Column   alignment={"center"} dataField="noteDO" caption={'Примечание от ДО'}
                     dataType={"string"}/>
-            <Column dataField="numberTechTask" caption={'Номер ТЗ'}
+            <Column   alignment={"center"} dataField="numberTechTask" caption={'Номер ТЗ'}
                     dataType={"string"}/>
-            <Column dataField="createdDate" caption={'Дт создания'}
+            <Column   alignment={"center"} dataField="createdDate" caption={'Дт создания'}
                     dataType={"datetime"}/>
-            <Column dataField="conclusionContractDate" caption={'Дт заключения договора'}
+            <Column   alignment={"center"} dataField="conclusionContractDate" caption={'Дт заключения договора'}
                     dataType={"datetime"} validationRules={validationRules}/>
-            <Column dataField="returnSignContractDate" caption={'Дт возврата подписанного договора'}
+            <Column   alignment={"center"} dataField="returnSignContractDate" caption={'Дт возврата подписанного договора'}
                     dataType={"datetime"}/>
 
-            <Column dataField="createdEmployee" caption={'Созданный сотрудник'}>
-                <Column dataField="createdEmployee.departmentId" caption={'ID отдела'}
+            <Column   alignment={"center"} dataField="createdEmployee" caption={'Созданный сотрудник'}>
+                <Column   alignment={"center"} dataField="createdEmployee.departmentId" caption={'ID отдела'}
                         dataType={"number"}/>
-                <Column dataField="createdEmployee.lastName" caption={'Фамилия'}
+                <Column   alignment={"center"} dataField="createdEmployee.lastName" caption={'Фамилия'}
                         dataType={"number"}/>
-                <Column dataField="createdEmployee.firstName" caption={'Имя'}
+                <Column   alignment={"center"} dataField="createdEmployee.firstName" caption={'Имя'}
                         dataType={"number"}/>
-                <Column dataField="createdEmployee.patronymicName" caption={'Отчество'}
+                <Column   alignment={"center"} dataField="createdEmployee.patronymicName" caption={'Отчество'}
                         dataType={"number"}/>
-                <Column dataField="createdEmployee.id" caption={'ID'}
+                <Column   alignment={"center"} dataField="createdEmployee.id" caption={'ID'}
                         dataType={"number"}/>
-                <Column dataField="createdEmployee.isActive" caption={'Активен'}
+                <Column   alignment={"center"} dataField="createdEmployee.isActive" caption={'Активен'}
                         dataType={"boolean"}/>
-                <Column dataField="createdEmployee.positionId" caption={'ID позиции'}
+                <Column   alignment={"center"} dataField="createdEmployee.positionId" caption={'ID позиции'}
                         dataType={"number"}/>
-                <Column dataField="createdEmployee.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
-                        dataType={"boolean"}/>
-            </Column>
-            <Column dataField="startDate" caption={'Дт начала работ по договору'}
-                    dataType={"datetime"}/>
-            <Column dataField="endDate" caption={'Дт окончания работ по договору'}
-                    dataType={"datetime"}/>
-            <Column dataField="cancellationDate" caption={'Дт аннуляции договора'}
-                    dataType={"datetime"}/>
-            <Column dataField="terminationDate" caption={'Дт расторжения договора'}
-                    dataType={"datetime"}/>
-            <Column dataField="summaPIR" caption={'Сумма | ПИР'}
-                    dataType={"number"}/>
-            <Column dataField="summaSMR" caption={'Сумма | СМР'}
-                    dataType={"number"}/>
-            <Column dataField="summaEquipment" caption={'Сумма | Оборудование'}
-                    dataType={"number"}/>
-            <Column dataField="summaOther" caption={'Сумма | Прочее'}
-                    dataType={"number"}/>
-
-            <Column dataField="updateStatusDOEmployee" caption={'Созданный сотрудник'}>
-                <Column dataField="updateStatusDOEmployee.id" caption={'ID'}
-                        dataType={"number"}/>
-                <Column dataField="updateStatusDOEmployee.lastName" caption={'Фамилия'}
-                        dataType={"number"}/>
-                <Column dataField="updateStatusDOEmployee.firstName" caption={'Имя'}
-                        dataType={"number"}/>
-                <Column dataField="updateStatusDOEmployee.patronymicName" caption={'Отчество'}
-                        dataType={"number"}/>
-                <Column dataField="updateStatusDOEmployee.isActive" caption={'Активен'}
-                        dataType={"boolean"}/>
-                <Column dataField="updateStatusDOEmployee.departmentId" caption={'ID отдела'}
-                        dataType={"number"}/>
-                <Column dataField="updateStatusDOEmployee.positionId" caption={'ID позиции'}
-                        dataType={"number"}/>
-                <Column dataField="updateStatusDOEmployee.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
+                <Column   alignment={"center"} dataField="createdEmployee.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
                         dataType={"boolean"}/>
             </Column>
+            <Column   alignment={"center"} dataField="startDate" caption={'Дт начала работ по договору'}
+                    dataType={"datetime"}/>
+            <Column   alignment={"center"} dataField="endDate" caption={'Дт окончания работ по договору'}
+                    dataType={"datetime"}/>
+            <Column   alignment={"center"} dataField="cancellationDate" caption={'Дт аннуляции договора'}
+                    dataType={"datetime"}/>
+            <Column   alignment={"center"} dataField="terminationDate" caption={'Дт расторжения договора'}
+                    dataType={"datetime"}/>
+            <Column   alignment={"center"} dataField="summaPIR" caption={'Сумма | ПИР'}
+                    dataType={"number"}/>
+            <Column   alignment={"center"} dataField="summaSMR" caption={'Сумма | СМР'}
+                    dataType={"number"}/>
+            <Column   alignment={"center"} dataField="summaEquipment" caption={'Сумма | Оборудование'}
+                    dataType={"number"}/>
+            <Column   alignment={"center"} dataField="summaOther" caption={'Сумма | Прочее'}
+                    dataType={"number"}/>
+
+            <Column   alignment={"center"} dataField="updateStatusDOEmployee" caption={'Созданный сотрудник'}>
+                <Column   alignment={"center"} dataField="updateStatusDOEmployee.id" caption={'ID'}
+                        dataType={"number"}/>
+                <Column   alignment={"center"} dataField="updateStatusDOEmployee.lastName" caption={'Фамилия'}
+                        dataType={"number"}/>
+                <Column   alignment={"center"} dataField="updateStatusDOEmployee.firstName" caption={'Имя'}
+                        dataType={"number"}/>
+                <Column   alignment={"center"} dataField="updateStatusDOEmployee.patronymicName" caption={'Отчество'}
+                        dataType={"number"}/>
+                <Column   alignment={"center"} dataField="updateStatusDOEmployee.isActive" caption={'Активен'}
+                        dataType={"boolean"}/>
+                <Column   alignment={"center"} dataField="updateStatusDOEmployee.departmentId" caption={'ID отдела'}
+                        dataType={"number"}/>
+                <Column   alignment={"center"} dataField="updateStatusDOEmployee.positionId" caption={'ID позиции'}
+                        dataType={"number"}/>
+                <Column   alignment={"center"} dataField="updateStatusDOEmployee.isViewHiddenCosts" caption={'Просмотр скрытых затрат'}
+                        dataType={"boolean"}/>
+            </Column>
 
 
-            <Column dataField="updateStatusDODate" caption={'Обновление даты статуса ДО'}
+            <Column alignment={"center"} dataField="updateStatusDODate" caption={'Обновление даты статуса ДО'}
                     dataType={"datetime"}/>
         </CustomDataGrid>
     )

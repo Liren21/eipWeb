@@ -5,7 +5,7 @@ export interface ColumnDefinition {
     dataType?: "string" | "number" | "boolean" | "object" | "date" | "datetime";
     validationRules?: boolean;
     lookup?: any;
-    item: boolean;
+    item?: boolean;
     nestedColumns?: ColumnDefinition[];
     defaultSortOrder?:string
 }

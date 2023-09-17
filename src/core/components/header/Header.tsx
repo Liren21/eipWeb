@@ -21,7 +21,7 @@ export default function Header({menuToggleEnabled, title, toggleMenu}: HeaderPro
                     visible={menuToggleEnabled}
                     location={'before'}
                     widget={'dxButton'}
-                    cssClass={'menu-button'}
+                    cssClass='header__menu'
                 >
                     <Button icon="menu" stylingMode="text" onClick={toggleMenu}/>
                     <Link to={'/home'} className='header__title'>{title}</Link>

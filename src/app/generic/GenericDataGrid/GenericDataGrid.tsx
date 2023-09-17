@@ -6,7 +6,7 @@ import {TableVariable} from "../Variable/TableVariable";
 import {validationRules} from "../ValidationRules/ValidationRules";
 import './GenericDataGrid.scss'
 import {CustomDataGrid} from "../../components/UI/CustomDataGrid/CustomDataGrid";
-import {Column, Editing, Lookup, Popup} from 'devextreme-react/data-grid';
+import {Column, Editing, Popup} from 'devextreme-react/data-grid';
 
 interface IProps {
     URL: string
@@ -47,6 +47,7 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm,
                 dataSource={state.data}
                 onSaving={onSaving}
                 dataOnInitNewRow={dataOnInitNewRow}
+
             >
                 <Editing
                     mode="popup"
@@ -62,7 +63,7 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm,
                     <Form>
                         <Item itemType="group" colCount={3} colSpan={2}>
                             {columns.map(column => (
-                                column.item ? <Item key={column.dataField} dataField={column.dataField}/> : null
+                                column.item && <Item key={nameForm + column.dataField} dataField={column.dataField}/>
                             ))}
                         </Item>
                     </Form>
@@ -70,6 +71,7 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm,
                 {columns.map((column, index) => (
                     <Column
                         fixed={index === 0}
+                        alignment={"center"}
                         key={column.dataField}
                         dataField={column.dataField}
                         defaultSortOrder={column.defaultSortOrder}
@@ -77,34 +79,8 @@ export const GenericDataGrid = ({URL, columns, keyExpr, AdditionalURL, nameForm,
                         caption={column.caption}
                         dataType={column.dataType}
                         validationRules={column.validationRules ? validationRules : null}
-                    >
-                        {
-                            column.nestedColumns && column.nestedColumns.map((data) => (
-                                <Column
-                                    key={data.dataField}
-                                    dataField={data.dataField}
-                                    allowEditing={data.allowEditing}
-                                    caption={data.caption}
-                                    dataType={data.dataType}
-                                    validationRules={data.validationRules ? validationRules : null}>
-                                    {data.lookup &&
-                                        <Lookup
-                                            dataSource={data.lookup}
-                                            valueExpr="id"
-                                            displayExpr={'id'}
-                                        />
-                                    }
-                                </Column>
-                            ))
-                        }
-                        {column.lookup &&
-                            <Lookup
-                                dataSource={column.lookup}
-                                valueExpr="id"
-                                displayExpr={'id'}
-                            />
-                        }
-                    </Column>
+                    />
+
                 ))}
             </CustomDataGrid>
         </Fragment>

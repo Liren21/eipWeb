@@ -110,7 +110,7 @@ export const Counterparties = () => {
                     }
                 </Form>
             </Editing>
-            <Column dataField="subcontractorClassifications[0].name" allowEditing={true}
+            <Column alignment={"center"} dataField="subcontractorClassifications[0].name" allowEditing={true}
                     visible={false}
                     caption={'Классификация субподрядчика'} dataType={"number"}
                     validationRules={validationRules}
@@ -121,7 +121,7 @@ export const Counterparties = () => {
                     displayExpr={'name'}
                 />
             </Column>
-            <Column dataField="providerClassifications[0].name" allowEditing={true}
+            <Column alignment={"center"} dataField="providerClassifications[0].name" allowEditing={true}
                     visible={false}
                     caption={'Классификации поставщика'} dataType={'number'} validationRules={validationRules}>
                 <Lookup
@@ -130,7 +130,7 @@ export const Counterparties = () => {
                     displayExpr={'name'}
                 />
             </Column>
-            <Column dataField="counterpartyFormat.id" allowEditing={true}
+            <Column alignment={"center"} dataField="counterpartyFormat.id" allowEditing={true}
                     caption={'Формат контрагента'} dataType={"number"}
                     visible={false}
                     validationRules={validationRules}>
@@ -140,7 +140,7 @@ export const Counterparties = () => {
                     displayExpr={'name'}
                 />
             </Column>
-            <Column dataField="customerClassification.id" allowEditing={true}
+            <Column alignment={"center"} dataField="customerClassification.id" allowEditing={true}
                     caption={'ID номер клиента'} dataType={"number"}
                     visible={false}
                     validationRules={validationRules}>
@@ -150,7 +150,7 @@ export const Counterparties = () => {
                     displayExpr={'name'}
                 />
             </Column>
-            <Column dataField="counterpartyStatus.id" allowEditing={true}
+            <Column alignment={"center"} dataField="counterpartyStatus.id" allowEditing={true}
                     caption={'ID статуса контрагента'} dataType={"number"}
                     visible={false}
                     validationRules={validationRules}>
@@ -160,11 +160,11 @@ export const Counterparties = () => {
                     displayExpr={'name'}
                 />
             </Column>
-            <Column fixed={true} dataField="id" defaultSortOrder={"asc"} caption={'ID контрагента'} allowEditing={false}
+            <Column fixed={true} alignment={"center"} dataField="id" defaultSortOrder={"asc"} caption={'ID контрагента'} allowEditing={false}
                     dataType={"number"}/>
-            <Column dataField="counterpartyFormat" allowEditing={true}
+            <Column alignment={"center"} dataField="counterpartyFormat" allowEditing={true}
                     caption={'Формат контрагента'}>
-                <Column dataField="counterpartyFormat.id" allowEditing={true}
+                <Column alignment={"center"} dataField="counterpartyFormat.id" allowEditing={true}
                         caption={'ID'} dataType={"number"}>
                     <Lookup
                         dataSource={counterpartyFormats}
@@ -172,94 +172,94 @@ export const Counterparties = () => {
                         displayExpr={'name'}
                     />
                 </Column>
-                <Column dataField="counterpartyFormat.name" allowEditing={true}
+                <Column alignment={"center"} dataField="counterpartyFormat.name" allowEditing={true}
                         caption={'Наименование'} dataType={"string"}/>
-                <Column dataField="counterpartyFormat.sortIndex" allowEditing={true}
+                <Column alignment={"center"} dataField="counterpartyFormat.sortIndex" allowEditing={true}
                         caption={'Сортировочный индекс'} dataType={"number"}/>
-                <Column dataField="counterpartyFormat.isSmallFormatInn" allowEditing={true}
+                <Column alignment={"center"} dataField="counterpartyFormat.isSmallFormatInn" allowEditing={true}
                         caption={'isSmallFormatInn'} dataType={"boolean"}/>
             </Column>
-            <Column dataField="name" allowEditing={true}
+            <Column alignment={"center"} dataField="name" allowEditing={true}
                     caption={'Наименование контрагента'} dataType={"string"} validationRules={validationRules}/>
-            <Column dataField="inn" allowEditing={true}
+            <Column alignment={"center"} dataField="inn" allowEditing={true}
                     caption={'ИНН'} dataType={"string"} validationRules={validationRules}/>
-            <Column dataField="isWithOutNDS" allowEditing={true}
+            <Column alignment={"center"} dataField="isWithOutNDS" allowEditing={true}
                     caption={'Без НД'} dataType={"boolean"} validationRules={validationRules}/>
-            <Column dataField="isCustomer" allowEditing={true}
+            <Column alignment={"center"} dataField="isCustomer" allowEditing={true}
                     caption={'Заказчик'} dataType={"boolean"}/>
-            <Column dataField="customerClassification" allowEditing={true}
+            <Column alignment={"center"} dataField="customerClassification" allowEditing={true}
                     caption={'Классификация заказчика'}>
-                <Column dataField="customerClassification.id" allowEditing={false}
+                <Column alignment={"center"} dataField="customerClassification.id" allowEditing={false}
                         caption={'ID'} dataType={"number"}/>
-                <Column dataField="customerClassification.name" allowEditing={true}
+                <Column alignment={"center"} dataField="customerClassification.name" allowEditing={true}
                         caption={'Наименование'} dataType={"string"}/>
-                <Column dataField="customerClassification.sortIndex" allowEditing={true}
+                <Column alignment={"center"} dataField="customerClassification.sortIndex" allowEditing={true}
                         caption={'Сортировочный индекс'} dataType={"number"}/>
-                <Column dataField="customerClassification.note" allowEditing={true}
+                <Column alignment={"center"} dataField="customerClassification.note" allowEditing={true}
                         caption={'Примечание'} dataType={"string"}/>
             </Column>
-            <Column dataField="isSubcontractor" allowEditing={true}
+            <Column alignment={"center"} dataField="isSubcontractor" allowEditing={true}
                     caption={'Субподрядчик'} dataType={"boolean"} validationRules={validationRules}/>
-            <Column dataField="subcontractorClassifications[0]" allowEditing={true}
+            <Column alignment={"center"} dataField="subcontractorClassifications[0]" allowEditing={true}
                     caption={'Классификация субподрядчика'}>
-                <Column dataField="subcontractorClassifications[0].id" allowEditing={true}
+                <Column alignment={"center"} dataField="subcontractorClassifications[0].id" allowEditing={true}
                         caption={'ID'} dataType={"number"}/>
-                <Column dataField="subcontractorClassifications[0].name" allowEditing={true}
+                <Column alignment={"center"} dataField="subcontractorClassifications[0].name" allowEditing={true}
                         caption={'Наименование'} dataType={"string"}/>
-                <Column dataField="subcontractorClassifications[0].sortIndex" allowEditing={true}
+                <Column alignment={"center"} dataField="subcontractorClassifications[0].sortIndex" allowEditing={true}
                         caption={'Сортировочный индекс'} dataType={"number"}/>
-                <Column dataField="subcontractorClassifications[0].note" allowEditing={true}
+                <Column alignment={"center"} dataField="subcontractorClassifications[0].note" allowEditing={true}
                         caption={'Примечание'} dataType={"string"}/>
             </Column>
-            <Column dataField="isProvider" allowEditing={true}
+            <Column alignment={"center"} dataField="isProvider" allowEditing={true}
                     caption={'Поставщик'} dataType={"boolean"}/>
             <Column allowEditing={true}
                     caption={'Классификация поставщика'}>
                 <Column allowEditing={true}
-                        dataField={'providerClassifications[0].id'}
+                        alignment={"center"} dataField={'providerClassifications[0].id'}
                         dataType={"number"}
                         caption={"ID"}
                 />
-                <Column dataField="providerClassifications[0].name" allowEditing={false}
+                <Column alignment={"center"} dataField="providerClassifications[0].name" allowEditing={false}
                         caption={'Наименование'} dataType={"string"}/>
-                <Column dataField="providerClassifications[0].sortIndex" allowEditing={false}
+                <Column alignment={"center"} dataField="providerClassifications[0].sortIndex" allowEditing={false}
                         caption={'Сортировочный индекс'} dataType={"number"}/>
-                <Column dataField="providerClassifications[0].note" allowEditing={false}
+                <Column alignment={"center"} dataField="providerClassifications[0].note" allowEditing={false}
                         caption={'Примечание'} dataType={"string"}/>
             </Column>
 
-            <Column dataField="counterpartyStatus" allowEditing={true}
+            <Column alignment={"center"} dataField="counterpartyStatus" allowEditing={true}
                     caption={'Статус контрагента'}>
-                <Column dataField="counterpartyStatus.id" allowEditing={false}
+                <Column alignment={"center"} dataField="counterpartyStatus.id" allowEditing={false}
                         caption={'ID'} dataType={"number"}/>
-                <Column dataField="counterpartyStatus.name" allowEditing={true}
+                <Column alignment={"center"} dataField="counterpartyStatus.name" allowEditing={true}
                         caption={'Наименование'} dataType={"string"}/>
-                <Column dataField="counterpartyStatus.sortIndex" allowEditing={true}
+                <Column alignment={"center"} dataField="counterpartyStatus.sortIndex" allowEditing={true}
                         caption={'Сортировочный индекс'} dataType={"number"}/>
             </Column>
 
-            <Column dataField='counterpartyContactPersons[0]' allowEditing={true}
+            <Column alignment={"center"} dataField='counterpartyContactPersons[0]' allowEditing={true}
                     caption={'Контактная информация по контрагенту'}>
-                <Column dataField="counterpartyContactPersons[0].id" allowEditing={true}
+                <Column alignment={"center"} dataField="counterpartyContactPersons[0].id" allowEditing={true}
                         caption={'ID'} dataType={"number"}/>
-                <Column dataField="counterpartyContactPersons[0].lastName" allowEditing={true}
+                <Column alignment={"center"} dataField="counterpartyContactPersons[0].lastName" allowEditing={true}
                         caption={'Фамилия'} dataType={"string"}/>
-                <Column dataField="counterpartyContactPersons[0].firstName" allowEditing={true}
+                <Column alignment={"center"} dataField="counterpartyContactPersons[0].firstName" allowEditing={true}
                         caption={'Имя'} dataType={"string"}/>
-                <Column dataField="counterpartyContactPersons[0].patronymicName" allowEditing={true}
+                <Column alignment={"center"} dataField="counterpartyContactPersons[0].patronymicName" allowEditing={true}
                         caption={'Отчество'} dataType={"string"}/>
-                <Column dataField="counterpartyContactPersons[0].phone" allowEditing={true}
+                <Column alignment={"center"} dataField="counterpartyContactPersons[0].phone" allowEditing={true}
                         caption={'Телефон'} dataType={"string"}/>
-                <Column dataField="counterpartyContactPersons[0].mobilePhone" allowEditing={true}
+                <Column alignment={"center"} dataField="counterpartyContactPersons[0].mobilePhone" allowEditing={true}
                         caption={'Мобильный телефон'} dataType={"string"}/>
-                <Column dataField="counterpartyContactPersons[0].email" allowEditing={true}
+                <Column alignment={"center"} dataField="counterpartyContactPersons[0].email" allowEditing={true}
                         caption={'Почта'} dataType={"string"}/>
-                <Column dataField="counterpartyContactPersons[0].note" allowEditing={true}
+                <Column alignment={"center"} dataField="counterpartyContactPersons[0].note" allowEditing={true}
                         caption={'Примечание'} dataType={"string"}/>
-                <Column dataField="counterpartyContactPersons[0].isMain" allowEditing={true}
+                <Column alignment={"center"} dataField="counterpartyContactPersons[0].isMain" allowEditing={true}
                         caption={'Основной'} dataType={"boolean"}/>
             </Column>
-            <Column dataField="note" allowEditing={true}
+            <Column alignment={"center"} dataField="note" allowEditing={true}
                     caption={'Примечание по контрагенту'} dataType={"string"}/>
         </CustomDataGrid>
     )

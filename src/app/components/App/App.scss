@@ -1,20 +1,38 @@
 @use "variables";
+
 html, body, #root {
   margin: 0;
   height: 100% !important;
+  color: variables.$black !important;
 }
 
 * {
   box-sizing: border-box;
 }
 
-.dx-widget {
-  font-family: Arial, Narrow, serif !important;
+.dx {
+  &-widget {
+    font-family: Arial, Narrow, serif !important;
+  }
+
+  &-link, &-button-mode-text, &-button-default {
+    color: #1a73e8 !important;
+  }
+
+  &-toolbar-item-content {
+    display: flex;
+    align-items: center;
+  }
 }
-a{
-  text-decoration: none!important;
-  color: white!important;
+
+a {
+  text-decoration: none !important;
 }
+
+td {
+  color: variables.$black !important;
+}
+
 .dx-datagrid-nowrap .dx-header-row > td > .dx-datagrid-text-content {
   white-space: normal !important;
 }
