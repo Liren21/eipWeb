@@ -1,4 +1,4 @@
-
+@use "../../../app/components/App/variables";
 
 .side-navigation-menu {
   display: flex;
@@ -19,11 +19,11 @@
 
       // ## Icon width customization
       .dx-treeview-item {
-        padding-left: 0;
         padding-right: 0;
+        border-radius: variables.$border-radius;
 
         .dx-icon {
-          //width: $side-panel-min-width !important;
+          width: 60px !important;
           margin: 0 !important;
         }
       }
@@ -37,6 +37,7 @@
         left: 10px;
         right: auto;
       }
+
       // ##
 
       // ## Item levels customization
@@ -51,9 +52,9 @@
           //padding: 0 $side-panel-min-width;
         }
       }
+
       // ##
     }
-
 
 
     .dx-theme-generic .dx-treeview {
@@ -61,6 +62,7 @@
         color: inherit;
       }
     }
+
     // ##
   }
 }

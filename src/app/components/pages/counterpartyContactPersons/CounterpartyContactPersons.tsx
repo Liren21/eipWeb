@@ -1,15 +1,16 @@
 import React, {useCallback, useEffect, useMemo, useReducer} from 'react';
-import {Column, Editing, Form, Lookup, Popup} from 'devextreme-react/data-grid';
+import {Column, Editing, Lookup, PatternRule, Popup, } from 'devextreme-react/data-grid';
 import 'whatwg-fetch';
 import reducer from '../../../../core/lib/api/reducer';
 import {saveChange, loadOrders, setChanges, setEditRowKey,} from '../../../../core/lib/api/actions';
 import urls from "../../../lib/urls";
-import {Item} from "devextreme-react/form";
 import {counterpartiesService} from "../../../lib/services/counterpartiesService";
 import {TableVariable} from "../../../generic/Variable/TableVariable";
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import {ProcessClassificationsObj} from "../../../generic/Function/ProcessClassifications";
 import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
+import {TextBox} from "devextreme-react";
+import Validator from 'devextreme-react/validator';
 
 
 export const CounterpartyContactPersons = () => {
@@ -30,6 +31,7 @@ export const CounterpartyContactPersons = () => {
     }, [URL]);
 
     const onChangesChange = useCallback((changes) => {
+        console.log(changes)
         setChanges(dispatch, changes);
     }, []);
 
@@ -51,6 +53,7 @@ export const CounterpartyContactPersons = () => {
                 isProvider: false,
             }}
         >
+
             <Editing
                 mode="popup"
                 allowAdding={true}
@@ -62,19 +65,36 @@ export const CounterpartyContactPersons = () => {
                 onEditRowKeyChange={onEditRowKeyChange}
                 defaultEditRowKey={false}>
                 <Popup title="Создание контактной информации" showTitle={true}/>
-                <Form>
-                    <Item itemType="group" colCount={3} colSpan={2}>
-                        <Item dataField="lastName"/>
-                        <Item dataField="firstName"/>
-                        <Item dataField="patronymicName"/>
-                        <Item dataField="phone"/>
-                        <Item dataField="mobilePhone"/>
-                        <Item dataField="email"/>
-                        <Item dataField="note"/>
-                        <Item dataField="isMain"/>
-                        <Item dataField="counterparty.id"/>
-                    </Item>
-                </Form>
+                {/*<Form>*/}
+                {/*    <Item itemType="group" colCount={3} colSpan={2}>*/}
+                {/*        <Item dataField="lastName"/>*/}
+                {/*        <Item dataField="firstName"/>*/}
+                {/*        <Item dataField="patronymicName"/>*/}
+                {/*        <Item dataField="phone"/>*/}
+                {/*        <Item dataField="mobilePhone">*/}
+                {/*            <TextBox*/}
+                {/*                mask="+7 (X00) 000-0000"*/}
+                {/*                maskRules={{*/}
+                {/*                    X: /[0-9]/, // Define your mask rules here*/}
+                {/*                }}*/}
+                {/*            />*/}
+                {/*        </Item>*/}
+                {/*        <Item dataField="email">*/}
+                {/*            <TextBox>*/}
+                {/*                <Validator>*/}
+                {/*                    <PatternRule*/}
+                {/*                        message="Недопустимый формат электронной почты"*/}
+                {/*                        pattern={/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/}*/}
+                {/*                    />*/}
+                {/*                </Validator>*/}
+                {/*            </TextBox>*/}
+                {/*        </Item>*/}
+
+                {/*        <Item dataField="note"/>*/}
+                {/*        <Item dataField="isMain"/>*/}
+                {/*        <Item dataField="counterparty.id"/>*/}
+                {/*    </Item>*/}
+                {/*</Form>*/}
             </Editing>
             <Column fixed={true} alignment={"center"} dataField="id" defaultSortOrder={"asc"} caption={'ID'} allowEditing={false} dataType={"number"}/>
             <Column alignment={"center"} dataField="lastName" allowEditing={true}
@@ -84,11 +104,35 @@ export const CounterpartyContactPersons = () => {
             <Column alignment={"center"} dataField="patronymicName" allowEditing={true}
                     caption={'Отчество'} dataType={"string"} validationRules={validationRules}/>
             <Column alignment={"center"} dataField="phone" allowEditing={true}
-                    caption={'Рабочий телефон'} dataType={"string"} validationRules={validationRules}/>
+                    caption={'Рабочий телефон'} dataType={"string"}/>
             <Column alignment={"center"} dataField="mobilePhone" allowEditing={true}
-                    caption={'Мобильный телефон'} dataType={"string"}/>
+                    caption={'Мобильный телефон'} dataType={"string"} validationRules={validationRules}>
+                <TextBox
+
+                        mask="+7 (X00) 000-0000"
+                        maskRules={{
+                        X: /[0-9]/, // Define your mask rules here
+                    }}
+                        >
+                    {/*<Validator>*/}
+                    {/*    <PatternRule*/}
+                    {/*        message="Недопустимый формат электронной почты"*/}
+                    {/*        pattern={/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/}*/}
+                    {/*    />*/}
+                    {/*</Validator>*/}
+                </TextBox>
+            </Column>
             <Column alignment={"center"} dataField="email" allowEditing={true}
-                    caption={'Электронный адрес'} dataType={"string"}/>
+                    caption={'Электронный адрес'} dataType={"string"}>
+                <TextBox>
+                    <Validator>
+                        <PatternRule
+                            message="Недопустимый формат электронной почты"
+                            pattern={/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/}
+                        />
+                    </Validator>
+                </TextBox>
+            </Column>
             <Column alignment={"center"} dataField="note" allowEditing={true}
                     caption={'Примечание'} dataType={"string"}/>
             <Column alignment={"center"} dataField="isMain" allowEditing={true}

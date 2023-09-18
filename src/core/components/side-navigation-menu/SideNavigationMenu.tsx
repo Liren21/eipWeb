@@ -1,12 +1,7 @@
 import React, {useEffect, useRef, useCallback, ReactNode} from 'react';
 import TreeView, {TreeViewTypes} from 'devextreme-react/tree-view';
-
-
 import './SideNavigationMenu.scss';
-
-
 import * as events from 'devextreme/events';
-import {useScreenSize} from "../../../app/lib/utils/media-query";
 import {navigation} from "../../../app/components/App/app-navigation";
 import {useNavigation} from "../../lib/contexts/navigation";
 

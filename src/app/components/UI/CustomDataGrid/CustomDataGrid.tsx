@@ -1,4 +1,4 @@
-import DataGrid, {FilterRow, HeaderFilter, Scrolling, Search, SearchPanel} from 'devextreme-react/data-grid';
+import DataGrid, { HeaderFilter, Scrolling,  SearchPanel} from 'devextreme-react/data-grid';
 import React, {ReactNode} from 'react';
 import {onInitNewRow} from "../../../generic/Function/OnInitNewRow";
 import {TableName} from "../TableName/TableName";
