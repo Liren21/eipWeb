@@ -68,8 +68,7 @@ export const CounterpartyFormats = () => {
             <Column alignment={"center"} dataField="name" caption={'Наименование'} dataType={"string"}
                     validationRules={validationRules}/>
             <Column alignment={"center"} dataField="isSmallFormatInn"
-                    caption={'Количестов символов ИНН у заданного формата контрагента'} dataType={"boolean"}
-                    validationRules={validationRules}/>
+                    caption={'Количестов символов ИНН у заданного формата контрагента'} dataType={"boolean"}/>
 
         </CustomDataGrid>
     );

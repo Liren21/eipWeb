@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useReducer, useState} from 'react';
+import React, {useCallback, useEffect, useReducer} from 'react';
 import {Column, Editing, Form, Lookup, Popup} from 'devextreme-react/data-grid';
 import reducer from '../../../../core/lib/api/reducer';
 import {loadOrders, saveChange, setChanges, setEditRowKey,} from '../../../../core/lib/api/actions';
@@ -200,7 +200,7 @@ export const Contracts = () => {
                         dataType={"string"}/>
             </Column>
 
-            <Column alignment={"center"} dataField="counterpartyProvider" caption={'Контрагент субподрядчик'}>
+            <Column alignment={"center"} dataField="counterpartyProvider" caption={'Контрагент поставщик'}>
                 <Column alignment={"center"} dataField="counterpartyProvider.counterpartyFormatId"
                         caption={'ID формата контрагента'}
                         dataType={"number"}/>

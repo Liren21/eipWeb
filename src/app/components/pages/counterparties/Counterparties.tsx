@@ -194,6 +194,7 @@ export const Counterparties = () => {
             <Column alignment={"center"} dataField="isProvider"
                     caption={'Поставщик'} dataType={"boolean"}/>
             <Column
+                alignment={"center"}
                 caption={'Классификация поставщика'}>
                 <Column
                     alignment={"center"} dataField={'providerClassifications[0].id'}

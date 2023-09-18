@@ -28,6 +28,7 @@ html, body, #root {
 }
 .side-navigation-menu .menu-container .dx-treeview .dx-treeview-node[aria-level="1"]{
   padding: 5px!important;
+  white-space: normal;
 }
 a {
   text-decoration: none !important;
