@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useCallback, useMemo, ReactNode} from 'react';
+import React, {useEffect, useRef, useCallback, ReactNode} from 'react';
 import TreeView, {TreeViewTypes} from 'devextreme-react/tree-view';
 
 
@@ -9,6 +9,7 @@ import * as events from 'devextreme/events';
 import {useScreenSize} from "../../../app/lib/utils/media-query";
 import {navigation} from "../../../app/components/App/app-navigation";
 import {useNavigation} from "../../lib/contexts/navigation";
+
 interface SideNavigationMenuProps {
     selectedItemChanged: (e: TreeViewTypes.ItemClickEvent) => void;
     openMenu: (e: React.PointerEvent) => void;
@@ -16,6 +17,7 @@ interface SideNavigationMenuProps {
     onMenuReady: (e: TreeViewTypes.ContentReadyEvent) => void;
     children: ReactNode
 }
+
 export default function SideNavigationMenu(props: React.PropsWithChildren<SideNavigationMenuProps>) {
     const {
         children,
@@ -25,20 +27,21 @@ export default function SideNavigationMenu(props: React.PropsWithChildren<SideNa
         onMenuReady
     } = props;
 
-    const { isLarge } = useScreenSize();
-    function normalizePath () {
-        return navigation.map((item) => (
-            { ...item, expanded: isLarge, path: item.path && !(/^\//.test(item.path)) ? `/${item.path}` : item.path }
-        ))
-    }
+    // const {isLarge} = useScreenSize();
 
-    const items = useMemo(
-        normalizePath,
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        []
-    );
+    // function normalizePath() {
+    //     return navigation.map((item) => (
+    //         {...item, expanded: isLarge, path: item.path && !(/^\//.test(item.path)) ? `/${item.path}` : item.path}
+    //     ))
+    // }
 
-    const { navigationData: { currentPath } } = useNavigation();
+    // const items = useMemo(
+    //     normalizePath,
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    //     []
+    // );
+
+    const {navigationData: {currentPath}} = useNavigation();
 
     const treeViewRef = useRef<TreeView>(null);
     const wrapperRef = useRef<HTMLDivElement>();
@@ -80,10 +83,10 @@ export default function SideNavigationMenu(props: React.PropsWithChildren<SideNa
                 <TreeView
                     expandNodesRecursive={false}
                     ref={treeViewRef}
-                    items={items}
+                    items={navigation}
                     keyExpr={'path'}
                     selectionMode={'single'}
-                    focusStateEnabled={false}
+                    focusStateEnabled={true}
                     expandEvent={'click'}
                     onItemClick={selectedItemChanged}
                     onContentReady={onMenuReady}

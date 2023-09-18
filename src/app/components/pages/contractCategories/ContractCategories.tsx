@@ -93,7 +93,7 @@ export const ContractCategories = () => {
                     allowEditing={false} dataType={"number"}/>
             <Column alignment={"center"} dataField="sortIndex" caption={'Сортировка'} dataType={"number"}
                     validationRules={validationRules}/>
-            <Column alignment={"center"} dataField="name" caption={'Имя'} dataType={"string"}
+            <Column alignment={"center"} dataField="name" caption={'Наименование'} dataType={"string"}
                     validationRules={validationRules}/>
             <Column alignment={"center"} dataField="group" caption={'Группа'} dataType={"string"}
                     validationRules={validationRules}/>
