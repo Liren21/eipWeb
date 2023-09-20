@@ -6,6 +6,7 @@
   min-height: 100%;
   height: 100%;
   width: 250px !important;
+  background-color: variables.$black!important;
 
   .menu-container {
     min-height: 100%;
@@ -13,17 +14,18 @@
     flex: 1;
 
     .dx-treeview {
-      // ## Long text positioning
       white-space: nowrap;
-      // ##
-
-      // ## Icon width customization
-      .dx-treeview-item {
+      &-toggle-item-visibility{
+        color: white;
+      }
+      &-item {
         padding-right: 0;
         border-radius: variables.$border-radius;
+        color: white;
+
         .dx-icon {
-          width: 60px !important;
-          margin: 0 !important;
+margin-right: 25px!important;
+
         }
       }
 

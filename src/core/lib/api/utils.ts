@@ -1,4 +1,6 @@
 import axios from 'axios';
+import Toaster from "../toaster/toaster";
+import {toast} from "react-toastify";
 
 
 export async function sendRequest(url, method = 'GET', data = {}) {
@@ -21,6 +23,7 @@ export async function sendRequest(url, method = 'GET', data = {}) {
             throw new Error(response.data.Message);
         }
     } catch (error) {
+        new Toaster({msg: `${error.response.data}`, type: toast.TYPE.ERROR})
         throw error;
     }
 }

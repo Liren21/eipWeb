@@ -1,8 +1,5 @@
-
-
-
 import 'animate.css'
-import {cssTransition,  toast, TypeOptions} from 'react-toastify'
+import {cssTransition, toast, TypeOptions} from 'react-toastify'
 import './toaster.scss'
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -15,6 +12,7 @@ const fade = cssTransition({
     enter: "animate__animated animate__bounceIn",
     exit: "animate__animated animate__bounceOut",
 })
+const msgs = []
 
 interface IToaster {
 
@@ -24,7 +22,7 @@ interface IToaster {
 
 class Toaster implements IToaster {
     msg = ''
-    toastId = ''
+    toastId: any = ''
     type: TypeOptions = toast.TYPE.INFO
 
     constructor(obj: IToaster) {
@@ -34,16 +32,24 @@ class Toaster implements IToaster {
     }
 
     notify(msg: string, type?: TypeOptions): void {
-
-        // @ts-ignore
-        this.toastId = toast(msg, { type: type, autoClose: false, transition: fade ,position: "top-right",
+        this.toastId = toast(msg, {
+            type: type, autoClose: 30000, transition: fade, position: "top-right",
             hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
             theme: "light",
-           })
+        })
+        if (msgs.length > 2) {
+            msgs.forEach((id) => {
+                toast.dismiss(id)
+            })
+
+            msgs.splice(0, msgs.length)
+        }
+
+        msgs.push(this.toastId)
     }
 }
 

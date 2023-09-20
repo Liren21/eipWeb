@@ -1,21 +1,21 @@
-import DataGrid, { HeaderFilter, Scrolling,  SearchPanel} from 'devextreme-react/data-grid';
-import React, {ReactNode} from 'react';
-import {onInitNewRow} from "../../../generic/Function/OnInitNewRow";
-import {TableName} from "../TableName/TableName";
-import {LoadPanel} from "devextreme-react/load-panel";
-import './CustomDataGrid.scss'
+import React, { ReactNode, useEffect, useState } from 'react';
+import DataGrid, { Column, HeaderFilter, Scrolling, SearchPanel } from 'devextreme-react/data-grid';
+import { onInitNewRow } from "../../../generic/Function/OnInitNewRow";
+import { TableName } from "../TableName/TableName";
+import { LoadPanel } from "devextreme-react/load-panel";
+import './CustomDataGrid.scss';
 
 interface ICustomDataGrid {
-    dataSource: any
-    onSaving: any
-    keyExpr?: string
-    dataOnInitNewRow?: any
-    children: ReactNode
-    visible: boolean
-    editingChanges?: any
-    editingOnChangesChange?: (value: any) => void
-    editingEditRowKey?: any
-    editingOnEditRowKeyChange?: (value: any) => void
+    dataSource: any;
+    onSaving: any;
+    keyExpr?: string;
+    dataOnInitNewRow?: any;
+    children: ReactNode;
+    visible: boolean;
+    editingChanges?: any;
+    editingOnChangesChange?: (value: any) => void;
+    editingEditRowKey?: any;
+    editingOnEditRowKeyChange?: (value: any) => void;
 }
 
 export const CustomDataGrid = ({
@@ -28,13 +28,33 @@ export const CustomDataGrid = ({
                                    editingChanges,
                                    editingOnChangesChange,
                                    editingEditRowKey,
-                                   editingOnEditRowKeyChange
+                                   editingOnEditRowKeyChange,
                                }: ICustomDataGrid) => {
+    const [columnOrder, setColumnOrder] = useState<number[]>([]);
+
+    // Загрузка сохраненных настроек при монтировании компонента
+    useEffect(() => {
+        const savedColumnOrder = JSON.parse(localStorage.getItem('columnOrder')) || [];
+        setColumnOrder(savedColumnOrder);
+    }, []);
+
+    // Обработчик события изменения порядка колонок
+    const onColumnReorder = (e: { component: any; event: any }) => {
+        // Получаем новый порядок колонок из компонента DataGrid
+        const newColumnOrder = e.component.state().columnOrder;
+
+        // Обновляем состояние с новым порядком колонок
+        setColumnOrder(newColumnOrder);
+
+        // Сохраняем порядок колонок в локальное хранилище
+        localStorage.setItem('columnOrder', JSON.stringify(newColumnOrder));
+    };
+
     return (
         <>
-            <TableName/>
+            <TableName />
             <LoadPanel
-                position={{of: '#gridContainer'}}
+                position={{ of: '#gridContainer' }}
                 visible={visible}
             />
             <DataGrid
@@ -43,8 +63,8 @@ export const CustomDataGrid = ({
                 dataSource={dataSource}
                 showBorders={true}
                 repaintChangesOnly
-                // allowColumnReordering={true}
-                // rowAlternationEnabled={true}
+                allowColumnReordering={true}
+                // onColumnReorder={onColumnReorder}
                 columnAutoWidth={true}
                 allowColumnResizing={true}
                 showColumnLines={true}
@@ -53,25 +73,11 @@ export const CustomDataGrid = ({
                 onInitNewRow={(e) => onInitNewRow(e, dataOnInitNewRow)}
                 hoverStateEnabled={true}
                 className='custom-data-grid'
+                // defaultColumnOrder={columnOrder}
             >
-                <Scrolling
-                    columnRenderingMode={"standard"}
-                    mode={'infinite'}
-                />
-                {/*<FilterRow visible={true}/>*/}
-                <SearchPanel visible={true}/>
-                <HeaderFilter visible={true}/>
-                {/*<Editing*/}
-                {/*    mode="popup"*/}
-                {/*    allowAdding={true}*/}
-                {/*    allowDeleting={true}*/}
-                {/*    allowUpdating={true}*/}
-                {/*    changes={editingChanges}*/}
-                {/*    onChangesChange={editingOnChangesChange}*/}
-                {/*    editRowKey={editingEditRowKey}*/}
-                {/*    onEditRowKeyChange={editingOnEditRowKeyChange}>*/}
-                {/*   */}
-                {/*</Editing>*/}
+                <Scrolling columnRenderingMode={"standard"} mode={'infinite'} />
+                <SearchPanel visible={true} />
+                <HeaderFilter visible={true} />
                 {children}
             </DataGrid>
         </>

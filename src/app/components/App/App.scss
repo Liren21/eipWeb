@@ -18,9 +18,12 @@ html, body, #root {
     color: #1a73e8 !important;
   }
 
-  &-toolbar-item-content {
-    display: flex;
-    align-items: center;
+  &-toolbar{
+    padding: 0 9px;
+    &-item-content {
+      display: flex;
+      align-items: center;
+    }
   }
 
 

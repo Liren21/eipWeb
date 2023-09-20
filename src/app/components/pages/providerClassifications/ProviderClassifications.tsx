@@ -39,6 +39,7 @@ export const ProviderClassifications = () => {
             dataSource={state.data}
             onSaving={onSaving}
         >
+
             <Editing
                 mode="popup"
                 allowAdding={true}
@@ -64,7 +65,7 @@ export const ProviderClassifications = () => {
                     allowEditing={false} dataType={"number"}/>
             <Column alignment={"center"} dataField="sortIndex" caption={'Сортировка'} dataType={"number"}
                     validationRules={validationRules}/>
-            <Column alignment={"center"} dataField="name" caption={'Имя'} dataType={"string"}
+            <Column alignment={"center"} dataField="name" caption={'Наименование'} dataType={"string"}
                     validationRules={validationRules}/>
             <Column alignment={"center"} dataField="note" caption={'Примечание'} dataType={"string"}
                     validationRules={validationRules}/>
