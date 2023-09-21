@@ -9,12 +9,8 @@ import {providerClassificationsService} from "../../../lib/services/providerClas
 import {subcontractorClassificationsService} from "../../../lib/services/subcontractorClassificationsService";
 import {loadOrders, saveChange, setChanges, setEditRowKey} from "../../../../core/lib/api/actions";
 import {ProcessClassifications, ProcessClassificationsObj} from "../../../generic/Function/ProcessClassifications";
-import {CustomDataGrid} from '../../UI/CustomDataGrid/CustomDataGrid';
-import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
-import {DataColumns} from "../counterparties/columns/DataColumns";
-import Form from 'devextreme-react/form';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHome, faHouse} from "@fortawesome/free-solid-svg-icons";
+import { faHouse} from "@fortawesome/free-solid-svg-icons";
 
 
 const TableVariable = {

@@ -121,7 +121,7 @@ export const Counterparties = () => {
                 />
             </Column>
             <Column alignment={"center"} dataField="customerClassification.id"
-                    caption={'ID номер клиента'} dataType={"number"}
+                    caption={'Классификация заказчика'} dataType={"number"}
                     validationRules={validationRules} visible={false}>
                 <Lookup
                     dataSource={customerClassifications}
@@ -130,7 +130,7 @@ export const Counterparties = () => {
                 />
             </Column>
             <Column alignment={"center"} dataField="counterpartyStatus.id"
-                    caption={'ID статуса контрагента'} dataType={"number"}
+                    caption={'Статус контрагента'} dataType={"number"}
                     validationRules={validationRules} visible={false}>
                 <Lookup
                     dataSource={counterpartyStatus}

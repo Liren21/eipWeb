@@ -72,25 +72,8 @@ export const CounterpartyContactPersons = () => {
                         <Item dataField="firstName"/>
                         <Item dataField="patronymicName"/>
                         <Item dataField="phone"/>
-                        <Item dataField="mobilePhone">
-                            <TextBox
-                                mask="+7 (X00) 000-0000"
-                                maskRules={{
-                                    X: /[0-9]/, // Define your mask rules here
-                                }}
-                            />
-                        </Item>
-                        <Item dataField="email">
-                            <TextBox>
-                                <Validator>
-                                    <PatternRule
-                                        message="Недопустимый формат электронной почты"
-                                        pattern={/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/}
-                                    />
-                                </Validator>
-                            </TextBox>
-                        </Item>
-
+                        <Item dataField="mobilePhone"/>
+                        <Item dataField="email"/>
                         <Item dataField="note"/>
                         <Item dataField="isMain"/>
                         <Item dataField="counterparty.id"/>
@@ -118,7 +101,7 @@ export const CounterpartyContactPersons = () => {
             <Column alignment={"center"} dataField="counterparty" allowEditing={true}
                     caption={'Контрагент'}>
                 <Column alignment={"center"} dataField="counterparty.id" allowEditing={true}
-                        caption={'ID контрагента'} dataType={"number"}>
+                        caption={'Наименование контрагента'} dataType={"number"}>
                     <Lookup
                         dataSource={counterparties}
                         valueExpr="id"

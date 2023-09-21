@@ -13,14 +13,16 @@ export const dataFormItems = [
                 dataField: "inn",
             },
             {
-                dataField: "isWithOutNDS",
-            },
-            {
-                dataField: "isCustomer",
-            },
-            {
                 dataField: "customerClassification.id",
-                label: "ID номер клиента"
+            },
+            {
+                dataField: "counterpartyStatus.id",
+            },
+            {
+                dataField: "providerClassifications[0].name",
+            },
+            {
+                dataField: "subcontractorClassifications[0].name",
             },
             {
                 dataField: "isSubcontractor",
@@ -29,16 +31,10 @@ export const dataFormItems = [
                 dataField: "isProvider",
             },
             {
-                dataField: "counterpartyStatus.id",
-                label:'ID статуса контрагента'
+                dataField: "isWithOutNDS",
             },
             {
-                dataField: "providerClassifications[0].name",
-                label: "Классификации поставщика"
-            },
-            {
-                dataField: "subcontractorClassifications[0].name",
-                label: "Классификация субподрядчика"
+                dataField: "isCustomer",
             },
         ]
     },
