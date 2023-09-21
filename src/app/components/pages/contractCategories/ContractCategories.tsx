@@ -67,7 +67,7 @@ export const ContractCategories = () => {
                 <Popup title="Создание категории договора" showTitle={true}/>
                 <Form>
                     <Item itemType="group" colCount={3} colSpan={2}>
-                        <Item dataField="style" editorType={"dxColorBox"}/>
+                        <Item dataField="style" editorType={"dxColorBox"} />
                         <Item dataField={'sortIndex'}/>
                         <Item dataField={'name'}/>
                         <Item dataField={'group'}/>

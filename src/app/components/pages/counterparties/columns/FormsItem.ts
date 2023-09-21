@@ -42,22 +42,4 @@ export const dataFormItems = [
             },
         ]
     },
-    {
-        itemCaption: 'Классификация заказчика',
-        data: [
-            {
-                dataField: "customerClassification.note",
-            },
-
-        ]
-    },
-    {
-        itemCaption: 'Классификация субподрядчика',
-        data: [
-            {
-                dataField: "subcontractorClassifications[0].note",
-            },
-
-        ]
-    },
 ]

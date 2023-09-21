@@ -41,7 +41,7 @@ class Toaster implements IToaster {
             progress: undefined,
             theme: "colored",
         })
-        if (msgs.length > 2) {
+        if (msgs.length > 6) {
             msgs.forEach((id) => {
                 toast.dismiss(id)
             })
