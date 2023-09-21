@@ -23,13 +23,14 @@ html, body, #root {
     &-item-content {
       display: flex;
       align-items: center;
+
     }
   }
 
 
 }
 .side-navigation-menu .menu-container .dx-treeview .dx-treeview-node[aria-level="1"]{
-  padding-left: 5px!important;
+  padding:0 10px 0 5px!important;
   white-space: normal;
 }
 a {
