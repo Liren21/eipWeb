@@ -14,21 +14,8 @@ import {ProcessClassifications, ProcessClassificationsObj} from '../../../generi
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import {dataFormItems} from "./columns/FormsItem";
 import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
-import {ICounterparty} from "../../../lib/models/Counterparty";
+import {TableVariable} from "../../../generic/Variable/TableVariable";
 
-interface ITableVariable {
-    data: ICounterparty[],
-    changes: [],
-    editRowKey: null,
-    isLoading: false,
-}
-
-const TableVariable: ITableVariable = {
-    data: [],
-    changes: [],
-    editRowKey: null,
-    isLoading: false,
-};
 
 export const Counterparties = () => {
     const URL: string = urls.COUNTERPARTIES
@@ -116,7 +103,7 @@ export const Counterparties = () => {
                                   itemType="group" colCount={3} colSpan={2}>
                                 {item.data.map((data) => (
                                     <Item key={`counterparties-${data.dataField}-${index}`}
-                                          dataField={data.dataField} label={{text: data.label}}/>
+                                          dataField={data.dataField}/>
                                 ))}
                             </Item>
                         ))
@@ -124,6 +111,51 @@ export const Counterparties = () => {
                 </Form>
             </Editing>
 
+            <Column alignment={"center"} dataField="counterpartyFormat.id"
+                    caption={'Формат контрагента'} dataType={"number"}
+                    validationRules={validationRules} visible={false}>
+                <Lookup
+                    dataSource={counterpartyFormats}
+                    valueExpr="id"
+                    displayExpr={'name'}
+                />
+            </Column>
+            <Column alignment={"center"} dataField="customerClassification.id"
+                    caption={'ID номер клиента'} dataType={"number"}
+                    validationRules={validationRules} visible={false}>
+                <Lookup
+                    dataSource={customerClassifications}
+                    valueExpr="id"
+                    displayExpr={'name'}
+                />
+            </Column>
+            <Column alignment={"center"} dataField="counterpartyStatus.id"
+                    caption={'ID статуса контрагента'} dataType={"number"}
+                    validationRules={validationRules} visible={false}>
+                <Lookup
+                    dataSource={counterpartyStatus}
+                    valueExpr="id"
+                    displayExpr={'name'}
+                />
+            </Column>
+            <Column alignment={"center"} dataField="providerClassifications[0].name"
+                    caption={'Классификации поставщика'} dataType={"string"}
+                    validationRules={validationRules} visible={false}>
+                <Lookup
+                    dataSource={providerClassifications}
+                    valueExpr="id"
+                    displayExpr={'name'}
+                />
+            </Column>
+            <Column alignment={"center"} dataField="subcontractorClassifications[0].name"
+                    caption={'Классификация субподрядчика'} dataType={"string"}
+                    validationRules={validationRules} visible={false}>
+                <Lookup
+                    dataSource={subcontractorClassifications}
+                    valueExpr="id"
+                    displayExpr={'name'}
+                />
+            </Column>
             <Column fixed={true} alignment={"center"} dataField="id" defaultSortOrder={"asc"} caption={'ID контрагента'}
                     allowEditing={false}
                     dataType={"number"}/>
@@ -131,13 +163,7 @@ export const Counterparties = () => {
                     caption={'Формат контрагента'}>
                 <Column alignment={"center"} dataField="counterpartyFormat.id"
                         caption={'ID'} dataType={"number"}
-                        validationRules={validationRules}>
-                    <Lookup
-                        dataSource={counterpartyFormats}
-                        valueExpr="id"
-                        displayExpr={'name'}
-                    />
-                </Column>
+                        validationRules={validationRules}/>
                 <Column alignment={"center"} dataField="counterpartyFormat.name"
                         caption={'Наименование'} dataType={"string"}/>
                 <Column alignment={"center"} dataField="counterpartyFormat.sortIndex"
@@ -150,20 +176,14 @@ export const Counterparties = () => {
             <Column alignment={"center"} dataField="inn"
                     caption={'ИНН'} dataType={"string"} validationRules={validationRules}/>
             <Column alignment={"center"} dataField="isWithOutNDS"
-                    caption={'Без НДC'} dataType={"boolean"} validationRules={validationRules}/>
+                    caption={'Без НДC'} dataType={"boolean"} />
             <Column alignment={"center"} dataField="isCustomer"
                     caption={'Заказчик'} dataType={"boolean"}/>
             <Column alignment={"center"} dataField="customerClassification"
                     caption={'Классификация заказчика'}>
                 <Column alignment={"center"} dataField="customerClassification.id"
                         caption={'ID'} dataType={"number"}
-                        validationRules={validationRules}>
-                    <Lookup
-                        dataSource={customerClassifications}
-                        valueExpr="id"
-                        displayExpr={'name'}
-                    />
-                </Column>
+                        validationRules={validationRules}/>
                 <Column alignment={"center"} dataField="customerClassification.name"
                         caption={'Наименование'} dataType={"string"}/>
                 <Column alignment={"center"} dataField="customerClassification.sortIndex"
@@ -172,20 +192,15 @@ export const Counterparties = () => {
                         caption={'Примечание'} dataType={"string"}/>
             </Column>
             <Column alignment={"center"} dataField="isSubcontractor"
-                    caption={'Субподрядчик'} dataType={"boolean"} validationRules={validationRules}/>
+                    caption={'Субподрядчик'} dataType={"boolean"} />
+
             <Column alignment={"center"} dataField="subcontractorClassifications[0]"
                     caption={'Классификация субподрядчика'}>
                 <Column alignment={"center"} dataField="subcontractorClassifications[0].id"
                         caption={'ID'} dataType={"number"}/>
                 <Column alignment={"center"} dataField="subcontractorClassifications[0].name"
                         caption={'Наименование'} dataType={"string"}
-                        validationRules={validationRules}>
-                    <Lookup
-                        dataSource={subcontractorClassifications}
-                        valueExpr="id"
-                        displayExpr={'name'}
-                    />
-                </Column>
+                        validationRules={validationRules}/>
                 <Column alignment={"center"} dataField="subcontractorClassifications[0].sortIndex"
                         caption={'Сортировка'} dataType={"number"}/>
                 <Column alignment={"center"} dataField="subcontractorClassifications[0].note"
@@ -203,13 +218,7 @@ export const Counterparties = () => {
                 />
                 <Column alignment={"center"} dataField="providerClassifications[0].name"
                         caption={'Наименование'} dataType={"string"}
-                        validationRules={validationRules}>
-                    <Lookup
-                        dataSource={providerClassifications}
-                        valueExpr="id"
-                        displayExpr={'name'}
-                    />
-                </Column>
+                        validationRules={validationRules}/>
                 <Column alignment={"center"} dataField="providerClassifications[0].sortIndex" allowEditing={false}
                         caption={'Сортировка'} dataType={"number"}/>
                 <Column alignment={"center"} dataField="providerClassifications[0].note" allowEditing={false}
@@ -220,20 +229,14 @@ export const Counterparties = () => {
                     caption={'Статус контрагента'}>
                 <Column alignment={"center"} dataField="counterpartyStatus.id"
                         caption={'ID'} dataType={"number"}
-                        validationRules={validationRules}>
-                    <Lookup
-                        dataSource={counterpartyStatus}
-                        valueExpr="id"
-                        displayExpr={'name'}
-                    />
-                </Column>
+                        validationRules={validationRules}/>
                 <Column alignment={"center"} dataField="counterpartyStatus.name"
                         caption={'Наименование'} dataType={"string"}/>
                 <Column alignment={"center"} dataField="counterpartyStatus.sortIndex"
                         caption={'Сортировка'} dataType={"number"}/>
             </Column>
 
-            <Column alignment={"center"} dataField='counterpartyContactPersons'
+            <Column alignment={"center"} dataField='counterpartyContactPersons[0]'
                     caption={'Контактная информация по контрагенту'}>
                 <Column alignment={"center"} dataField="counterpartyContactPersons[0].id"
                         caption={'ID'} dataType={"number"}/>

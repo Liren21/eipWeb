@@ -33,13 +33,13 @@ class Toaster implements IToaster {
 
     notify(msg: string, type?: TypeOptions): void {
         this.toastId = toast(msg, {
-            type: type, autoClose: 30000, transition: fade, position: "top-right",
+            type: type, autoClose: 30000, transition: fade, position: "bottom-left",
             hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "light",
+            theme: "colored",
         })
         if (msgs.length > 2) {
             msgs.forEach((id) => {

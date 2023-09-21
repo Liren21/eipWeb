@@ -92,8 +92,8 @@ export const Contracts = () => {
                         <Item dataField="address"/>
                         <Item dataField="title"/>
                         <Item dataField="counterpartyCustomer.id"/>
-                        <Item dataField="counterpartySubcontractor.id" label={{text: "Контрагент-субподрядчик"}}/>
-                        <Item dataField="counterpartyProvider.id" label={{text: "Контрагент-поставщик"}}/>
+                        <Item dataField="counterpartySubcontractor.id"/>
+                        <Item dataField="counterpartyProvider.id"/>
                         <Item dataField="contractNumberCustomer"/>
                         <Item dataField="contractNumberSubcontractor"/>
                         <Item dataField="contractNumberProvider"/>
@@ -102,9 +102,9 @@ export const Contracts = () => {
                         <Item dataField="additionalAgreementProvider"/>
                         <Item dataField="noSap"/>
                         <Item dataField="subscriber"/>
-                        <Item dataField="ras.id" label={{text: "РЭС"}}/>
-                        <Item dataField="projectEmployee.id" label={{text: 'Ф.И.О. руководителя проекта'}}/>
-                        <Item dataField="executorDO.id" label={{text: 'Исполнитель | ДО'}}/>
+                        <Item dataField="ras.id"/>
+                        <Item dataField="projectEmployee.id"/>
+                        <Item dataField="executorDO.id"/>
                         <Item dataField="statusDOId"/>
                         <Item dataField="contractSigningOption"/>
                         <Item dataField="noteDO"/>
@@ -122,7 +122,40 @@ export const Contracts = () => {
                     </Item>
                 </Form>
             </Editing>
-
+            <Column alignment={"center"} dataField="counterpartySubcontractor.id" caption={'Контрагент-субподрядчик'}
+                    dataType={"number"}
+                    validationRules={validationRules}>
+                <Lookup
+                    dataSource={counterparties}
+                    valueExpr="id"
+                    displayExpr={'name'}
+                />
+            </Column>
+            <Column alignment={"center"} dataField="counterpartyProvider.id" caption={'Контрагент-поставщик'}
+                    dataType={"number"}
+                    validationRules={validationRules}>
+                <Lookup
+                    dataSource={counterparties}
+                    valueExpr="id"
+                    displayExpr={'name'}
+                />
+            </Column>
+            <Column alignment={"center"} dataField="ras.id" caption={'РЭС'}
+                    dataType={"number"}>
+                <Lookup
+                    dataSource={rases}
+                    valueExpr="id"
+                    displayExpr={'name'}
+                />
+            </Column>
+            <Column alignment={"center"} dataField="executorDO.id" caption={'Исполнитель | ДО'}
+                    dataType={"number"}>
+                <Lookup
+                    dataSource={rases}
+                    valueExpr="id"
+                    displayExpr={'name'}
+                />
+            </Column>
             <Column alignment={"center"} fixed={true} dataField="id" defaultSortOrder={"asc"} caption={'ID договора'}
                     allowEditing={false} dataType={"number"}/>
             <Column alignment={"center"} dataField="address" caption={'Адрес договора'} dataType={"string"}
@@ -161,6 +194,14 @@ export const Contracts = () => {
                     displayExpr={'name'}
                 />
             </Column>
+            <Column alignment={"center"} dataField="projectEmployee.id" caption={'Ф.И.О. руководителя проекта'}
+                    dataType={"number"}>
+                <Lookup
+                    dataSource={counterpartyContact}
+                    valueExpr="id"
+                    displayExpr={'lastName'}
+                />
+            </Column>
 
             <Column alignment={"center"} dataField="counterpartySubcontractor" caption={'Контрагент субподрядчик'}>
 
@@ -175,13 +216,7 @@ export const Contracts = () => {
                         dataType={"number"}/>
                 <Column alignment={"center"} dataField="counterpartySubcontractor.id" caption={'ID'}
                         dataType={"number"}
-                        validationRules={validationRules}>
-                    <Lookup
-                        dataSource={counterparties}
-                        valueExpr="id"
-                        displayExpr={'name'}
-                    />
-                </Column>
+                        validationRules={validationRules}/>
                 <Column alignment={"center"} dataField="counterpartySubcontractor.inn" caption={'ИНН'}
                         dataType={"string"}/>
                 <Column alignment={"center"} dataField="counterpartySubcontractor.isCustomer" caption={'Заказчик'}
@@ -212,13 +247,7 @@ export const Contracts = () => {
                         dataType={"number"}/>
                 <Column alignment={"center"} dataField="counterpartyProvider.id" caption={'ID'}
                         dataType={"number"}
-                        validationRules={validationRules}>
-                    <Lookup
-                        dataSource={counterparties}
-                        valueExpr="id"
-                        displayExpr={'name'}
-                    />
-                </Column>
+                        validationRules={validationRules}/>
                 <Column alignment={"center"} dataField="counterpartyProvider.inn" caption={'ИНН'}
                         dataType={"string"}/>
                 <Column alignment={"center"} dataField="counterpartyProvider.isCustomer" caption={'Заказчик'}
@@ -262,13 +291,7 @@ export const Contracts = () => {
             <Column alignment={"center"} dataField="ras" caption={'РЭС'}
                     dataType={"number"}>
                 <Column alignment={"center"} dataField="ras.id" caption={'ID'}
-                        dataType={"number"}>
-                    <Lookup
-                        dataSource={rases}
-                        valueExpr="id"
-                        displayExpr={'name'}
-                    />
-                </Column>
+                        dataType={"number"}/>
                 <Column alignment={"center"} dataField="ras.sortIndex" caption={'Сортировка'}
                         dataType={"number"}/>
                 <Column alignment={"center"} dataField="ras.name" caption={'Имя'}
@@ -280,13 +303,7 @@ export const Contracts = () => {
 
             <Column alignment={"center"} dataField="projectEmployee" caption={'Сотрудник проекта'}>
                 <Column alignment={"center"} dataField="projectEmployee.id" caption={'ID '}
-                        dataType={"number"}>
-                    <Lookup
-                        dataSource={counterpartyContact}
-                        valueExpr="id"
-                        displayExpr={'lastName'}
-                    />
-                </Column>
+                        dataType={"number"}/>
                 <Column alignment={"center"} dataField="projectEmployee.lastName" caption={'Фамилия'}
                         dataType={"number"}/>
                 <Column alignment={"center"} dataField="projectEmployee.firstName" caption={'Имя'}
@@ -306,13 +323,7 @@ export const Contracts = () => {
 
             <Column alignment={"center"} dataField="executorDO" caption={'Исполнитель | ДО'}>
                 <Column alignment={"center"} dataField="executorDO.id" caption={'ID'}
-                        dataType={"number"}>
-                    <Lookup
-                        dataSource={rases}
-                        valueExpr="id"
-                        displayExpr={'name'}
-                    />
-                </Column>
+                        dataType={"number"}/>
                 <Column alignment={"center"} dataField="executorDO.lastName" caption={'Фамилия'}
                         dataType={"number"}/>
                 <Column alignment={"center"} dataField="executorDO.firstName" caption={'Имя'}

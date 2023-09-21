@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useReducer, useState} from 'react';
+import React, {useCallback, useEffect, useReducer} from 'react';
 import {Column, Editing, Form, Popup} from 'devextreme-react/data-grid';
 import reducer from '../../../../core/lib/api/reducer';
 import {loadOrders, saveChange, setChanges, setEditRowKey,} from '../../../../core/lib/api/actions';
@@ -33,13 +33,6 @@ export const ContractCategories = () => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
 
-    const handleRowUpdated = (e) => {
-        if (e.dataField === 'style') {
-            const styleValue = e.value;
-            // Теперь у вас есть доступ к значению столбца style (styleValue)
-            // Вы можете сделать с ним что-то здесь
-        }
-    };
     const styleCellRender = (cellData) => {
         const styleValue = cellData.value;
         const cellStyle = {
@@ -92,7 +85,7 @@ export const ContractCategories = () => {
             <Column alignment={"center"} dataField="group" caption={'Группа'} dataType={"string"}
                     validationRules={validationRules}/>
             <Column alignment={"center"} dataField="note" caption={'Примечание'} dataType={"string"}
-                    validationRules={validationRules}/>
+                    />
             <Column alignment={"center"} dataField="style" caption={'Цветовое обозначение'} dataType={"number"}
                     validationRules={validationRules} cellRender={styleCellRender}/>
 

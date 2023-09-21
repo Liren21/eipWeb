@@ -68,7 +68,7 @@ export const ProviderClassifications = () => {
             <Column alignment={"center"} dataField="name" caption={'Наименование'} dataType={"string"}
                     validationRules={validationRules}/>
             <Column alignment={"center"} dataField="note" caption={'Примечание'} dataType={"string"}
-                    validationRules={validationRules}/>
+                  />
 
         </CustomDataGrid>
     );
