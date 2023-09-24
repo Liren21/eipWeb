@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useReducer} from 'react';
 import urls from "../../../lib/urls";
 import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
-import {Column, Editing, Form, Popup} from "devextreme-react/data-grid";
+import {Column, Editing, Form, Lookup, Popup} from "devextreme-react/data-grid";
 import {Item} from "devextreme-react/form";
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import reducer from "../../../../core/lib/api/reducer";
@@ -31,7 +31,14 @@ export const CounterpartyFormats = () => {
     const onEditRowKeyChange = useCallback((editRowKey) => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
-
+    const numb = [
+        {
+            val: 10
+        },
+        {
+            val: 12
+        }
+    ]
     return (
         <CustomDataGrid
             visible={state.isLoading}
@@ -56,7 +63,7 @@ export const CounterpartyFormats = () => {
                     <Item itemType="group" colCount={3} colSpan={2}>
                         <Item dataField={'sortIndex'}/>
                         <Item dataField={'name'}/>
-                        <Item dataField={'isSmallFormatInn'}/>
+                        <Item dataField={'formatInn'}/>
                     </Item>
                 </Form>
             </Editing>
@@ -67,8 +74,15 @@ export const CounterpartyFormats = () => {
                     validationRules={validationRules}/>
             <Column alignment={"center"} dataField="name" caption={'Наименование'} dataType={"string"}
                     validationRules={validationRules}/>
-            <Column alignment={"center"} dataField="isSmallFormatInn"
-                    caption={'Количестов символов ИНН у заданного формата контрагента'} dataType={"boolean"}/>
+            <Column alignment={"center"} dataField="formatInn"
+                    caption={'Количестов символов ИНН у заданного формата контрагента'} dataType={"number"}
+                    validationRules={validationRules}>
+                <Lookup
+                    dataSource={numb}
+                    valueExpr="val"
+                    displayExpr={'val'}
+                />
+            </Column>
 
         </CustomDataGrid>
     );

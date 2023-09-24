@@ -31,11 +31,15 @@ export const Employees = () => {
     const onEditRowKeyChange = useCallback((editRowKey) => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
+    const dataWithFullName = state.data.map((item) => ({
+        ...item,
+        fullName: `${item.lastName} ${item.firstName} ${item.patronymicName}`,
+    }));
     return (
         <CustomDataGrid
             visible={state.isLoading}
             keyExpr="id"
-            dataSource={state.data}
+            dataSource={dataWithFullName}
             onSaving={onSaving}
         >
             <Editing
@@ -49,25 +53,28 @@ export const Employees = () => {
                 onEditRowKeyChange={onEditRowKeyChange}
 
             >
-                <Popup title="Создание статуса контрагента" showTitle={true}/>
+                <Popup title="Создание сотрудника" showTitle={true}/>
                 <Form>
-                    <Item itemType="group" colCount={3} colSpan={2}>
                         <Item dataField={'lastName'}/>
                         <Item dataField={'firstName'}/>
                         <Item dataField={'patronymicName'}/>
                         <Item dataField={'departmentId'}/>
                         <Item dataField={'positionId'}/>
-                    </Item>
+
                 </Form>
             </Editing>
-
+            <Column
+                alignment="center"
+                caption="Ф.И.О"
+                dataField={'fullName'}
+            />
             <Column alignment={"center"} fixed={true} dataField="id" defaultSortOrder={"asc"} caption={'ID'}
                     allowEditing={false} dataType={"number"}/>
-            <Column alignment={"center"} dataField="lastName" caption={'Фамилия'} dataType={"string"}
+            <Column alignment={"center"} dataField="lastName" visible={false} caption={'Фамилия'} dataType={"string"}
                     validationRules={validationRules}/>
-            <Column alignment={"center"} dataField="firstName" caption={'Имя'} dataType={"string"}
+            <Column alignment={"center"} dataField="firstName" visible={false} caption={'Имя'} dataType={"string"}
                     validationRules={validationRules}/>
-            <Column alignment={"center"} dataField="patronymicName" caption={'Отчество'} dataType={"string"}/>
+            <Column alignment={"center"} dataField="patronymicName" visible={false} caption={'Отчество'} dataType={"string"}/>
             <Column alignment={"center"} dataField="departmentId" caption={'ID отдела'} dataType={"number"}
                     validationRules={validationRules}/>
             <Column alignment={"center"} dataField="positionId" caption={'ID позиции'} dataType={"string"}

@@ -12,7 +12,6 @@ import {providerClassificationsService} from "../../../lib/services/providerClas
 import {subcontractorClassificationsService} from "../../../lib/services/subcontractorClassificationsService";
 import {ProcessClassifications, ProcessClassificationsObj} from '../../../generic/Function/ProcessClassifications';
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
-import {dataFormItems} from "./columns/FormsItem";
 import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
 import {TableVariable} from "../../../generic/Variable/TableVariable";
 
@@ -64,20 +63,29 @@ export const Counterparties = () => {
     }, [URL]);
 
     const onChangesChange = useCallback((changes) => {
-        console.log(changes)
         setChanges(dispatch, changes);
     }, []);
 
     const onEditRowKeyChange = useCallback((editRowKey) => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
+    const dataWithFullName = state.data.map((item) => {
+        const lastName = item.counterpartyContactPersons[0]?.lastName || '';
+        const firstName = item.counterpartyContactPersons[0]?.firstName || '';
+        const patronymicName = item.counterpartyContactPersons[0]?.patronymicName || '';
+
+        return {
+            ...item,
+            fullName: `${lastName} ${firstName} ${patronymicName}`,
+        };
+    });
 
     return (
 
         <CustomDataGrid
             visible={state.isLoading}
             keyExpr="id"
-            dataSource={state.data}
+            dataSource={dataWithFullName}
             onSaving={onSaving}
             dataOnInitNewRow={{
                 isWithOutNDS: false,
@@ -97,17 +105,18 @@ export const Counterparties = () => {
                 onEditRowKeyChange={onEditRowKeyChange}>
                 <Popup title="Создание контрагента" showTitle={true}/>
                 <Form>
-                    {
-                        dataFormItems.map((item, index) => (
-                            <Item key={`counterparties-${item.itemCaption}-${index}`} caption={item.itemCaption}
-                                  itemType="group" colCount={3} colSpan={2}>
-                                {item.data.map((data) => (
-                                    <Item key={`counterparties-${data.dataField}-${index}`}
-                                          dataField={data.dataField}/>
-                                ))}
-                            </Item>
-                        ))
-                    }
+                    <Item dataField={'counterpartyFormat.id'}/>
+                    <Item dataField={'name'}/>
+                    <Item dataField={'inn'}/>
+                    <Item dataField={'customerClassification.id'}/>
+                    <Item dataField={'counterpartyStatus.id'}/>
+                    <Item dataField={'providerClassifications[0].name'}/>
+                    <Item dataField={'subcontractorClassifications[0].name'}/>
+                    <Item dataField={'isSubcontractor'}/>
+                    <Item dataField={'isProvider'}/>
+                    <Item dataField={'isWithOutNDS'}/>
+                    <Item dataField={'isCustomer'}/>
+                    <Item dataField={'note'} editorType={'dxTextArea'} colSpan={2}/>
                 </Form>
             </Editing>
 
@@ -168,15 +177,15 @@ export const Counterparties = () => {
                         caption={'Наименование'} dataType={"string"}/>
                 <Column alignment={"center"} dataField="counterpartyFormat.sortIndex"
                         caption={'Сортировка'} dataType={"number"}/>
-                <Column alignment={"center"} dataField="counterpartyFormat.isSmallFormatInn"
-                        caption={'Количестов символов ИНН у заданного формата контрагента'} dataType={"boolean"}/>
+                <Column alignment={"center"} dataField="counterpartyFormat.formatInn"
+                        caption={'Количестов символов ИНН у заданного формата контрагента'} dataType={"number"}/>
             </Column>
             <Column alignment={"center"} dataField="name"
                     caption={'Наименование контрагента'} dataType={"string"} validationRules={validationRules}/>
             <Column alignment={"center"} dataField="inn"
                     caption={'ИНН'} dataType={"string"} validationRules={validationRules}/>
             <Column alignment={"center"} dataField="isWithOutNDS"
-                    caption={'Без НДC'} dataType={"boolean"} />
+                    caption={'Без НДC'} dataType={"boolean"}/>
             <Column alignment={"center"} dataField="isCustomer"
                     caption={'Заказчик'} dataType={"boolean"}/>
             <Column alignment={"center"} dataField="customerClassification"
@@ -192,7 +201,7 @@ export const Counterparties = () => {
                         caption={'Примечание'} dataType={"string"}/>
             </Column>
             <Column alignment={"center"} dataField="isSubcontractor"
-                    caption={'Субподрядчик'} dataType={"boolean"} />
+                    caption={'Субподрядчик'} dataType={"boolean"}/>
 
             <Column alignment={"center"} dataField="subcontractorClassifications[0]"
                     caption={'Классификация субподрядчика'}>
@@ -240,13 +249,8 @@ export const Counterparties = () => {
                     caption={'Контактная информация по контрагенту'}>
                 <Column alignment={"center"} dataField="counterpartyContactPersons[0].id"
                         caption={'ID'} dataType={"number"}/>
-                <Column alignment={"center"} dataField="counterpartyContactPersons[0].lastName"
-                        caption={'Фамилия'} dataType={"string"}/>
-                <Column alignment={"center"} dataField="counterpartyContactPersons[0].firstName"
-                        caption={'Имя'} dataType={"string"}/>
-                <Column alignment={"center"} dataField="counterpartyContactPersons[0].patronymicName"
-
-                        caption={'Отчество'} dataType={"string"}/>
+                <Column alignment={"center"} dataField="fullName"
+                        caption={'Ф.И.О'} dataType={"string"}/>
                 <Column alignment={"center"} dataField="counterpartyContactPersons[0].phone"
                         caption={'Рабочий телефон'} dataType={"string"}/>
                 <Column alignment={"center"} dataField="counterpartyContactPersons[0].mobilePhone"

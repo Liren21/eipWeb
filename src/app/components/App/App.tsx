@@ -1,14 +1,14 @@
 import 'devextreme/dist/css/dx.common.css';
 import '../../../themes/generated/theme.base.css';
 import '../../../themes/generated/theme.additional.css';
-import {HashRouter as Router} from 'react-router-dom';
-import './App.scss'
+import {BrowserRouter as Router} from 'react-router-dom';
 import LoadPanel from 'devextreme-react/load-panel';
 import {NavigationProvider} from '../../../core/lib/contexts/navigation';
 import {AuthProvider, useAuth} from '../../../core/lib/contexts/auth';
 import CustomFooter from '../../generic/Custom/CustomFooter/CustomFooter';
 import UnauthenticatedContent from '../pages/UnauthenticatedContent/UnauthenticatedContent';
 import { ToastContainer } from 'react-toastify';
+import './App.scss'
 
 function App() {
     const {user, loading} = useAuth();

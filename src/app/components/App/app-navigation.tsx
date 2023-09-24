@@ -1,17 +1,13 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHouse} from "@fortawesome/free-solid-svg-icons";
-import React from "react";
-
 export const navigation = [
     {
         text: "Главная",
-        path:'/home',
-        icon:'home',
+        path: '/home',
+        icon: 'home',
         items: []
     },
     {
         text: "Справочники",
-        icon:'cut',
+        icon: 'cut',
         items: [
             {
                 text: 'Формат контрагента',
@@ -49,15 +45,14 @@ export const navigation = [
     },
     {
         text: "Реестры",
-        icon:'eyeopen',
+        icon: 'eyeopen',
         items: [
-
             {
                 text: 'Контрагенты',
                 path: '/counterparties',
             },
             {
-                text: 'Контакты информации по контрагенту',
+                text: 'Контактная информация по контрагенту',
                 path: '/counterpartyContactPersons',
             },
             {
@@ -73,7 +68,7 @@ export const navigation = [
     },
     {
         text: "Тестова страница",
-        path:'/test',
+        path: '/test',
         items: []
     },
 ]

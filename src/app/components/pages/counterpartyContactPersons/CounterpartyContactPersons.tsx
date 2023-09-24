@@ -1,17 +1,15 @@
 import React, {useCallback, useEffect, useMemo, useReducer} from 'react';
-import {Column, Editing, Form, Lookup, PatternRule, Popup, } from 'devextreme-react/data-grid';
+import {Column, Editing, Form, Lookup, Popup,} from 'devextreme-react/data-grid';
 import 'whatwg-fetch';
 import reducer from '../../../../core/lib/api/reducer';
 import {saveChange, loadOrders, setChanges, setEditRowKey,} from '../../../../core/lib/api/actions';
 import urls from "../../../lib/urls";
 import {Item} from "devextreme-react/form";
 import {counterpartiesService} from "../../../lib/services/counterpartiesService";
-import {TableVariable} from "../../../generic/Variable/TableVariable";
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import {ProcessClassificationsObj} from "../../../generic/Function/ProcessClassifications";
 import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
-import {TextBox} from "devextreme-react";
-import Validator from 'devextreme-react/validator';
+import {TableVariable} from '../../../generic/Variable/TableVariable';
 
 
 export const CounterpartyContactPersons = () => {
@@ -23,16 +21,16 @@ export const CounterpartyContactPersons = () => {
     useEffect(() => {
         loadOrders(dispatch, URL);
         reCounterparties()
-    }, [URL]);
+    }, [URL, reCounterparties]);
 
     const onSaving = useCallback((e) => {
+
         ProcessClassificationsObj(e.changes[0].data, "counterparty");
         e.cancel = true;
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
 
     const onChangesChange = useCallback((changes) => {
-        console.log(changes)
         setChanges(dispatch, changes);
     }, []);
 
@@ -40,11 +38,15 @@ export const CounterpartyContactPersons = () => {
         setEditRowKey(dispatch, editRowKey);
     }, []);
 
+    const dataWithFullName = state.data.map((item) => ({
+        ...item,
+        fullName: `${item.lastName} ${item.firstName} ${item.patronymicName}`,
+    }));
     return (
         <CustomDataGrid
             visible={state.isLoading}
             keyExpr="id"
-            dataSource={state.data}
+            dataSource={dataWithFullName}
             onSaving={onSaving}
             dataOnInitNewRow={{
                 isMain: false,
@@ -67,25 +69,29 @@ export const CounterpartyContactPersons = () => {
                 defaultEditRowKey={false}>
                 <Popup title="Создание контактной информации" showTitle={true}/>
                 <Form>
-                    <Item itemType="group" colCount={3} colSpan={2}>
-                        <Item dataField="lastName"/>
-                        <Item dataField="firstName"/>
-                        <Item dataField="patronymicName"/>
-                        <Item dataField="phone"/>
-                        <Item dataField="mobilePhone"/>
-                        <Item dataField="email"/>
-                        <Item dataField="note"/>
-                        <Item dataField="isMain"/>
-                        <Item dataField="counterparty.id"/>
-                    </Item>
+                    <Item dataField="lastName"/>
+                    <Item dataField="firstName"/>
+                    <Item dataField="patronymicName"/>
+                    <Item dataField="phone"/>
+                    <Item dataField="mobilePhone"/>
+                    <Item dataField="email"/>
+                    <Item dataField="isMain"/>
+                    <Item dataField="counterparty.id"/>
+                    <Item dataField="note" editorType={'dxTextArea'} colSpan={2}/>
                 </Form>
             </Editing>
-            <Column fixed={true} alignment={"center"} dataField="id" defaultSortOrder={"asc"} caption={'ID'} allowEditing={false} dataType={"number"}/>
-            <Column alignment={"center"} dataField="lastName" allowEditing={true}
+            <Column fixed={true} alignment={"center"} dataField="id" defaultSortOrder={"asc"} caption={'ID'}
+                    allowEditing={false} dataType={"number"}/>
+            <Column
+                alignment="center"
+                caption="Ф.И.О"
+                dataField={'fullName'}
+            />
+            <Column alignment={"center"} dataField="lastName" visible={false} allowEditing={true}
                     caption={'Фамилия'} dataType={"string"} validationRules={validationRules}/>
-            <Column alignment={"center"} dataField="firstName" allowEditing={true}
+            <Column alignment={"center"} dataField="firstName" visible={false} allowEditing={true}
                     caption={'Имя'} dataType={"string"} validationRules={validationRules}/>
-            <Column alignment={"center"} dataField="patronymicName" allowEditing={true}
+            <Column alignment={"center"} dataField="patronymicName" visible={false} allowEditing={true}
                     caption={'Отчество'} dataType={"string"} validationRules={validationRules}/>
             <Column alignment={"center"} dataField="phone" allowEditing={true}
                     caption={'Рабочий телефон'} dataType={"string"}/>

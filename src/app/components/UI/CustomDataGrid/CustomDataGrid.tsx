@@ -1,10 +1,11 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import DataGrid, { Column, HeaderFilter, Scrolling, SearchPanel } from 'devextreme-react/data-grid';
+import DataGrid, {  HeaderFilter, Scrolling, SearchPanel } from 'devextreme-react/data-grid';
 import { onInitNewRow } from "../../../generic/Function/OnInitNewRow";
 import { TableName } from "../TableName/TableName";
 import { LoadPanel } from "devextreme-react/load-panel";
 import './CustomDataGrid.scss';
-
+import 'devextreme-react/text-area';
+import 'devextreme-react/color-box';
 interface ICustomDataGrid {
     dataSource: any;
     onSaving: any;

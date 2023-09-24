@@ -14,7 +14,6 @@ export const CounterpartyStatus = () => {
     const [state, dispatch] = useReducer(reducer, TableVariable);
 
 
-
     useEffect(() => {
         loadOrders(dispatch, URL);
 
@@ -52,10 +51,9 @@ export const CounterpartyStatus = () => {
             >
                 <Popup title="Создание статуса контрагента" showTitle={true}/>
                 <Form>
-                    <Item itemType="group" colCount={3} colSpan={2}>
-                        <Item dataField={'sortIndex'}/>
-                        <Item dataField={'name'}/>
-                    </Item>
+                    <Item dataField={'sortIndex'}/>
+                    <Item dataField={'name'}/>
+
                 </Form>
             </Editing>
 

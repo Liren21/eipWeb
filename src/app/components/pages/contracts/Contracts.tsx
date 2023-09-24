@@ -9,10 +9,10 @@ import {ProcessClassificationsObj} from "../../../generic/Function/ProcessClassi
 import {counterpartiesService} from "../../../lib/services/counterpartiesService";
 import {contractCategoriesService} from "../../../lib/services/contractCategoriesService";
 import {statusDOsService} from "../../../lib/services/statusDOsService";
-import {counterpartyContactPersonsService} from "../../../lib/services/counterpartyContactPersonsService";
 import {rasesService} from "../../../lib/services/rasesService";
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
+import {employeeService} from "../../../lib/services/employeeService";
 
 
 export const Contracts = () => {
@@ -26,14 +26,15 @@ export const Contracts = () => {
         data: contractCategories,
         refetch: reContractCategories
     } = contractCategoriesService.useFetchContractSignStatesQuery('')
-    const {
-        data: counterpartyContact,
-        refetch: reCounterpartyContact
-    } = counterpartyContactPersonsService.useFetchCounterpartyContactPersonsQuery('')
+
     const {
         data: rases,
         refetch: reRases
     } = rasesService.useFetchRasesQuery('')
+    const {
+        data: employee,
+        refetch: reEmployee
+    } = employeeService.useFetchEmployeeQuery('')
 
 
     useEffect(() => {
@@ -41,8 +42,8 @@ export const Contracts = () => {
         reCounterparties()
         reStatusDOs()
         reContractCategories()
-        reCounterpartyContact()
         reRases()
+        reEmployee()
     }, [URL]);
 
     const onSaving = useCallback((e) => {
@@ -54,6 +55,7 @@ export const Contracts = () => {
         ProcessClassificationsObj(e.changes[0].data, "projectEmployee");
         ProcessClassificationsObj(e.changes[0].data, "ras");
         ProcessClassificationsObj(e.changes[0].data, "executorDO");
+        ProcessClassificationsObj(e.changes[0].data, "statusDO");
         e.cancel = true;
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
@@ -87,39 +89,37 @@ export const Contracts = () => {
             >
                 <Popup title="Создание договора" showTitle={true}/>
                 <Form>
-                    <Item itemType="group" colCount={3} colSpan={2}>
-                        <Item dataField="contractCategory.id"/>
-                        <Item dataField="address"/>
-                        <Item dataField="title"/>
-                        <Item dataField="counterpartyCustomer.id"/>
-                        <Item dataField="counterpartySubcontractor.id"/>
-                        <Item dataField="counterpartyProvider.id"/>
-                        <Item dataField="contractNumberCustomer"/>
-                        <Item dataField="contractNumberSubcontractor"/>
-                        <Item dataField="contractNumberProvider"/>
-                        <Item dataField="additionalAgreementCustomer"/>
-                        <Item dataField="additionalAgreementSubcontractor"/>
-                        <Item dataField="additionalAgreementProvider"/>
-                        <Item dataField="noSap"/>
-                        <Item dataField="subscriber"/>
-                        <Item dataField="ras.id"/>
-                        <Item dataField="projectEmployee.id"/>
-                        <Item dataField="executorDO.id"/>
-                        <Item dataField="statusDOId"/>
-                        <Item dataField="contractSigningOption"/>
-                        <Item dataField="noteDO"/>
-                        <Item dataField="numberTechTask"/>
-                        <Item dataField="conclusionContractDate"/>
-                        <Item dataField="returnSignContractDate"/>
-                        <Item dataField="startDate"/>
-                        <Item dataField="endDate"/>
-                        <Item dataField="cancellationDate"/>
-                        <Item dataField="terminationDate"/>
-                        <Item dataField="summaPIR"/>
-                        <Item dataField="summaSMR"/>
-                        <Item dataField="summaEquipment"/>
-                        <Item dataField="summaOther"/>
-                    </Item>
+                    <Item dataField="contractCategory.id"/>
+                    <Item dataField="address"/>
+                    <Item dataField="title"/>
+                    <Item dataField="counterpartyCustomer.id"/>
+                    <Item dataField="counterpartySubcontractor.id"/>
+                    <Item dataField="counterpartyProvider.id"/>
+                    <Item dataField="contractNumberCustomer"/>
+                    <Item dataField="contractNumberSubcontractor"/>
+                    <Item dataField="contractNumberProvider"/>
+                    <Item dataField="additionalAgreementCustomer"/>
+                    <Item dataField="additionalAgreementSubcontractor"/>
+                    <Item dataField="additionalAgreementProvider"/>
+                    <Item dataField="noSap"/>
+                    <Item dataField="subscriber"/>
+                    <Item dataField="ras.id"/>
+                    <Item dataField="projectEmployee.id"/>
+                    <Item dataField="executorDO.id"/>
+                    <Item dataField="statusDO.id"/>
+                    <Item dataField="contractSigningOption"/>
+                    <Item dataField="numberTechTask"/>
+                    <Item dataField="conclusionContractDate"/>
+                    <Item dataField="returnSignContractDate"/>
+                    <Item dataField="startDate"/>
+                    <Item dataField="endDate"/>
+                    <Item dataField="cancellationDate"/>
+                    <Item dataField="terminationDate"/>
+                    <Item dataField="summaPIR"/>
+                    <Item dataField="summaSMR"/>
+                    <Item dataField="summaEquipment"/>
+                    <Item dataField="summaOther"/>
+                    <Item dataField="noteDO" editorType={'dxTextArea'} colSpan={2}/>
                 </Form>
             </Editing>
             <Column alignment={"center"} dataField="counterpartySubcontractor.id" caption={'Контрагент-субподрядчик'}
@@ -185,7 +185,7 @@ export const Contracts = () => {
                 />
             </Column>
 
-            <Column alignment={"center"} dataField="statusDOId" caption={'Статус ДО'} visible={false}
+            <Column alignment={"center"} dataField="statusDO.id" caption={'Статус ДО'} visible={false}
                     allowEditing={true}
                     dataType={"number"}>
                 <Lookup
@@ -197,7 +197,7 @@ export const Contracts = () => {
             <Column alignment={"center"} dataField="projectEmployee.id" caption={'Ф.И.О. руководителя проекта'}
                     dataType={"number"}>
                 <Lookup
-                    dataSource={counterpartyContact}
+                    dataSource={employee}
                     valueExpr="id"
                     displayExpr={'lastName'}
                 />
@@ -356,13 +356,13 @@ export const Contracts = () => {
                     dataType={"string"}/>
             <Column alignment={"center"} dataField="numberTechTask" caption={'Номер ТЗ'}
                     dataType={"string"}/>
-            <Column alignment={"center"} dataField="createdDate" caption={'Дт создания'}
-                    dataType={"datetime"}/>
+            <Column alignment={"center"} dataField="createdDate" caption={'Дт внесения строчки'}
+                    dataType={"date"}/>
             <Column alignment={"center"} dataField="conclusionContractDate" caption={'Дт заключения договора'}
-                    dataType={"datetime"} validationRules={validationRules}/>
+                    dataType={"date"} validationRules={validationRules}/>
             <Column alignment={"center"} dataField="returnSignContractDate"
                     caption={'Дт возврата подписанного договора'}
-                    dataType={"datetime"}/>
+                    dataType={"date"}/>
 
             <Column alignment={"center"} dataField="createdEmployee" caption={'Созданный сотрудник'}>
                 <Column alignment={"center"} dataField="createdEmployee.departmentId" caption={'ID отдела'}
@@ -384,13 +384,13 @@ export const Contracts = () => {
                         dataType={"boolean"}/>
             </Column>
             <Column alignment={"center"} dataField="startDate" caption={'Дт начала работ по договору'}
-                    dataType={"datetime"}/>
+                    dataType={"date"}/>
             <Column alignment={"center"} dataField="endDate" caption={'Дт окончания работ по договору'}
-                    dataType={"datetime"}/>
+                    dataType={"date"}/>
             <Column alignment={"center"} dataField="cancellationDate" caption={'Дт аннуляции договора'}
-                    dataType={"datetime"}/>
+                    dataType={"date"}/>
             <Column alignment={"center"} dataField="terminationDate" caption={'Дт расторжения договора'}
-                    dataType={"datetime"}/>
+                    dataType={"date"}/>
             <Column alignment={"center"} dataField="summaPIR" caption={'СУММА | ПИР'}
                     dataType={"number"}/>
             <Column alignment={"center"} dataField="summaSMR" caption={'СУММА | СМР'}
@@ -423,8 +423,9 @@ export const Contracts = () => {
             </Column>
 
 
-            <Column alignment={"center"} dataField="updateStatusDODate" caption={'Обновление даты статуса ДО'}
-                    dataType={"datetime"}/>
+            <Column alignment={"center"} dataField="updateStatusDODate"
+                    caption={'Последнее редактирование "Когда" | Статус ДО'}
+                    dataType={"date"}/>
         </CustomDataGrid>
     )
 }

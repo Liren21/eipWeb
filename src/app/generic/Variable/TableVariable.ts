@@ -4,3 +4,5 @@ export const TableVariable = {
     editRowKey: null,
     isLoading: false,
 };
+
+

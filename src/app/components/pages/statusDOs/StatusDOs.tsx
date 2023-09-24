@@ -52,11 +52,9 @@ export const StatusDOs = () => {
             >
                 <Popup title="Создание статуда ДО" showTitle={true}/>
                 <Form>
-                    <Item itemType="group" colCount={3} colSpan={2}>
                         <Item dataField={'sortIndex'}/>
                         <Item dataField={'name'}/>
-                        <Item dataField={'note'}/>
-                    </Item>
+                        <Item dataField={'note'} editorType={'dxTextArea'} colSpan={2}/>
                 </Form>
             </Editing>
 

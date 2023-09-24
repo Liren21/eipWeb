@@ -53,11 +53,9 @@ export const ProviderClassifications = () => {
             >
                 <Popup title="Создание классификации поставщика" showTitle={true}/>
                 <Form>
-                    <Item itemType="group" colCount={3} colSpan={2}>
                         <Item dataField={'sortIndex'}/>
                         <Item dataField={'name'}/>
-                        <Item dataField={'note'}/>
-                    </Item>
+                        <Item dataField={'note'} editorType={'dxTextArea'} colSpan={2}/>
                 </Form>
             </Editing>
 

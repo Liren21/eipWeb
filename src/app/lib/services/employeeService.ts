@@ -8,7 +8,7 @@ export const employeeService = createApi({
     endpoints:(build)=>({
         fetchEmployee: build.query({
             query: () => ({
-                url: '',
+                url: '/GetAll',
                 // params: {
                 //     _limit: limit
                 // }
