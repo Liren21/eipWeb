@@ -1,10 +1,9 @@
 import React, {useCallback, useEffect, useMemo, useReducer} from 'react';
 import {Column, Editing, Form, Lookup, Popup,} from 'devextreme-react/data-grid';
-import 'whatwg-fetch';
 import reducer from '../../../../core/lib/api/reducer';
 import {saveChange, loadOrders, setChanges, setEditRowKey,} from '../../../../core/lib/api/actions';
 import urls from "../../../lib/urls";
-import {Item} from "devextreme-react/form";
+import {EmailRule, Item } from "devextreme-react/form";
 import {counterpartiesService} from "../../../lib/services/counterpartiesService";
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import {ProcessClassificationsObj} from "../../../generic/Function/ProcessClassifications";
@@ -74,7 +73,9 @@ export const CounterpartyContactPersons = () => {
                     <Item dataField="patronymicName"/>
                     <Item dataField="phone"/>
                     <Item dataField="mobilePhone"/>
-                    <Item dataField="email"/>
+                    <Item dataField="email">
+                        <EmailRule/>
+                    </Item>
                     <Item dataField="isMain"/>
                     <Item dataField="counterparty.id"/>
                     <Item dataField="note" editorType={'dxTextArea'} colSpan={2}/>

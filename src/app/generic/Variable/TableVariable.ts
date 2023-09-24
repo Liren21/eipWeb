@@ -3,6 +3,7 @@ export const TableVariable = {
     changes: [],
     editRowKey: null,
     isLoading: false,
+    titleMethod:null
 };
 
 

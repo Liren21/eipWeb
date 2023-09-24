@@ -6,6 +6,7 @@ import { LoadPanel } from "devextreme-react/load-panel";
 import './CustomDataGrid.scss';
 import 'devextreme-react/text-area';
 import 'devextreme-react/color-box';
+import 'devextreme-react/text-box';
 interface ICustomDataGrid {
     dataSource: any;
     onSaving: any;
