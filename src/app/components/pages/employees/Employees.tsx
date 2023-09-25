@@ -1,17 +1,20 @@
-import React, {useCallback, useEffect, useReducer} from 'react';
+import React, {useCallback, useEffect, useReducer, useState} from 'react';
 import urls from "../../../lib/urls";
 import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
 import {Column, Editing, Form, Popup} from "devextreme-react/data-grid";
 import {Item} from "devextreme-react/form";
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import reducer from "../../../../core/lib/api/reducer";
-import {loadOrders, saveChange, setChanges, setEditRowKey} from "../../../../core/lib/api/actions";
+import {loadOrders, saveChange} from "../../../../core/lib/api/actions";
 import {TableVariable} from "../../../generic/Variable/TableVariable";
+import {OnChangesChange} from "../../../generic/Function/OnChangesChange";
+import {OnEditRowKeyChange} from "../../../generic/Function/OnEditRowKeyChange";
 
 
 export const Employees = () => {
     const URL: string = urls.EMPLOYEES
     const [state, dispatch] = useReducer(reducer, TableVariable);
+    const [titleMethod, setTitleMethod] = useState('')
 
 
     useEffect(() => {
@@ -24,13 +27,6 @@ export const Employees = () => {
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
 
-    const onChangesChange = useCallback((changes) => {
-        setChanges(dispatch, changes);
-    }, []);
-
-    const onEditRowKeyChange = useCallback((editRowKey) => {
-        setEditRowKey(dispatch, editRowKey);
-    }, []);
     const dataWithFullName = state.data.map((item) => ({
         ...item,
         fullName: `${item.lastName} ${item.firstName} ${item.patronymicName}`,
@@ -48,19 +44,17 @@ export const Employees = () => {
                 allowDeleting={true}
                 allowUpdating={true}
                 changes={state.changes}
-                onChangesChange={onChangesChange}
+                onChangesChange={useCallback((e) => OnChangesChange(dispatch, e, setTitleMethod), [])}
                 editRowKey={state.editRowKey}
-                onEditRowKeyChange={onEditRowKeyChange}
-
+                onEditRowKeyChange={useCallback((e) => OnEditRowKeyChange(dispatch, e, setTitleMethod), [])}
             >
-                <Popup title="Создание сотрудника" showTitle={true}/>
+                <Popup title={`${titleMethod} сотрудника`} showTitle={true}/>
                 <Form>
-                        <Item dataField={'lastName'}/>
-                        <Item dataField={'firstName'}/>
-                        <Item dataField={'patronymicName'}/>
-                        <Item dataField={'departmentId'}/>
-                        <Item dataField={'positionId'}/>
-
+                    <Item dataField={'lastName'}/>
+                    <Item dataField={'firstName'}/>
+                    <Item dataField={'patronymicName'}/>
+                    <Item dataField={'departmentId'}/>
+                    <Item dataField={'positionId'}/>
                 </Form>
             </Editing>
             <Column
@@ -74,7 +68,8 @@ export const Employees = () => {
                     validationRules={validationRules}/>
             <Column alignment={"center"} dataField="firstName" visible={false} caption={'Имя'} dataType={"string"}
                     validationRules={validationRules}/>
-            <Column alignment={"center"} dataField="patronymicName" visible={false} caption={'Отчество'} dataType={"string"}/>
+            <Column alignment={"center"} dataField="patronymicName" visible={false} caption={'Отчество'}
+                    dataType={"string"}/>
             <Column alignment={"center"} dataField="departmentId" caption={'ID отдела'} dataType={"number"}
                     validationRules={validationRules}/>
             <Column alignment={"center"} dataField="positionId" caption={'ID позиции'} dataType={"string"}

@@ -1,7 +1,7 @@
-import React, {useCallback, useEffect, useReducer} from 'react';
+import React, {useCallback, useEffect, useReducer, useState} from 'react';
 import {Column, Editing, Form, Lookup, Popup} from 'devextreme-react/data-grid';
 import reducer from '../../../../core/lib/api/reducer';
-import {loadOrders, saveChange, setChanges, setEditRowKey,} from '../../../../core/lib/api/actions';
+import {loadOrders, saveChange} from '../../../../core/lib/api/actions';
 import urls from "../../../lib/urls";
 import {Item} from "devextreme-react/form";
 import {TableVariable} from "../../../generic/Variable/TableVariable";
@@ -13,12 +13,14 @@ import {rasesService} from "../../../lib/services/rasesService";
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
 import {employeeService} from "../../../lib/services/employeeService";
+import {OnChangesChange} from "../../../generic/Function/OnChangesChange";
+import {OnEditRowKeyChange} from "../../../generic/Function/OnEditRowKeyChange";
 
 
 export const Contracts = () => {
     const URL: string = urls.CONTRACTS
     const [state, dispatch] = useReducer(reducer, TableVariable);
-
+    const [titleMethod, setTitleMethod] = useState('')
 
     const {data: counterparties, refetch: reCounterparties} = counterpartiesService.useFetchCounterpartiesQuery('')
     const {data: statusDOs, refetch: reStatusDOs} = statusDOsService.useFetchStatusDOsQuery('')
@@ -47,7 +49,6 @@ export const Contracts = () => {
     }, [URL]);
 
     const onSaving = useCallback((e) => {
-
         ProcessClassificationsObj(e.changes[0].data, "counterpartyCustomer");
         ProcessClassificationsObj(e.changes[0].data, "contractCategory");
         ProcessClassificationsObj(e.changes[0].data, "counterpartyProvider");
@@ -60,14 +61,6 @@ export const Contracts = () => {
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
 
-    const onChangesChange = useCallback((changes) => {
-
-        setChanges(dispatch, changes);
-    }, []);
-
-    const onEditRowKeyChange = useCallback((editRowKey) => {
-        setEditRowKey(dispatch, editRowKey);
-    }, []);
 
     return (
         <CustomDataGrid
@@ -82,12 +75,11 @@ export const Contracts = () => {
                 allowDeleting={true}
                 allowUpdating={true}
                 changes={state.changes}
-                onChangesChange={onChangesChange}
+                onChangesChange={useCallback((e) => OnChangesChange(dispatch, e, setTitleMethod), [])}
                 editRowKey={state.editRowKey}
-                onEditRowKeyChange={onEditRowKeyChange}
-
+                onEditRowKeyChange={useCallback((e) => OnEditRowKeyChange(dispatch, e, setTitleMethod), [])}
             >
-                <Popup title="Создание договора" showTitle={true}/>
+                <Popup title={`${titleMethod} договор`} showTitle={true}/>
                 <Form>
                     <Item dataField="contractCategory.id"/>
                     <Item dataField="address"/>

@@ -1,6 +1,6 @@
 import React, {StrictMode} from 'react';
 import ReactDOM from 'react-dom/client';
-import {setupStore} from './app/lib/store/store';
+import {setupStore} from './app/lib/store';
 import {Provider} from 'react-redux';
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';

@@ -1,8 +1,8 @@
-import React, {useCallback, useEffect, useReducer} from 'react';
+import React, {useCallback, useEffect, useReducer, useState} from 'react';
 import {Column, Editing, Form, Lookup, Popup,} from 'devextreme-react/data-grid';
 import 'whatwg-fetch';
 import reducer from '../../../../core/lib/api/reducer';
-import {saveChange, loadOrders, setChanges, setEditRowKey,} from '../../../../core/lib/api/actions';
+import {saveChange, loadOrders} from '../../../../core/lib/api/actions';
 import urls from "../../../lib/urls";
 import {Item} from "devextreme-react/form";
 import {counterpartyFormatsService} from "../../../lib/services/counterpartyFormatsService";
@@ -14,11 +14,15 @@ import {ProcessClassifications, ProcessClassificationsObj} from '../../../generi
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
 import {TableVariable} from "../../../generic/Variable/TableVariable";
+import {OnChangesChange} from "../../../generic/Function/OnChangesChange";
+import {OnEditRowKeyChange} from "../../../generic/Function/OnEditRowKeyChange";
 
 
 export const Counterparties = () => {
     const URL: string = urls.COUNTERPARTIES
     const [state, dispatch] = useReducer(reducer, TableVariable);
+    const [titleMethod, setTitleMethod] = useState('')
+
     const {
         data: counterpartyFormats,
         refetch: reCounterpartyFormats
@@ -62,13 +66,6 @@ export const Counterparties = () => {
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
 
-    const onChangesChange = useCallback((changes) => {
-        setChanges(dispatch, changes);
-    }, []);
-
-    const onEditRowKeyChange = useCallback((editRowKey) => {
-        setEditRowKey(dispatch, editRowKey);
-    }, []);
     const dataWithFullName = state.data.map((item) => {
         const lastName = item.counterpartyContactPersons[0]?.lastName || '';
         const firstName = item.counterpartyContactPersons[0]?.firstName || '';
@@ -100,10 +97,11 @@ export const Counterparties = () => {
                 allowDeleting={true}
                 allowUpdating={true}
                 changes={state.changes}
-                onChangesChange={onChangesChange}
+                onChangesChange={useCallback((e) => OnChangesChange(dispatch, e, setTitleMethod), [])}
                 editRowKey={state.editRowKey}
-                onEditRowKeyChange={onEditRowKeyChange}>
-                <Popup title="Создание контрагента" showTitle={true}/>
+                onEditRowKeyChange={useCallback((e) => OnEditRowKeyChange(dispatch, e, setTitleMethod), [])}
+            >
+                <Popup title={`${titleMethod} контрагента`} showTitle={true}/>
                 <Form>
                     <Item dataField={'counterpartyFormat.id'}/>
                     <Item dataField={'name'}/>

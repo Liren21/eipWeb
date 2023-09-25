@@ -9,23 +9,15 @@ import {customerClassificationsService} from "../services/сustomerClassificatio
 import {subcontractorClassificationsService} from "../services/subcontractorClassificationsService";
 import {providerClassificationsService} from "../services/providerClassificationsService";
 import {counterpartyStatusService} from "../services/counterpartyStatusService";
-import data from './slices/dataSlice';
-import employee from './slices/employeeSlice';
-import signStates from './slices/stateSlice';
-import consumers from './slices/consumerSlice';
-import contractTypes from './slices/contractTypesSlice';
 import {counterpartiesService} from "../services/counterpartiesService";
 import {contractCategoriesService} from "../services/contractCategoriesService";
 import {statusDOsService} from "../services/statusDOsService";
 import {counterpartyContactPersonsService} from "../services/counterpartyContactPersonsService";
 import {rasesService} from "../services/rasesService";
+import stateMethodSlice from "./slices/stateMethodSlice";
 
 const rootReducer = combineReducers({
-    data,
-    employee,
-    signStates,
-    consumers,
-    contractTypes,
+    stateMethod: stateMethodSlice,
     [contractTypesService.reducerPath]: contractTypesService.reducer,
     [contractsService.reducerPath]: contractsService.reducer,
     [employeeService.reducerPath]: employeeService.reducer,
@@ -41,10 +33,6 @@ const rootReducer = combineReducers({
     [statusDOsService.reducerPath]: statusDOsService.reducer,
     [counterpartyContactPersonsService.reducerPath]: counterpartyContactPersonsService.reducer,
     [rasesService.reducerPath]: rasesService.reducer,
-
-
-
-
 })
 export const setupStore = () => {
     return configureStore({

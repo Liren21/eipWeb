@@ -1,7 +1,7 @@
-import React, {useCallback, useEffect, useMemo, useReducer} from 'react';
+import React, {useCallback, useEffect, useMemo, useReducer, useState} from 'react';
 import {Column, Editing, Form, Lookup, Popup,} from 'devextreme-react/data-grid';
 import reducer from '../../../../core/lib/api/reducer';
-import {saveChange, loadOrders, setChanges, setEditRowKey,} from '../../../../core/lib/api/actions';
+import {saveChange, loadOrders} from '../../../../core/lib/api/actions';
 import urls from "../../../lib/urls";
 import {EmailRule, Item } from "devextreme-react/form";
 import {counterpartiesService} from "../../../lib/services/counterpartiesService";
@@ -9,11 +9,14 @@ import {validationRules} from "../../../generic/ValidationRules/ValidationRules"
 import {ProcessClassificationsObj} from "../../../generic/Function/ProcessClassifications";
 import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
 import {TableVariable} from '../../../generic/Variable/TableVariable';
+import {OnChangesChange} from "../../../generic/Function/OnChangesChange";
+import {OnEditRowKeyChange} from "../../../generic/Function/OnEditRowKeyChange";
 
 
 export const CounterpartyContactPersons = () => {
     const URL = useMemo(() => urls.COUNTERPARTY_CONTACT_PERSONS, []);
     const [state, dispatch] = useReducer(reducer, TableVariable);
+    const [titleMethod, setTitleMethod] = useState('')
     const {data: counterparties, refetch: reCounterparties} = counterpartiesService.useFetchCounterpartiesQuery('')
 
 
@@ -28,14 +31,6 @@ export const CounterpartyContactPersons = () => {
         e.cancel = true;
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
-
-    const onChangesChange = useCallback((changes) => {
-        setChanges(dispatch, changes);
-    }, []);
-
-    const onEditRowKeyChange = useCallback((editRowKey) => {
-        setEditRowKey(dispatch, editRowKey);
-    }, []);
 
     const dataWithFullName = state.data.map((item) => ({
         ...item,
@@ -61,12 +56,13 @@ export const CounterpartyContactPersons = () => {
                 allowAdding={true}
                 allowDeleting={true}
                 allowUpdating={true}
+                defaultEditRowKey={false}
                 changes={state.changes}
-                onChangesChange={onChangesChange}
+                onChangesChange={useCallback((e) => OnChangesChange(dispatch, e, setTitleMethod), [])}
                 editRowKey={state.editRowKey}
-                onEditRowKeyChange={onEditRowKeyChange}
-                defaultEditRowKey={false}>
-                <Popup title="Создание контактной информации" showTitle={true}/>
+                onEditRowKeyChange={useCallback((e) => OnEditRowKeyChange(dispatch, e, setTitleMethod), [])}
+            >
+                <Popup title={`${titleMethod} контактную информацию`} showTitle={true}/>
                 <Form>
                     <Item dataField="lastName"/>
                     <Item dataField="firstName"/>

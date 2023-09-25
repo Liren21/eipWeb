@@ -1,4 +1,3 @@
-
 import settingProject from "../../setting-project";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -19,9 +18,6 @@ export default {
     CONTRACT_CATEGORIES: `${settingProject.host}/ContractCategories`,
     RASES: `${settingProject.host}/rases`,
     STATUS_DO: `${settingProject.host}/statusDOs`,
-
-
-
 
 
     TEST_CUSTOMER_CLASSIFICATIONS: `${settingProject.test}/customerClassifications`,

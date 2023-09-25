@@ -1,17 +1,20 @@
-import React, {useCallback, useEffect, useReducer} from 'react';
+import React, {useCallback, useEffect, useReducer, useState} from 'react';
 import urls from "../../../lib/urls";
 import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
 import {Column, Editing, Form, Lookup, Popup} from "devextreme-react/data-grid";
 import {Item} from "devextreme-react/form";
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import reducer from "../../../../core/lib/api/reducer";
-import {loadOrders, saveChange, setChanges, setEditRowKey} from "../../../../core/lib/api/actions";
+import {loadOrders, saveChange, } from "../../../../core/lib/api/actions";
 import {TableVariable} from "../../../generic/Variable/TableVariable";
+import {OnChangesChange} from "../../../generic/Function/OnChangesChange";
+import {OnEditRowKeyChange} from "../../../generic/Function/OnEditRowKeyChange";
 
 
 export const CounterpartyFormats = () => {
     const URL: string = urls.COUNTERPARTY_FORMATS
     const [state, dispatch] = useReducer(reducer, TableVariable);
+    const [titleMethod, setTitleMethod] = useState('')
 
 
     useEffect(() => {
@@ -24,13 +27,6 @@ export const CounterpartyFormats = () => {
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
 
-    const onChangesChange = useCallback((changes) => {
-        setChanges(dispatch, changes);
-    }, []);
-
-    const onEditRowKeyChange = useCallback((editRowKey) => {
-        setEditRowKey(dispatch, editRowKey);
-    }, []);
     const numb = [
         {
             val: 10
@@ -53,12 +49,11 @@ export const CounterpartyFormats = () => {
                 allowDeleting={true}
                 allowUpdating={true}
                 changes={state.changes}
-                onChangesChange={onChangesChange}
+                onChangesChange={useCallback((e) => OnChangesChange(dispatch, e, setTitleMethod), [])}
                 editRowKey={state.editRowKey}
-                onEditRowKeyChange={onEditRowKeyChange}
-
+                onEditRowKeyChange={useCallback((e) => OnEditRowKeyChange(dispatch, e, setTitleMethod), [])}
             >
-                <Popup title="Создание формата контрагента" showTitle={true}/>
+                <Popup title={`${titleMethod} формат контрагента`} showTitle={true}/>
                 <Form>
                     <Item itemType="group" colCount={3} colSpan={2}>
                         <Item dataField={'sortIndex'}/>

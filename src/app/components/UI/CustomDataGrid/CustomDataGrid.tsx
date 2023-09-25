@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode } from 'react';
 import DataGrid, {  HeaderFilter, Scrolling, SearchPanel } from 'devextreme-react/data-grid';
 import { onInitNewRow } from "../../../generic/Function/OnInitNewRow";
 import { TableName } from "../TableName/TableName";
@@ -32,25 +32,6 @@ export const CustomDataGrid = ({
                                    editingEditRowKey,
                                    editingOnEditRowKeyChange,
                                }: ICustomDataGrid) => {
-    const [columnOrder, setColumnOrder] = useState<number[]>([]);
-
-    // Загрузка сохраненных настроек при монтировании компонента
-    useEffect(() => {
-        const savedColumnOrder = JSON.parse(localStorage.getItem('columnOrder')) || [];
-        setColumnOrder(savedColumnOrder);
-    }, []);
-
-    // Обработчик события изменения порядка колонок
-    const onColumnReorder = (e: { component: any; event: any }) => {
-        // Получаем новый порядок колонок из компонента DataGrid
-        const newColumnOrder = e.component.state().columnOrder;
-
-        // Обновляем состояние с новым порядком колонок
-        setColumnOrder(newColumnOrder);
-
-        // Сохраняем порядок колонок в локальное хранилище
-        localStorage.setItem('columnOrder', JSON.stringify(newColumnOrder));
-    };
 
     return (
         <>
@@ -66,7 +47,7 @@ export const CustomDataGrid = ({
                 showBorders={true}
                 repaintChangesOnly
                 allowColumnReordering={true}
-                // onColumnReorder={onColumnReorder}
+
                 columnAutoWidth={true}
                 allowColumnResizing={true}
                 showColumnLines={true}
@@ -75,7 +56,6 @@ export const CustomDataGrid = ({
                 onInitNewRow={(e) => onInitNewRow(e, dataOnInitNewRow)}
                 hoverStateEnabled={true}
                 className='custom-data-grid'
-                // defaultColumnOrder={columnOrder}
             >
                 <Scrolling columnRenderingMode={"standard"} mode={'infinite'} />
                 <SearchPanel visible={true} />
