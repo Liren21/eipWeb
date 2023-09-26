@@ -62,17 +62,17 @@ export const Employees = () => {
                 caption="Ф.И.О"
                 dataField={'fullName'}
             />
-            <Column alignment={"center"} fixed={true} dataField="id" defaultSortOrder={"asc"} caption={'ID'}
+            <Column alignment={"left"} fixed={true} dataField="id" defaultSortOrder={"asc"} caption={'ID'}
                     allowEditing={false} dataType={"number"}/>
-            <Column alignment={"center"} dataField="lastName" visible={false} caption={'Фамилия'} dataType={"string"}
+            <Column alignment={"left"} dataField="lastName" visible={false} caption={'Фамилия'} dataType={"string"}
                     validationRules={validationRules}/>
-            <Column alignment={"center"} dataField="firstName" visible={false} caption={'Имя'} dataType={"string"}
+            <Column alignment={"left"} dataField="firstName" visible={false} caption={'Имя'} dataType={"string"}
                     validationRules={validationRules}/>
-            <Column alignment={"center"} dataField="patronymicName" visible={false} caption={'Отчество'}
+            <Column alignment={"left"} dataField="patronymicName" visible={false} caption={'Отчество'}
                     dataType={"string"}/>
-            <Column alignment={"center"} dataField="departmentId" caption={'ID отдела'} dataType={"number"}
+            <Column alignment={"left"} dataField="departmentId" caption={'ID отдела'} dataType={"number"}
                     validationRules={validationRules}/>
-            <Column alignment={"center"} dataField="positionId" caption={'ID позиции'} dataType={"string"}
+            <Column alignment={"left"} dataField="positionId" caption={'ID позиции'} dataType={"string"}
                     validationRules={validationRules}/>
 
         </CustomDataGrid>

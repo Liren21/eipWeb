@@ -52,11 +52,11 @@ export const CounterpartyStatus = () => {
                 </Form>
             </Editing>
 
-            <Column alignment={"center"} fixed={true} dataField="id" defaultSortOrder={"asc"} caption={'ID'}
+            <Column alignment={"left"} fixed={true} dataField="id" defaultSortOrder={"asc"} caption={'ID'}
                     allowEditing={false} dataType={"number"}/>
-            <Column alignment={"center"} dataField="sortIndex" caption={'Сортировка'} dataType={"number"}
+            <Column alignment={"left"} dataField="sortIndex" caption={'Сортировка'} dataType={"number"}
                     validationRules={validationRules}/>
-            <Column alignment={"center"} dataField="name" caption={'Наименование'} dataType={"string"}
+            <Column alignment={"left"} dataField="name" caption={'Наименование'} dataType={"string"}
                     validationRules={validationRules}/>
 
         </CustomDataGrid>

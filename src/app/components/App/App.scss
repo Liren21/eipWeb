@@ -9,7 +9,9 @@ html, body, #root {
 * {
   box-sizing: border-box;
 }
+
 .dx {
+
   &-widget {
     font-family: Arial, Narrow, serif !important;
   }
@@ -18,8 +20,9 @@ html, body, #root {
     color: #1a73e8 !important;
   }
 
-  &-toolbar{
+  &-toolbar {
     padding: 0 9px;
+
     &-item-content {
       display: flex;
       align-items: center;
@@ -28,11 +31,12 @@ html, body, #root {
   }
 }
 
-.side-navigation-menu .menu-container .dx-treeview .dx-treeview-node[aria-level="1"]{
-  padding:0 10px 0 5px!important;
+.side-navigation-menu .menu-container .dx-treeview .dx-treeview-node[aria-level="1"] {
+  padding: 0 10px 0 5px !important;
   white-space: normal;
-  font-weight: normal!important;
+  font-weight: normal !important;
 }
+
 a {
   text-decoration: none !important;
 }
@@ -49,4 +53,7 @@ td {
   position: sticky !important;
   top: 0 !important;
   z-index: 100 !important;
+}
+.dx-header-row > td{
+  text-align: center!important;
 }

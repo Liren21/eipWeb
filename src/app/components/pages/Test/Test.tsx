@@ -1,48 +1,73 @@
-import React, {useCallback, useEffect, useReducer, useState} from 'react';
-import {Column} from 'devextreme-react/data-grid';
-import {Item} from "devextreme-react/form";
-import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
-import {Test2} from "./Test2";
-import urls from "../../../lib/urls";
+import React, {useState} from 'react';
+import Button from 'devextreme-react/button';
+import DataGrid, {
+    Column, Editing, Paging, Lookup,
+} from 'devextreme-react/data-grid';
 
+import {employees, states} from './data';
 
-export const Test = () => {
-    const URL: string = urls.CONTRACT_CATEGORIES
+const Test = () => {
+    const [events, setEvents] = useState([]);
 
+    const logEvent = (eventName) => {
+        setEvents((prevEvents) => [eventName, ...prevEvents]);
+    };
+
+    const clearEvents = () => {
+        setEvents([]);
+    };
 
     return (
-        <Test2 URL={URL}
-               ItemColumns={
-                   <>
-                       <Item dataField="style" editorType="dxColorBox"/>
-                       <Item dataField={'sortIndex'}/>
-                       <Item dataField={'name'}/>
-                       <Item dataField={'group'}/>
-                       <Item dataField="note" editorType={'dxTextArea'} colSpan={2}/>
-                   </>
-               }
-               dataColumns={
-                   <>
-                       <Column alignment={"center"} fixed={true} dataField="id" defaultSortOrder={"asc"}
-                               caption={'ID'}
-                               allowEditing={false} dataType={"number"}/>
-                       <Column alignment={"center"} dataField="sortIndex" caption={'Сортировка'} dataType={"number"}
-                               validationRules={validationRules}/>
-                       <Column alignment={"center"} dataField="name" caption={'Наименование'} dataType={"string"}
-                               validationRules={validationRules}/>
-                       <Column alignment={"center"} dataField="group" caption={'Группа'} dataType={"string"}
-                               validationRules={validationRules}/>
-                       <Column alignment={"center"} dataField="note" caption={'Примечание'} dataType={"string"}
-                       />
-                       <Column alignment={"center"} dataField="style" caption={'Цветовое обозначение'}
-                               dataType={"string"}
-                               cellRender={(cellData) => (
-                                   <div style={{backgroundColor: cellData.value, padding: '9px', borderRadius: '1rem'}}>
+        <React.Fragment>
+            <DataGrid
+                id="gridContainer"
+                repaintChangesOnly
+                columnAutoWidth={true}
+                allowColumnResizing={true}
+                showColumnLines={true}
+                columnMinWidth={50}
+                dataSource={employees}
+                keyExpr="ID"
+                allowColumnReordering={true}
+                showBorders={true}
+                onEditingStart={() => logEvent('EditingStart')}
+                onInitNewRow={() => logEvent('InitNewRow')}
+                onRowInserting={() => logEvent('RowInserting')}
+                onRowInserted={() => logEvent('RowInserted')}
+                onRowUpdating={() => logEvent('RowUpdating')}
+                onRowUpdated={() => logEvent('RowUpdated')}
+                onRowRemoving={() => logEvent('RowRemoving')}
+                onRowRemoved={() => logEvent('RowRemoved')}
+                onSaving={() => logEvent('Saving')}
+                onSaved={() => logEvent('Saved')}
+                onEditCanceling={() => logEvent('EditCanceling')}
+                onEditCanceled={() => logEvent('EditCanceled')}>
 
-                                   </div>
-                               )}/>
-                   </>
-               }
-        />
-    )
+                <Paging enabled={true}/>
+                <Editing
+                    mode="popup"
+                    allowUpdating={true}
+                    allowDeleting={true}
+                    allowAdding={true}/>
+
+                <Column alignment={"left"} dataField="Prefix" caption="Title"/>
+                <Column alignment={"left"} dataField="FirstName"/>
+                <Column cssClass='column' dataField="LastName"/>
+                <Column dataField="Position" width={130}/>
+                <Column
+                    dataField="StateID"
+                    caption="State"
+                    width={125}
+                >
+                    <Lookup dataSource={states} displayExpr="Name" valueExpr="ID"/>
+                </Column>
+                <Column
+                    dataField="BirthDate"
+                    width={125}
+                    dataType="date"/>
+            </DataGrid>
+        </React.Fragment>
+    );
 }
+
+export default Test;

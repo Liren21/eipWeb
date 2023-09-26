@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useReducer, useState} from 'react';
-import {Column, Editing, Form, Lookup, Popup,} from 'devextreme-react/data-grid';
+import DataGrid, {Column, Editing, Form, Lookup, Popup,} from 'devextreme-react/data-grid';
 import 'whatwg-fetch';
 import reducer from '../../../../core/lib/api/reducer';
 import {saveChange, loadOrders} from '../../../../core/lib/api/actions';
@@ -16,6 +16,7 @@ import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
 import {TableVariable} from "../../../generic/Variable/TableVariable";
 import {OnChangesChange} from "../../../generic/Function/OnChangesChange";
 import {OnEditRowKeyChange} from "../../../generic/Function/OnEditRowKeyChange";
+import {onInitNewRow} from "../../../generic/Function/OnInitNewRow";
 
 
 export const Counterparties = () => {
@@ -67,16 +68,17 @@ export const Counterparties = () => {
     }, [URL]);
 
     const dataWithFullName = state.data.map((item) => {
-        const lastName = item.counterpartyContactPersons[0]?.lastName || '';
-        const firstName = item.counterpartyContactPersons[0]?.firstName || '';
-        const patronymicName = item.counterpartyContactPersons[0]?.patronymicName || '';
 
-        return {
-            ...item,
-            fullName: `${lastName} ${firstName} ${patronymicName}`,
-        };
+        if (item.counterpartyContactPersons.length === 0) {
+            item.counterpartyContactPersons = [{isMain: false}]
+        } else {
+            item.counterpartyContactPersons.map((data) => {
+                data['fullName'] = [data.lastName, data.firstName, data.patronymicName].join(' ')
+            })
+        }
+
+        return item
     });
-
     return (
 
         <CustomDataGrid
@@ -89,7 +91,9 @@ export const Counterparties = () => {
                 isCustomer: false,
                 isSubcontractor: false,
                 isProvider: false,
+                isMain: false,
             }}
+
         >
             <Editing
                 mode="popup"
@@ -102,14 +106,14 @@ export const Counterparties = () => {
                 onEditRowKeyChange={useCallback((e) => OnEditRowKeyChange(dispatch, e, setTitleMethod), [])}
             >
                 <Popup title={`${titleMethod} контрагента`} showTitle={true}/>
-                <Form>
+                <Form colCount={2}>
                     <Item dataField={'counterpartyFormat.id'}/>
                     <Item dataField={'name'}/>
                     <Item dataField={'inn'}/>
                     <Item dataField={'customerClassification.id'}/>
                     <Item dataField={'counterpartyStatus.id'}/>
-                    <Item dataField={'providerClassifications[0].name'}/>
-                    <Item dataField={'subcontractorClassifications[0].name'}/>
+                    <Item dataField={'providerClassifications[0].id'}/>
+                    <Item dataField={'subcontractorClassifications[0].id'}/>
                     <Item dataField={'isSubcontractor'}/>
                     <Item dataField={'isProvider'}/>
                     <Item dataField={'isWithOutNDS'}/>
@@ -118,17 +122,17 @@ export const Counterparties = () => {
                 </Form>
             </Editing>
 
-            <Column alignment={"center"} dataField="counterpartyFormat.id"
-                    caption={'Формат контрагента'} dataType={"number"}
-                    validationRules={validationRules} visible={false}>
+            <Column alignment={"left"} dataField="counterpartyFormat.id"
+                    caption={'Формат контрагента'} dataType={"string"}
+                    validationRules={validationRules}>
                 <Lookup
                     dataSource={counterpartyFormats}
                     valueExpr="id"
                     displayExpr={'name'}
                 />
             </Column>
-            <Column alignment={"center"} dataField="customerClassification.id"
-                    caption={'Классификация заказчика'} dataType={"number"}
+            <Column alignment={"left"} dataField="customerClassification.id"
+                    caption={'Классификация заказчика'} dataType={"string"}
                     validationRules={validationRules} visible={false}>
                 <Lookup
                     dataSource={customerClassifications}
@@ -136,131 +140,91 @@ export const Counterparties = () => {
                     displayExpr={'name'}
                 />
             </Column>
-            <Column alignment={"center"} dataField="counterpartyStatus.id"
-                    caption={'Статус контрагента'} dataType={"number"}
-                    validationRules={validationRules} visible={false}>
+            <Column alignment={"left"} dataField="counterpartyStatus.id"
+                    caption={'Статус контрагента'} dataType={"string"}
+                    validationRules={validationRules}>
                 <Lookup
                     dataSource={counterpartyStatus}
                     valueExpr="id"
                     displayExpr={'name'}
                 />
             </Column>
-            <Column alignment={"center"} dataField="providerClassifications[0].name"
-                    caption={'Классификации поставщика'} dataType={"string"}
-                    validationRules={validationRules} visible={false}>
+            <Column alignment={"left"} dataField="providerClassifications[0].id"
+                    caption={'Классификация поставщика'} dataType={"string"}
+                    validationRules={validationRules}>
                 <Lookup
                     dataSource={providerClassifications}
                     valueExpr="id"
                     displayExpr={'name'}
                 />
             </Column>
-            <Column alignment={"center"} dataField="subcontractorClassifications[0].name"
+            <Column alignment={"left"} dataField="subcontractorClassifications[0].id"
                     caption={'Классификация субподрядчика'} dataType={"string"}
-                    validationRules={validationRules} visible={false}>
+                    validationRules={validationRules}>
                 <Lookup
                     dataSource={subcontractorClassifications}
                     valueExpr="id"
                     displayExpr={'name'}
                 />
             </Column>
-            <Column fixed={true} alignment={"center"} dataField="id" defaultSortOrder={"asc"} caption={'ID контрагента'}
+            <Column fixed={true} alignment={"left"} dataField="id" defaultSortOrder={"asc"} caption={'ID контрагента'}
                     allowEditing={false}
                     dataType={"number"}/>
-            <Column alignment={"center"} dataField="counterpartyFormat"
-                    caption={'Формат контрагента'}>
-                <Column alignment={"center"} dataField="counterpartyFormat.id"
-                        caption={'ID'} dataType={"number"}
-                        validationRules={validationRules}/>
-                <Column alignment={"center"} dataField="counterpartyFormat.name"
-                        caption={'Наименование'} dataType={"string"}/>
-                <Column alignment={"center"} dataField="counterpartyFormat.sortIndex"
-                        caption={'Сортировка'} dataType={"number"}/>
-                <Column alignment={"center"} dataField="counterpartyFormat.formatInn"
-                        caption={'Количестов символов ИНН у заданного формата контрагента'} dataType={"number"}/>
-            </Column>
-            <Column alignment={"center"} dataField="name"
+            <Column alignment={"left"} dataField="name"
                     caption={'Наименование контрагента'} dataType={"string"} validationRules={validationRules}/>
-            <Column alignment={"center"} dataField="inn"
+            <Column alignment={"left"} dataField="inn"
                     caption={'ИНН'} dataType={"string"} validationRules={validationRules}/>
             <Column alignment={"center"} dataField="isWithOutNDS"
                     caption={'Без НДC'} dataType={"boolean"}/>
-            <Column alignment={"center"} dataField="isCustomer"
+            <Column alignment={"left"} dataField="isCustomer"
                     caption={'Заказчик'} dataType={"boolean"}/>
-            <Column alignment={"center"} dataField="customerClassification"
-                    caption={'Классификация заказчика'}>
-                <Column alignment={"center"} dataField="customerClassification.id"
-                        caption={'ID'} dataType={"number"}
-                        validationRules={validationRules}/>
-                <Column alignment={"center"} dataField="customerClassification.name"
-                        caption={'Наименование'} dataType={"string"}/>
-                <Column alignment={"center"} dataField="customerClassification.sortIndex"
-                        caption={'Сортировка'} dataType={"number"}/>
-                <Column alignment={"center"} dataField="customerClassification.note"
-                        caption={'Примечание'} dataType={"string"}/>
-            </Column>
             <Column alignment={"center"} dataField="isSubcontractor"
                     caption={'Субподрядчик'} dataType={"boolean"}/>
-
-            <Column alignment={"center"} dataField="subcontractorClassifications[0]"
-                    caption={'Классификация субподрядчика'}>
-                <Column alignment={"center"} dataField="subcontractorClassifications[0].id"
-                        caption={'ID'} dataType={"number"}/>
-                <Column alignment={"center"} dataField="subcontractorClassifications[0].name"
-                        caption={'Наименование'} dataType={"string"}
-                        validationRules={validationRules}/>
-                <Column alignment={"center"} dataField="subcontractorClassifications[0].sortIndex"
-                        caption={'Сортировка'} dataType={"number"}/>
-                <Column alignment={"center"} dataField="subcontractorClassifications[0].note"
-                        caption={'Примечание'} dataType={"string"}/>
-            </Column>
             <Column alignment={"center"} dataField="isProvider"
                     caption={'Поставщик'} dataType={"boolean"}/>
-            <Column
-                alignment={"center"}
-                caption={'Классификация поставщика'}>
-                <Column
-                    alignment={"center"} dataField={'providerClassifications[0].id'}
-                    dataType={"number"}
-                    caption={"ID"}
-                />
-                <Column alignment={"center"} dataField="providerClassifications[0].name"
-                        caption={'Наименование'} dataType={"string"}
-                        validationRules={validationRules}/>
-                <Column alignment={"center"} dataField="providerClassifications[0].sortIndex" allowEditing={false}
-                        caption={'Сортировка'} dataType={"number"}/>
-                <Column alignment={"center"} dataField="providerClassifications[0].note" allowEditing={false}
-                        caption={'Примечание'} dataType={"string"}/>
-            </Column>
 
-            <Column alignment={"center"} dataField="counterpartyStatus"
-                    caption={'Статус контрагента'}>
-                <Column alignment={"center"} dataField="counterpartyStatus.id"
-                        caption={'ID'} dataType={"number"}
-                        validationRules={validationRules}/>
-                <Column alignment={"center"} dataField="counterpartyStatus.name"
-                        caption={'Наименование'} dataType={"string"}/>
-                <Column alignment={"center"} dataField="counterpartyStatus.sortIndex"
-                        caption={'Сортировка'} dataType={"number"}/>
+            <Column alignment={"left"} dataField='counterpartyContactPersons'
+                    caption={'Контактная информация по контрагенту'}
+                    cellRender={(dataCell) => (
+                        dataCell.value[0].id &&
+                        <DataGrid
+                            dataSource={dataCell.value}
+                            width="100rem"
+                            onInitNewRow={(e) => onInitNewRow(e, {isMain: false})}
+                        >
+                            <Column alignment={"left"} dataField="id"
+                                    caption={'ID'} dataType={"number"}/>
+                            <Column alignment={"left"} dataField="fullName"
+                                    caption={'Ф.И.О'} dataType={"string"}/>
+                            <Column alignment={"left"} dataField="phone"
+                                    caption={'Рабочий телефон'} dataType={"string"}/>
+                            <Column alignment={"left"} dataField="mobilePhone"
+                                    caption={'Мобильный телефон'} dataType={"string"}/>
+                            <Column alignment={"left"} dataField="email"
+                                    caption={'Почта'} dataType={"string"}/>
+                            <Column alignment={"left"} dataField="note"
+                                    caption={'Примечание'} dataType={"string"}/>
+                            <Column alignment={"left"} dataField="isMain"
+                                    caption={'Основной'} allowEditing={false} dataType={"boolean"}/>
+                        </DataGrid>
+                    )}
+            >
+                {/*<Column alignment={"left"} dataField="counterpartyContactPersons[0].id"*/}
+                {/*        caption={'ID'} dataType={"number"}/>*/}
+                {/*<Column alignment={"left"} dataField="counterpartyContactPersons[0].fullName"*/}
+                {/*        caption={'Ф.И.О'} dataType={"string"}/>*/}
+                {/*<Column alignment={"left"} dataField="counterpartyContactPersons[0].phone"*/}
+                {/*        caption={'Рабочий телефон'} dataType={"string"}/>*/}
+                {/*<Column alignment={"left"} dataField="counterpartyContactPersons[0].mobilePhone"*/}
+                {/*        caption={'Мобильный телефон'} dataType={"string"}/>*/}
+                {/*<Column alignment={"left"} dataField="counterpartyContactPersons[0].email"*/}
+                {/*        caption={'Почта'} dataType={"string"}/>*/}
+                {/*<Column alignment={"left"} dataField="counterpartyContactPersons[0].note"*/}
+                {/*        caption={'Примечание'} dataType={"string"}/>*/}
+                {/*<Column alignment={"left"} dataField="counterpartyContactPersons[0].isMain"*/}
+                {/*        caption={'Основной'} allowEditing={false} dataType={"boolean"}/>*/}
             </Column>
-
-            <Column alignment={"center"} dataField='counterpartyContactPersons[0]'
-                    caption={'Контактная информация по контрагенту'}>
-                <Column alignment={"center"} dataField="counterpartyContactPersons[0].id"
-                        caption={'ID'} dataType={"number"}/>
-                <Column alignment={"center"} dataField="fullName"
-                        caption={'Ф.И.О'} dataType={"string"}/>
-                <Column alignment={"center"} dataField="counterpartyContactPersons[0].phone"
-                        caption={'Рабочий телефон'} dataType={"string"}/>
-                <Column alignment={"center"} dataField="counterpartyContactPersons[0].mobilePhone"
-                        caption={'Мобильный телефон'} dataType={"string"}/>
-                <Column alignment={"center"} dataField="counterpartyContactPersons[0].email"
-                        caption={'Почта'} dataType={"string"}/>
-                <Column alignment={"center"} dataField="counterpartyContactPersons[0].note"
-                        caption={'Примечание'} dataType={"string"}/>
-                <Column alignment={"center"} dataField="counterpartyContactPersons[0].isMain"
-                        caption={'Основной'} dataType={"boolean"}/>
-            </Column>
-            <Column alignment={"center"} dataField="note"
+            <Column alignment={"left"} dataField="note"
                     caption={'Примечание по контрагенту'} dataType={"string"}/>
         </CustomDataGrid>
     )

@@ -47,12 +47,11 @@ export const CustomDataGrid = ({
                 showBorders={true}
                 repaintChangesOnly
                 allowColumnReordering={true}
-
                 columnAutoWidth={true}
                 allowColumnResizing={true}
                 showColumnLines={true}
                 onSaving={onSaving}
-                columnMinWidth={100}
+                columnMinWidth={25}
                 onInitNewRow={(e) => onInitNewRow(e, dataOnInitNewRow)}
                 hoverStateEnabled={true}
                 className='custom-data-grid'
