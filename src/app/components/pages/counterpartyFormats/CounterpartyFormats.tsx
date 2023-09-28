@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useReducer, useState} from 'react';
 import urls from "../../../lib/urls";
 import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
-import {Column, Editing, Form, Lookup, Popup} from "devextreme-react/data-grid";
+import {Column, Editing, Form, Popup} from "devextreme-react/data-grid";
 import {Item} from "devextreme-react/form";
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import reducer from "../../../../core/lib/api/reducer";
@@ -27,14 +27,6 @@ export const CounterpartyFormats = () => {
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
 
-    const numb = [
-        {
-            val: 10
-        },
-        {
-            val: 12
-        }
-    ]
     return (
         <CustomDataGrid
             visible={state.isLoading}
@@ -71,13 +63,7 @@ export const CounterpartyFormats = () => {
                     validationRules={validationRules}/>
             <Column alignment={"left"} dataField="formatInn"
                     caption={'Количестов символов ИНН у заданного формата контрагента'} dataType={"number"}
-                    validationRules={validationRules} >
-                <Lookup
-                    dataSource={numb}
-                    valueExpr="val"
-                    displayExpr={'val'}
-                />
-            </Column>
+                    validationRules={validationRules} />
 
         </CustomDataGrid>
     );

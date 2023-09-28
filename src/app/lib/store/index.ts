@@ -14,10 +14,8 @@ import {contractCategoriesService} from "../services/contractCategoriesService";
 import {statusDOsService} from "../services/statusDOsService";
 import {counterpartyContactPersonsService} from "../services/counterpartyContactPersonsService";
 import {rasesService} from "../services/rasesService";
-import stateMethodSlice from "./slices/stateMethodSlice";
 
 const rootReducer = combineReducers({
-    stateMethod: stateMethodSlice,
     [contractTypesService.reducerPath]: contractTypesService.reducer,
     [contractsService.reducerPath]: contractsService.reducer,
     [employeeService.reducerPath]: employeeService.reducer,

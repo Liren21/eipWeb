@@ -26,11 +26,7 @@ export const CustomDataGrid = ({
                                    children,
                                    keyExpr,
                                    dataOnInitNewRow,
-                                   visible,
-                                   editingChanges,
-                                   editingOnChangesChange,
-                                   editingEditRowKey,
-                                   editingOnEditRowKeyChange,
+                                   visible
                                }: ICustomDataGrid) => {
 
     return (

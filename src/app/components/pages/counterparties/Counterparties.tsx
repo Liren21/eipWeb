@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useReducer, useState} from 'react';
-import DataGrid, {Column, Editing, Form, Lookup, Popup,} from 'devextreme-react/data-grid';
-import 'whatwg-fetch';
+import {Column, Editing, Form, Lookup, Popup,} from 'devextreme-react/data-grid';
 import reducer from '../../../../core/lib/api/reducer';
 import {saveChange, loadOrders} from '../../../../core/lib/api/actions';
 import urls from "../../../lib/urls";
@@ -16,7 +15,7 @@ import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
 import {TableVariable} from "../../../generic/Variable/TableVariable";
 import {OnChangesChange} from "../../../generic/Function/OnChangesChange";
 import {OnEditRowKeyChange} from "../../../generic/Function/OnEditRowKeyChange";
-import {onInitNewRow} from "../../../generic/Function/OnInitNewRow";
+import CounterpartyContactPersons from "./subtable/CounterpartyContactPersons/CounterpartyContactPersons";
 
 
 export const Counterparties = () => {
@@ -68,7 +67,6 @@ export const Counterparties = () => {
     }, [URL]);
 
     const dataWithFullName = state.data.map((item) => {
-
         if (item.counterpartyContactPersons.length === 0) {
             item.counterpartyContactPersons = [{isMain: false}]
         } else {
@@ -119,6 +117,7 @@ export const Counterparties = () => {
                     <Item dataField={'isWithOutNDS'}/>
                     <Item dataField={'isCustomer'}/>
                     <Item dataField={'note'} editorType={'dxTextArea'} colSpan={2}/>
+
                 </Form>
             </Editing>
 
@@ -186,27 +185,7 @@ export const Counterparties = () => {
             <Column alignment={"left"} dataField='counterpartyContactPersons'
                     caption={'Контактная информация по контрагенту'}
                     cellRender={(dataCell) => (
-                        dataCell.value[0].id &&
-                        <DataGrid
-                            dataSource={dataCell.value}
-                            width="100rem"
-                            onInitNewRow={(e) => onInitNewRow(e, {isMain: false})}
-                        >
-                            <Column alignment={"left"} dataField="id"
-                                    caption={'ID'} dataType={"number"}/>
-                            <Column alignment={"left"} dataField="fullName"
-                                    caption={'Ф.И.О'} dataType={"string"}/>
-                            <Column alignment={"left"} dataField="phone"
-                                    caption={'Рабочий телефон'} dataType={"string"}/>
-                            <Column alignment={"left"} dataField="mobilePhone"
-                                    caption={'Мобильный телефон'} dataType={"string"}/>
-                            <Column alignment={"left"} dataField="email"
-                                    caption={'Почта'} dataType={"string"}/>
-                            <Column alignment={"left"} dataField="note"
-                                    caption={'Примечание'} dataType={"string"}/>
-                            <Column alignment={"left"} dataField="isMain"
-                                    caption={'Основной'} allowEditing={false} dataType={"boolean"}/>
-                        </DataGrid>
+                        dataCell.value[0].id && <CounterpartyContactPersons dataCell={dataCell}/>
                     )}
             >
                 {/*<Column alignment={"left"} dataField="counterpartyContactPersons[0].id"*/}
