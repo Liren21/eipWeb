@@ -21,6 +21,8 @@ export const Contracts = () => {
     const URL: string = urls.CONTRACTS
     const [state, dispatch] = useReducer(reducer, TableVariable);
     const [titleMethod, setTitleMethod] = useState('')
+    const [chachEemployee, setChachEemployee] = useState([])
+
 
     const {data: counterparties, refetch: reCounterparties} = counterpartiesService.useFetchCounterpartiesQuery('')
     const {data: statusDOs, refetch: reStatusDOs} = statusDOsService.useFetchStatusDOsQuery('')
@@ -35,8 +37,9 @@ export const Contracts = () => {
     } = rasesService.useFetchRasesQuery('')
     const {
         data: employee,
-        refetch: reEmployee
-    } = employeeService.useFetchEmployeeQuery('')
+        refetch: reEmployee,
+        isLoading
+    } = employeeService.useFetchEmployeeQuery(0)
 
 
     useEffect(() => {
@@ -46,7 +49,16 @@ export const Contracts = () => {
         reContractCategories()
         reRases()
         reEmployee()
+
     }, [URL]);
+
+
+    useEffect(() => {
+        !isLoading && setChachEemployee(employee.map((item) => ({
+            ...item,
+            fullName: `${item.lastName} ${item.firstName} ${item.patronymicName}`,
+        })))
+    }, [isLoading])
 
     const onSaving = useCallback((e) => {
         ProcessClassificationsObj(e.changes[0].data, "counterpartyCustomer");
@@ -65,6 +77,8 @@ export const Contracts = () => {
         ...item,
         fullName: `${item.projectEmployee.lastName} ${item.projectEmployee.firstName} ${item.projectEmployee.patronymicName}`,
     }));
+
+
     return (
         <CustomDataGrid
             visible={state.isLoading}
@@ -122,22 +136,6 @@ export const Contracts = () => {
                     dataType={"number"}>
                 <Lookup
                     dataSource={contractCategories}
-                    valueExpr="id"
-                    displayExpr={'name'}
-                />
-            </Column>
-            <Column alignment={"left"} dataField="ras.id" caption={'РЭС'}
-                    dataType={"number"} visible={false}>
-                <Lookup
-                    dataSource={rases}
-                    valueExpr="id"
-                    displayExpr={'name'}
-                />
-            </Column>
-            <Column alignment={"left"} dataField="executorDO.id" caption={'Исполнитель | ДО'}
-                    dataType={"number"}>
-                <Lookup
-                    dataSource={rases}
                     valueExpr="id"
                     displayExpr={'name'}
                 />
@@ -204,23 +202,7 @@ export const Contracts = () => {
                     displayExpr={'name'}
                 />
             </Column>
-            <Column alignment={"left"} dataField="statusDO.id" caption={'Статус ДО'} visible={false}
-                    allowEditing={true}
-                    dataType={"number"}>
-                <Lookup
-                    dataSource={statusDOs}
-                    valueExpr="id"
-                    displayExpr={'name'}
-                />
-            </Column>
-            <Column alignment={"left"} dataField="projectEmployee.id" caption={'Ф.И.О. руководителя проекта'}
-                    dataType={"number"}>
-                <Lookup
-                    dataSource={employee}
-                    valueExpr="id"
-                    displayExpr={'lastName'}
-                />
-            </Column>
+
 
             {/*<Column alignment={"left"} dataField="counterpartySubcontractor" caption={'Контрагент субподрядчик'}>*/}
 
@@ -305,40 +287,72 @@ export const Contracts = () => {
                     dataType={"string"} caption={"No SAP"} validationRules={validationRules}/>
             <Column alignment={"left"} dataField="subscriber" caption={'Абонент'}
                     dataType={"string"} validationRules={validationRules}/>
-
-
-            <Column alignment={"left"} dataField="ras" caption={'РЭС'}
+            <Column alignment={"left"} dataField="ras.id" caption={'РЭС'}
+                    dataType={"number"} visible={true}>
+                <Lookup
+                    dataSource={rases}
+                    valueExpr="id"
+                    displayExpr={'name'}
+                />
+            </Column>
+            <Column alignment={"left"} dataField="projectEmployee.id" caption={'Ф.И.О. руководителя проекта'}
                     dataType={"number"}>
-                <Column alignment={"left"} dataField="ras.id" caption={'ID'}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="ras.sortIndex" caption={'Сортировка'}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="ras.name" caption={'Имя'}
-                        dataType={"string"}/>
-                <Column alignment={"left"} dataField="ras.note" caption={'Примечание'}
-                        dataType={"string"}/>
+                <Lookup
+                    dataSource={chachEemployee}
+                    valueExpr="id"
+                    displayExpr={'fullName'}
+                />
+            </Column>
+            <Column alignment={"left"} dataField="executorDO.id" caption={'Исполнитель | ДО'}
+                    dataType={"number"}>
+                <Lookup
+                    dataSource={rases}
+                    valueExpr="id"
+                    displayExpr={'name'}
+                />
+            </Column>
+            <Column alignment={"left"} dataField="statusDO.id" caption={'Статус ДО'}
+                    allowEditing={true}
+                    dataType={"number"}>
+                <Lookup
+                    dataSource={statusDOs}
+                    valueExpr="id"
+                    displayExpr={'name'}
+                />
             </Column>
 
+            {/*<Column alignment={"left"} dataField="ras" caption={'РЭС'}*/}
+            {/*        dataType={"number"}>*/}
+            {/*    <Column alignment={"left"} dataField="ras.id" caption={'ID'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"left"} dataField="ras.sortIndex" caption={'Сортировка'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"left"} dataField="ras.name" caption={'Имя'}*/}
+            {/*            dataType={"string"}/>*/}
+            {/*    <Column alignment={"left"} dataField="ras.note" caption={'Примечание'}*/}
+            {/*            dataType={"string"}/>*/}
+            {/*</Column>*/}
 
-            <Column alignment={"left"} dataField="projectEmployee" caption={'Сотрудник проекта'}>
-                <Column alignment={"left"} dataField="projectEmployee.id" caption={'ID '}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="projectEmployee.lastName" caption={'Фамилия'}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="projectEmployee.firstName" caption={'Имя'}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="projectEmployee.patronymicName" caption={'Отчество'}
-                        dataType={"number"}/>
-                <Column alignment={"center"} dataField="projectEmployee.isActive" caption={'Активен'}
-                        dataType={"boolean"}/>
-                <Column alignment={"left"} dataField="projectEmployee.departmentId" caption={'ID отдела'}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="projectEmployee.positionId" caption={'ID позиции'}
-                        dataType={"number"}/>
-                <Column alignment={"center"} dataField="projectEmployee.isViewHiddenCosts"
-                        caption={'Просмотр скрытых затрат'}
-                        dataType={"boolean"}/>
-            </Column>
+
+            {/*<Column alignment={"left"} dataField="projectEmployee" caption={'Сотрудник проекта'}>*/}
+            {/*    <Column alignment={"left"} dataField="projectEmployee.id" caption={'ID '}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"left"} dataField="projectEmployee.lastName" caption={'Фамилия'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"left"} dataField="projectEmployee.firstName" caption={'Имя'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"left"} dataField="projectEmployee.patronymicName" caption={'Отчество'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"center"} dataField="projectEmployee.isActive" caption={'Активен'}*/}
+            {/*            dataType={"boolean"}/>*/}
+            {/*    <Column alignment={"left"} dataField="projectEmployee.departmentId" caption={'ID отдела'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"left"} dataField="projectEmployee.positionId" caption={'ID позиции'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"center"} dataField="projectEmployee.isViewHiddenCosts"*/}
+            {/*            caption={'Просмотр скрытых затрат'}*/}
+            {/*            dataType={"boolean"}/>*/}
+            {/*</Column>*/}
 
             {/*<Column alignment={"left"} dataField="executorDO" caption={'Исполнитель | ДО'}>*/}
             {/*    <Column alignment={"left"} dataField="executorDO.id" caption={'ID'}*/}
@@ -360,14 +374,14 @@ export const Contracts = () => {
             {/*            dataType={"boolean"}/>*/}
             {/*</Column>*/}
 
-            <Column alignment={"left"} dataField="statusDO" caption={'Статус ДО'}>
-                <Column alignment={"left"} dataField="statusDO.id" caption={'ID'}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="statusDO.sortIndex" caption={'Сортировка'}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="statusDO.name" caption={'Имя'}
-                        dataType={"string"}/>
-            </Column>
+            {/*<Column alignment={"left"} dataField="statusDO" caption={'Статус ДО'}>*/}
+            {/*    <Column alignment={"left"} dataField="statusDO.id" caption={'ID'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"left"} dataField="statusDO.sortIndex" caption={'Сортировка'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"left"} dataField="statusDO.name" caption={'Имя'}*/}
+            {/*            dataType={"string"}/>*/}
+            {/*</Column>*/}
 
             <Column alignment={"left"} dataField="contractSigningOption" caption={'Вариант подписания договора'}
                     dataType={"string"}/>
@@ -383,25 +397,25 @@ export const Contracts = () => {
                     caption={'Дт возврата подписанного договора'}
                     dataType={"date"}/>
 
-            <Column alignment={"left"} dataField="createdEmployee" caption={'Созданный сотрудник'}>
-                <Column alignment={"left"} dataField="createdEmployee.departmentId" caption={'ID отдела'}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="createdEmployee.lastName" caption={'Фамилия'}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="createdEmployee.firstName" caption={'Имя'}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="createdEmployee.patronymicName" caption={'Отчество'}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="createdEmployee.id" caption={'ID'}
-                        dataType={"number"}/>
-                <Column alignment={"center"} dataField="createdEmployee.isActive" caption={'Активен'}
-                        dataType={"boolean"}/>
-                <Column alignment={"left"} dataField="createdEmployee.positionId" caption={'ID позиции'}
-                        dataType={"number"}/>
-                <Column alignment={"center"} dataField="createdEmployee.isViewHiddenCosts"
-                        caption={'Просмотр скрытых затрат'}
-                        dataType={"boolean"}/>
-            </Column>
+            {/*<Column alignment={"left"} dataField="createdEmployee" caption={'Созданный сотрудник'}>*/}
+            {/*    <Column alignment={"left"} dataField="createdEmployee.departmentId" caption={'ID отдела'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"left"} dataField="createdEmployee.lastName" caption={'Фамилия'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"left"} dataField="createdEmployee.firstName" caption={'Имя'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"left"} dataField="createdEmployee.patronymicName" caption={'Отчество'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"left"} dataField="createdEmployee.id" caption={'ID'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"center"} dataField="createdEmployee.isActive" caption={'Активен'}*/}
+            {/*            dataType={"boolean"}/>*/}
+            {/*    <Column alignment={"left"} dataField="createdEmployee.positionId" caption={'ID позиции'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"center"} dataField="createdEmployee.isViewHiddenCosts"*/}
+            {/*            caption={'Просмотр скрытых затрат'}*/}
+            {/*            dataType={"boolean"}/>*/}
+            {/*</Column>*/}
             <Column alignment={"left"} dataField="startDate" caption={'Дт начала работ по договору'}
                     dataType={"date"}/>
             <Column alignment={"left"} dataField="endDate" caption={'Дт окончания работ по договору'}
@@ -418,28 +432,28 @@ export const Contracts = () => {
                     dataType={"number"}/>
             <Column alignment={"left"} dataField="summaOther" caption={'СУММА | ПРОЧЕЕ'}
                     dataType={"number"}/>
-            <Column alignment={"left"} dataField="summaOtherTwo" caption={'СУММА | По договору'}
+            <Column alignment={"left"} dataField="summa" caption={'СУММА | По договору'}
                     dataType={"number"}/>
 
-            <Column alignment={"left"} dataField="updateStatusDOEmployee" caption={'Созданный сотрудник'}>
-                <Column alignment={"left"} dataField="updateStatusDOEmployee.id" caption={'ID'}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="updateStatusDOEmployee.lastName" caption={'Фамилия'}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="updateStatusDOEmployee.firstName" caption={'Имя'}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="updateStatusDOEmployee.patronymicName" caption={'Отчество'}
-                        dataType={"number"}/>
-                <Column alignment={"center"} dataField="updateStatusDOEmployee.isActive" caption={'Активен'}
-                        dataType={"boolean"}/>
-                <Column alignment={"left"} dataField="updateStatusDOEmployee.departmentId" caption={'ID отдела'}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="updateStatusDOEmployee.positionId" caption={'ID позиции'}
-                        dataType={"number"}/>
-                <Column alignment={"center"} dataField="updateStatusDOEmployee.isViewHiddenCosts"
-                        caption={'Просмотр скрытых затрат'}
-                        dataType={"boolean"}/>
-            </Column>
+            {/*<Column alignment={"left"} dataField="updateStatusDOEmployee" caption={'Созданный сотрудник'}>*/}
+            {/*    <Column alignment={"left"} dataField="updateStatusDOEmployee.id" caption={'ID'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"left"} dataField="updateStatusDOEmployee.lastName" caption={'Фамилия'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"left"} dataField="updateStatusDOEmployee.firstName" caption={'Имя'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"left"} dataField="updateStatusDOEmployee.patronymicName" caption={'Отчество'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"center"} dataField="updateStatusDOEmployee.isActive" caption={'Активен'}*/}
+            {/*            dataType={"boolean"}/>*/}
+            {/*    <Column alignment={"left"} dataField="updateStatusDOEmployee.departmentId" caption={'ID отдела'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"left"} dataField="updateStatusDOEmployee.positionId" caption={'ID позиции'}*/}
+            {/*            dataType={"number"}/>*/}
+            {/*    <Column alignment={"center"} dataField="updateStatusDOEmployee.isViewHiddenCosts"*/}
+            {/*            caption={'Просмотр скрытых затрат'}*/}
+            {/*            dataType={"boolean"}/>*/}
+            {/*</Column>*/}
 
 
             <Column alignment={"left"} dataField="updateStatusDODate"

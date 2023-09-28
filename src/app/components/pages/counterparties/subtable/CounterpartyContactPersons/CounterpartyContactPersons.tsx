@@ -6,11 +6,11 @@ interface IDataCell {
     dataCell:any
 }
 const CounterpartyContactPersons = ({dataCell}:IDataCell) => {
-    console.log(dataCell.value)
     return (
         <DataGrid
-            dataSource={dataCell.value}
-            width="100rem"
+            dataSource={dataCell.counterpartyContactPersons}
+
+            showColumnLines={true}
             onInitNewRow={(e) => onInitNewRow(e, {isMain: false})}
         >
             <Column alignment={"left"} dataField="id"
@@ -25,7 +25,7 @@ const CounterpartyContactPersons = ({dataCell}:IDataCell) => {
                     caption={'Почта'} dataType={"string"}/>
             <Column alignment={"left"} dataField="note"
                     caption={'Примечание'} dataType={"string"}/>
-            <Column alignment={"left"} dataField="isMain"
+            <Column alignment={"center"} dataField="isMain"
                     caption={'Основной'} allowEditing={false} dataType={"boolean"}/>
         </DataGrid>
     );

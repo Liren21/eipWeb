@@ -22,6 +22,7 @@ export const Counterparties = () => {
     const URL: string = urls.COUNTERPARTIES
     const [state, dispatch] = useReducer(reducer, TableVariable);
     const [titleMethod, setTitleMethod] = useState('')
+    const [subTableId, setSubTableId] = useState<number>(0)
 
     const {
         data: counterpartyFormats,
@@ -54,7 +55,6 @@ export const Counterparties = () => {
         reSubcontractorClassifications()
     }, [URL, reCounterpartyFormats, reCounterpartyStatus, reCustomerClassifications, reProviderClassifications, reSubcontractorClassifications]);
 
-
     const onSaving = useCallback((e: any) => {
         ProcessClassifications(e, 'providerClassifications[0]', 'providerClassifications');
         ProcessClassifications(e, 'subcontractorClassifications[0]', 'subcontractorClassifications');
@@ -77,6 +77,7 @@ export const Counterparties = () => {
 
         return item
     });
+
     return (
 
         <CustomDataGrid
@@ -101,7 +102,10 @@ export const Counterparties = () => {
                 changes={state.changes}
                 onChangesChange={useCallback((e) => OnChangesChange(dispatch, e, setTitleMethod), [])}
                 editRowKey={state.editRowKey}
-                onEditRowKeyChange={useCallback((e) => OnEditRowKeyChange(dispatch, e, setTitleMethod), [])}
+                onEditRowKeyChange={useCallback((e) => {
+                    OnEditRowKeyChange(dispatch, e, setTitleMethod)
+                    setSubTableId(e)
+                }, [])}
             >
                 <Popup title={`${titleMethod} контрагента`} showTitle={true}/>
                 <Form colCount={2}>
@@ -117,6 +121,10 @@ export const Counterparties = () => {
                     <Item dataField={'isWithOutNDS'}/>
                     <Item dataField={'isCustomer'}/>
                     <Item dataField={'note'} editorType={'dxTextArea'} colSpan={2}/>
+                    {state.data.find((d)=>d.id===subTableId) && <Item itemType={"group"} caption={'Контактная информация по контрагенту'} colSpan={2}>
+                        {state.data.map((itemData) => itemData.id === subTableId &&
+                            <CounterpartyContactPersons dataCell={itemData}/>)}
+                    </Item>}
 
                 </Form>
             </Editing>
@@ -149,7 +157,7 @@ export const Counterparties = () => {
                 />
             </Column>
             <Column alignment={"left"} dataField="providerClassifications[0].id"
-                    caption={'Классификация поставщика'} dataType={"string"}
+                    caption={'Классификация поставщика'} dataType={"number"}
                     validationRules={validationRules}>
                 <Lookup
                     dataSource={providerClassifications}
@@ -172,7 +180,7 @@ export const Counterparties = () => {
             <Column alignment={"left"} dataField="name"
                     caption={'Наименование контрагента'} dataType={"string"} validationRules={validationRules}/>
             <Column alignment={"left"} dataField="inn"
-                    caption={'ИНН'} dataType={"string"} validationRules={validationRules}/>
+                    caption={'ИНН'} dataType={"number"} validationRules={validationRules}/>
             <Column alignment={"center"} dataField="isWithOutNDS"
                     caption={'Без НДC'} dataType={"boolean"}/>
             <Column alignment={"left"} dataField="isCustomer"
@@ -182,27 +190,6 @@ export const Counterparties = () => {
             <Column alignment={"center"} dataField="isProvider"
                     caption={'Поставщик'} dataType={"boolean"}/>
 
-            <Column alignment={"left"} dataField='counterpartyContactPersons'
-                    caption={'Контактная информация по контрагенту'}
-                    cellRender={(dataCell) => (
-                        dataCell.value[0].id && <CounterpartyContactPersons dataCell={dataCell}/>
-                    )}
-            >
-                {/*<Column alignment={"left"} dataField="counterpartyContactPersons[0].id"*/}
-                {/*        caption={'ID'} dataType={"number"}/>*/}
-                {/*<Column alignment={"left"} dataField="counterpartyContactPersons[0].fullName"*/}
-                {/*        caption={'Ф.И.О'} dataType={"string"}/>*/}
-                {/*<Column alignment={"left"} dataField="counterpartyContactPersons[0].phone"*/}
-                {/*        caption={'Рабочий телефон'} dataType={"string"}/>*/}
-                {/*<Column alignment={"left"} dataField="counterpartyContactPersons[0].mobilePhone"*/}
-                {/*        caption={'Мобильный телефон'} dataType={"string"}/>*/}
-                {/*<Column alignment={"left"} dataField="counterpartyContactPersons[0].email"*/}
-                {/*        caption={'Почта'} dataType={"string"}/>*/}
-                {/*<Column alignment={"left"} dataField="counterpartyContactPersons[0].note"*/}
-                {/*        caption={'Примечание'} dataType={"string"}/>*/}
-                {/*<Column alignment={"left"} dataField="counterpartyContactPersons[0].isMain"*/}
-                {/*        caption={'Основной'} allowEditing={false} dataType={"boolean"}/>*/}
-            </Column>
             <Column alignment={"left"} dataField="note"
                     caption={'Примечание по контрагенту'} dataType={"string"}/>
         </CustomDataGrid>

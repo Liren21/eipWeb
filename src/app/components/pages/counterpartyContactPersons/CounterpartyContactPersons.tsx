@@ -70,7 +70,7 @@ export const CounterpartyContactPersons = () => {
                     <Item dataField="phone"/>
                     <Item dataField="mobilePhone"/>
                     <Item dataField="email">
-                        <EmailRule/>
+                        <EmailRule message={'Неправильный форма. (Пример: rule@yandex.com)'}/>
                     </Item>
                     <Item dataField="isMain"/>
                     <Item dataField="counterparty.id"/>
@@ -80,7 +80,7 @@ export const CounterpartyContactPersons = () => {
             <Column fixed={true} alignment={"left"} dataField="id" defaultSortOrder={"asc"} caption={'ID'}
                     allowEditing={false} dataType={"number"}/>
             <Column
-                alignment="center"
+                alignment="left"
                 caption="Ф.И.О"
                 dataField={'fullName'}
             />
@@ -91,9 +91,9 @@ export const CounterpartyContactPersons = () => {
             <Column alignment={"left"} dataField="patronymicName" visible={false} allowEditing={true}
                     caption={'Отчество'} dataType={"string"} validationRules={validationRules}/>
             <Column alignment={"left"} dataField="phone" allowEditing={true}
-                    caption={'Рабочий телефон'} dataType={"string"}/>
+                    caption={'Рабочий телефон'} dataType={"number"}/>
             <Column alignment={"left"} dataField="mobilePhone" allowEditing={true}
-                    caption={'Мобильный телефон'} dataType={"string"} validationRules={validationRules}/>
+                    caption={'Мобильный телефон'} dataType={"number"} validationRules={validationRules}/>
             <Column alignment={"left"} dataField="email" allowEditing={true}
                     caption={'Электронный адрес'} dataType={"string"}/>
             <Column alignment={"left"} dataField="note" allowEditing={true}
@@ -104,7 +104,7 @@ export const CounterpartyContactPersons = () => {
             <Column alignment={"left"} dataField="counterparty" allowEditing={true}
                     caption={'Контрагент'}>
                 <Column alignment={"left"} dataField="counterparty.id" allowEditing={true}
-                        caption={'Наименование контрагента'} dataType={"number"}>
+                        caption={'Наименование контрагента'} dataType={"number"} validationRules={validationRules}>
                     <Lookup
                         dataSource={counterparties}
                         valueExpr="id"
