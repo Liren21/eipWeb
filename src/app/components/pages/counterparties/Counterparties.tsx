@@ -13,9 +13,9 @@ import {ProcessClassifications, ProcessClassificationsObj} from '../../../generi
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
 import {TableVariable} from "../../../generic/Variable/TableVariable";
-import {OnChangesChange} from "../../../generic/Function/OnChangesChange";
 import {OnEditRowKeyChange} from "../../../generic/Function/OnEditRowKeyChange";
 import CounterpartyContactPersons from "./subtable/CounterpartyContactPersons/CounterpartyContactPersons";
+import {OnChangesChange} from "../../../generic/Function/OnChangesChange";
 
 
 export const Counterparties = () => {
@@ -23,6 +23,7 @@ export const Counterparties = () => {
     const [state, dispatch] = useReducer(reducer, TableVariable);
     const [titleMethod, setTitleMethod] = useState('')
     const [subTableId, setSubTableId] = useState<number>(0)
+
 
     const {
         data: counterpartyFormats,
@@ -121,10 +122,13 @@ export const Counterparties = () => {
                     <Item dataField={'isWithOutNDS'}/>
                     <Item dataField={'isCustomer'}/>
                     <Item dataField={'note'} editorType={'dxTextArea'} colSpan={2}/>
-                    {state.data.find((d)=>d.id===subTableId) && <Item itemType={"group"} caption={'Контактная информация по контрагенту'} colSpan={2}>
-                        {state.data.map((itemData) => itemData.id === subTableId &&
-                            <CounterpartyContactPersons dataCell={itemData}/>)}
-                    </Item>}
+                    {
+                        state.data.find((d) => d.id === subTableId) &&
+                        <Item itemType={"group"} caption={'Контактная информация по контрагенту'} colSpan={2}>
+                            {state.data.map((itemData) => itemData.id === subTableId &&
+                                <CounterpartyContactPersons dataCell={itemData}/>)}
+                        </Item>
+                    }
 
                 </Form>
             </Editing>
@@ -180,7 +184,7 @@ export const Counterparties = () => {
             <Column alignment={"left"} dataField="name"
                     caption={'Наименование контрагента'} dataType={"string"} validationRules={validationRules}/>
             <Column alignment={"left"} dataField="inn"
-                    caption={'ИНН'} dataType={"number"} validationRules={validationRules}/>
+                    caption={'ИНН'} dataType={"string"} validationRules={validationRules}/>
             <Column alignment={"center"} dataField="isWithOutNDS"
                     caption={'Без НДC'} dataType={"boolean"}/>
             <Column alignment={"left"} dataField="isCustomer"

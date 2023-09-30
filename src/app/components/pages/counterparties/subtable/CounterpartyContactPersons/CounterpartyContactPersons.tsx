@@ -1,19 +1,17 @@
 import React from 'react';
-import DataGrid, {Column} from "devextreme-react/data-grid";
-import {onInitNewRow} from "../../../../../generic/Function/OnInitNewRow";
+import {Column} from "devextreme-react/data-grid";
+import {CustomDataGrid} from "../../../../UI/CustomDataGrid/CustomDataGrid";
 
 interface IDataCell {
     dataCell:any
 }
 const CounterpartyContactPersons = ({dataCell}:IDataCell) => {
     return (
-        <DataGrid
+        <CustomDataGrid
             dataSource={dataCell.counterpartyContactPersons}
-
-            showColumnLines={true}
-            onInitNewRow={(e) => onInitNewRow(e, {isMain: false})}
+            dataOnInitNewRow={{isMain: false}}
         >
-            <Column alignment={"left"} dataField="id"
+            <Column alignment={"left"} defaultSortOrder={"asc"} dataField="id"
                     caption={'ID'} dataType={"number"}/>
             <Column alignment={"left"} dataField="fullName"
                     caption={'Ф.И.О'} dataType={"string"}/>
@@ -27,7 +25,7 @@ const CounterpartyContactPersons = ({dataCell}:IDataCell) => {
                     caption={'Примечание'} dataType={"string"}/>
             <Column alignment={"center"} dataField="isMain"
                     caption={'Основной'} allowEditing={false} dataType={"boolean"}/>
-        </DataGrid>
+        </CustomDataGrid>
     );
 };
 

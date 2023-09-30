@@ -9,11 +9,11 @@ import 'devextreme-react/color-box';
 import 'devextreme-react/text-box';
 interface ICustomDataGrid {
     dataSource: any;
-    onSaving: any;
+    onSaving?: any;
     keyExpr?: string;
     dataOnInitNewRow?: any;
     children: ReactNode;
-    visible: boolean;
+    visible?: boolean;
     editingChanges?: any;
     editingOnChangesChange?: (value: any) => void;
     editingEditRowKey?: any;

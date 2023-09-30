@@ -4,9 +4,9 @@ import React, { useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router';
 
 import './side-nav-outer-toolbar.scss';
-import { useScreenSize } from '../../../../app/lib/utils/media-query';
+import { useScreenSize } from '../../../lib/utils/media-query';
 import { Template } from 'devextreme-react/core/template';
-import { useMenuPatch } from '../../../../app/lib/utils/patches';
+import { useMenuPatch } from '../../../lib/utils/patches';
 import { ButtonTypes } from 'devextreme-react/button';
 import { TreeViewTypes } from 'devextreme-react/tree-view';
 import Header from '../../header/Header';
