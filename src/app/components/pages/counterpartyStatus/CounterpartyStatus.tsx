@@ -48,7 +48,6 @@ export const CounterpartyStatus = () => {
                 <Form>
                     <Item dataField={'sortIndex'}/>
                     <Item dataField={'name'}/>
-
                 </Form>
             </Editing>
 

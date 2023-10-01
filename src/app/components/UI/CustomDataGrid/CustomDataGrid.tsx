@@ -7,6 +7,8 @@ import './CustomDataGrid.scss';
 import 'devextreme-react/text-area';
 import 'devextreme-react/color-box';
 import 'devextreme-react/text-box';
+import 'devextreme-react/tag-box';
+import 'devextreme-react/drop-down-box';
 interface ICustomDataGrid {
     dataSource: any;
     onSaving?: any;

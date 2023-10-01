@@ -22,6 +22,17 @@ export const ContractCategories = () => {
 
     const onSaving = useCallback((e) => {
         e.cancel = true;
+        const data = e.changes[0].data
+        data['style'] = {
+            color: data.color,
+            cursive: data.cursive,
+            fontFatness: data.fontFatness,
+            colorFont: data.colorFont
+        }
+        delete data.color
+        delete data.cursive
+        delete data.fontFatness
+        delete data.colorFont
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
 
@@ -32,6 +43,7 @@ export const ContractCategories = () => {
             keyExpr="id"
             dataSource={state.data}
             onSaving={onSaving}
+            dataOnInitNewRow={{cursive: false, fontFatness: false}}
         >
             <Editing
                 mode="popup"
@@ -47,16 +59,22 @@ export const ContractCategories = () => {
                     title={`${titleMethod} категорию договора`}
                     showTitle={true}
                 />
-                <Form>
-                    <Item dataField="style" editorType="dxColorBox"/>
+                <Form colCount={2}>
                     <Item dataField={'sortIndex'}/>
                     <Item dataField={'name'}/>
                     <Item dataField={'group'}/>
                     <Item dataField="note" editorType={'dxTextArea'} colSpan={2}/>
+                    <Item itemType={"group"} caption={'Стили'} colCount={2} colSpan={2}>
+                        <Item dataField="color" editorType="dxColorBox"/>
+                        <Item dataField="colorFont" editorType="dxColorBox"/>
+                        <Item dataField={'cursive'} colSpan={1}/>
+                        <Item dataField={'fontFatness'} colSpan={1}/>
+
+                    </Item>
                 </Form>
             </Editing>
 
-            <Column  alignment={"left"} fixed={true} dataField="id" defaultSortOrder={"asc"}
+            <Column alignment={"left"} fixed={true} dataField="id" defaultSortOrder={"asc"}
                     caption={'ID'}
                     allowEditing={false} dataType={"number"}/>
             <Column alignment={"left"} dataField="sortIndex" caption={'Сортировка'} dataType={"number"}
@@ -67,7 +85,19 @@ export const ContractCategories = () => {
                     validationRules={validationRules}/>
             <Column alignment={"left"} dataField="note" caption={'Примечание'} dataType={"string"}
             />
-            <Column  alignment={"left"} dataField="style" caption={'Цветовое обозначение'}
+            <Column alignment={"left"} dataField="color" caption={'Цвет'} dataType={"string"}
+                    visible={false}
+            />
+            <Column alignment={"left"} dataField="colorFont" caption={'Цвет шрифта'} dataType={"string"}
+                    visible={false}
+            />
+            <Column alignment={"left"} dataField="cursive" caption={'Курсив'} dataType={"boolean"}
+                    visible={false}
+            />
+            <Column alignment={"left"} dataField="fontFatness" caption={'Жирность шрифта'} dataType={"boolean"}
+                    visible={false}
+            />
+            <Column alignment={"left"} dataField="style" caption={'Цветовое обозначение'}
                     dataType={"string"}
                     cellRender={(cellData) => (
                         <div style={{backgroundColor: cellData.value, padding: '9px', borderRadius: '1rem'}}>

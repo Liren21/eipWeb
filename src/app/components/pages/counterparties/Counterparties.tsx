@@ -16,7 +16,8 @@ import {TableVariable} from "../../../generic/Variable/TableVariable";
 import {OnEditRowKeyChange} from "../../../generic/Function/OnEditRowKeyChange";
 import CounterpartyContactPersons from "./subtable/CounterpartyContactPersons/CounterpartyContactPersons";
 import {OnChangesChange} from "../../../generic/Function/OnChangesChange";
-
+import './Counterparties.scss'
+import ColumnElement from "../../UI/ColumnElement/ColumnElement";
 
 export const Counterparties = () => {
     const URL: string = urls.COUNTERPARTIES
@@ -57,8 +58,9 @@ export const Counterparties = () => {
     }, [URL, reCounterpartyFormats, reCounterpartyStatus, reCustomerClassifications, reProviderClassifications, reSubcontractorClassifications]);
 
     const onSaving = useCallback((e: any) => {
-        ProcessClassifications(e, 'providerClassifications[0]', 'providerClassifications');
-        ProcessClassifications(e, 'subcontractorClassifications[0]', 'subcontractorClassifications');
+
+        ProcessClassifications(e, 'providerClassifications');
+        ProcessClassifications(e, 'subcontractorClassifications');
 
         ProcessClassificationsObj(e.changes[0].data, "counterpartyFormat");
         ProcessClassificationsObj(e.changes[0].data, "customerClassification");
@@ -115,8 +117,8 @@ export const Counterparties = () => {
                     <Item dataField={'inn'}/>
                     <Item dataField={'customerClassification.id'}/>
                     <Item dataField={'counterpartyStatus.id'}/>
-                    <Item dataField={'providerClassifications[0].id'}/>
-                    <Item dataField={'subcontractorClassifications[0].id'}/>
+                    <Item dataField={'providerClassifications'} editorType={'dxTagBox'}/>
+                    <Item dataField={'subcontractorClassifications'} editorType={'dxTagBox'}/>
                     <Item dataField={'isSubcontractor'}/>
                     <Item dataField={'isProvider'}/>
                     <Item dataField={'isWithOutNDS'}/>
@@ -144,7 +146,7 @@ export const Counterparties = () => {
             </Column>
             <Column alignment={"left"} dataField="customerClassification.id"
                     caption={'Классификация заказчика'} dataType={"string"}
-                    validationRules={validationRules} visible={false}>
+                    validationRules={validationRules}>
                 <Lookup
                     dataSource={customerClassifications}
                     valueExpr="id"
@@ -160,18 +162,32 @@ export const Counterparties = () => {
                     displayExpr={'name'}
                 />
             </Column>
-            <Column alignment={"left"} dataField="providerClassifications[0].id"
-                    caption={'Классификация поставщика'} dataType={"number"}
-                    validationRules={validationRules}>
+            <Column alignment={"left"}
+                    dataField="providerClassifications"
+                    caption={'Классификация поставщика'}
+                    dataType={"number"}
+                    validationRules={validationRules}
+                    cellRender={
+                        (data) => <ColumnElement data={data}
+                                                 keyBlock={'counterparties-providerClassifications'}/>
+                    }
+            >
                 <Lookup
                     dataSource={providerClassifications}
                     valueExpr="id"
                     displayExpr={'name'}
                 />
             </Column>
-            <Column alignment={"left"} dataField="subcontractorClassifications[0].id"
-                    caption={'Классификация субподрядчика'} dataType={"string"}
-                    validationRules={validationRules}>
+            <Column alignment={"left"}
+                    dataField="subcontractorClassifications"
+                    caption={'Классификация субподрядчика'}
+                    dataType={"string"}
+                    validationRules={validationRules}
+                    cellRender={
+                        (data) => <ColumnElement data={data}
+                                                 keyBlock={'counterparties-subcontractorClassifications'}/>
+                    }
+            >
                 <Lookup
                     dataSource={subcontractorClassifications}
                     valueExpr="id"
@@ -187,7 +203,7 @@ export const Counterparties = () => {
                     caption={'ИНН'} dataType={"string"} validationRules={validationRules}/>
             <Column alignment={"center"} dataField="isWithOutNDS"
                     caption={'Без НДC'} dataType={"boolean"}/>
-            <Column alignment={"left"} dataField="isCustomer"
+            <Column alignment={"center"} dataField="isCustomer"
                     caption={'Заказчик'} dataType={"boolean"}/>
             <Column alignment={"center"} dataField="isSubcontractor"
                     caption={'Субподрядчик'} dataType={"boolean"}/>

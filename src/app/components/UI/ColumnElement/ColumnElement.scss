@@ -1,0 +1,11 @@
+.column-element {
+  display: flex;
+
+  &__item {
+    padding: .5rem;
+    border-radius: 1rem;
+    background-color: rgba(0, 0, 0, 0.05);
+    margin-right: .4rem;
+  }
+
+}

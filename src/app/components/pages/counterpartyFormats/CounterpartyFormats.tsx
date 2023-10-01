@@ -5,7 +5,7 @@ import {Column, Editing, Form, Popup} from "devextreme-react/data-grid";
 import {Item} from "devextreme-react/form";
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import reducer from "../../../../core/lib/api/reducer";
-import {loadOrders, saveChange, } from "../../../../core/lib/api/actions";
+import {loadOrders, saveChange,} from "../../../../core/lib/api/actions";
 import {TableVariable} from "../../../generic/Variable/TableVariable";
 import {OnChangesChange} from "../../../generic/Function/OnChangesChange";
 import {OnEditRowKeyChange} from "../../../generic/Function/OnEditRowKeyChange";
@@ -50,7 +50,7 @@ export const CounterpartyFormats = () => {
                     <Item itemType="group" colCount={3} colSpan={2}>
                         <Item dataField={'sortIndex'}/>
                         <Item dataField={'name'}/>
-                        <Item dataField={'formatInn'}/>
+                        <Item dataField={'formatInn'} editorType={'dxNumberBox'}/>
                     </Item>
                 </Form>
             </Editing>
@@ -63,7 +63,7 @@ export const CounterpartyFormats = () => {
                     validationRules={validationRules}/>
             <Column alignment={"left"} dataField="formatInn"
                     caption={'Количестов символов ИНН у заданного формата контрагента'} dataType={"number"}
-                    validationRules={validationRules} />
+                    validationRules={validationRules}/>
 
         </CustomDataGrid>
     );

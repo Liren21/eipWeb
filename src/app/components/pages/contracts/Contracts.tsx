@@ -143,28 +143,13 @@ export const Contracts = () => {
             <Column alignment={"left"} fixed={true} dataField="id" defaultSortOrder={"asc"} caption={'ID договора'}
                     allowEditing={false} dataType={"number"}/>
             <Column alignment={"left"} dataField="contractCategory" caption={'Категория договора'}>
-                <Column alignment={"left"} dataField="contractCategory.id"
-                        caption={'ID категории договора'}
-                        dataType={"number"}/>
-                <Column alignment={"left"} dataField="contractCategory.sortIndex"
-                        caption={'Сортировка'}
-                        dataType={"number"}/>
+
                 <Column alignment={"left"} dataField="contractCategory.name"
                         caption={'Наименование категории договора'}
                         dataType={"string"}/>
-                <Column alignment={"left"} dataField="contractCategory.group"
-                        caption={'Группа'}
-                        dataType={"string"}/>
+
                 <Column alignment={"left"} dataField="contractCategory.note"
                         caption={'Примечание'}
-                        dataType={"string"}/>
-                <Column alignment={"left"} dataField="contractCategory.style"
-                        caption={'Цветовое обозначение'}
-                        cellRender={(cellData) => (
-                            <div style={{backgroundColor: cellData.value, padding: '9px', borderRadius: '1rem'}}>
-
-                            </div>
-                        )}
                         dataType={"string"}/>
             </Column>
             <Column alignment={"left"} dataField="address" caption={'Адрес договора'} dataType={"string"}
