@@ -9,6 +9,7 @@ import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
 import {TableVariable} from "../../../generic/Variable/TableVariable"
 import {OnEditRowKeyChange} from "../../../generic/Function/OnEditRowKeyChange";
 import {OnChangesChange} from "../../../generic/Function/OnChangesChange";
+import Element from "./element";
 
 
 export const ContractCategories = () => {
@@ -23,12 +24,12 @@ export const ContractCategories = () => {
     const onSaving = useCallback((e) => {
         e.cancel = true;
         const data = e.changes[0].data
-        data['style'] = {
+        data['style'] = JSON.stringify({
             color: data.color,
             cursive: data.cursive,
             fontFatness: data.fontFatness,
             colorFont: data.colorFont
-        }
+        })
         delete data.color
         delete data.cursive
         delete data.fontFatness
@@ -78,12 +79,16 @@ export const ContractCategories = () => {
                     caption={'ID'}
                     allowEditing={false} dataType={"number"}/>
             <Column alignment={"left"} dataField="sortIndex" caption={'Сортировка'} dataType={"number"}
-                    validationRules={validationRules}/>
+                    validationRules={validationRules} cellRender={(data) => <Element data={data}/>}
+            />
             <Column alignment={"left"} dataField="name" caption={'Наименование'} dataType={"string"}
-                    validationRules={validationRules}/>
+                    validationRules={validationRules} cellRender={(data) => <Element data={data}/>}
+            />
             <Column alignment={"left"} dataField="group" caption={'Группа'} dataType={"string"}
-                    validationRules={validationRules}/>
+                    validationRules={validationRules} cellRender={(data) => <Element data={data}/>}
+            />
             <Column alignment={"left"} dataField="note" caption={'Примечание'} dataType={"string"}
+                    cellRender={(data) => <Element data={data}/>}
             />
             <Column alignment={"left"} dataField="color" caption={'Цвет'} dataType={"string"}
                     visible={false}
@@ -99,11 +104,8 @@ export const ContractCategories = () => {
             />
             <Column alignment={"left"} dataField="style" caption={'Цветовое обозначение'}
                     dataType={"string"}
-                    cellRender={(cellData) => (
-                        <div style={{backgroundColor: cellData.value, padding: '9px', borderRadius: '1rem'}}>
-
-                        </div>
-                    )}/>
+                    cellRender={(data) => <Element data={data}/>}
+            />
 
         </CustomDataGrid>
     )
