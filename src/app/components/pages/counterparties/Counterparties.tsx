@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useReducer, useState} from 'react';
-import {Column, Editing, Form, Lookup, Popup,} from 'devextreme-react/data-grid';
+import {Column, Editing, Form, Lookup, Popup} from 'devextreme-react/data-grid';
 import reducer from '../../../../core/lib/api/reducer';
 import {saveChange, loadOrders} from '../../../../core/lib/api/actions';
 import urls from "../../../lib/urls";
@@ -146,7 +146,7 @@ export const Counterparties = () => {
             </Column>
             <Column alignment={"left"} dataField="customerClassification.id"
                     caption={'Классификация заказчика'} dataType={"string"}
-                    validationRules={validationRules}>
+            >
                 <Lookup
                     dataSource={customerClassifications}
                     valueExpr="id"
@@ -166,7 +166,6 @@ export const Counterparties = () => {
                     dataField="providerClassifications"
                     caption={'Классификация поставщика'}
                     dataType={"number"}
-                    validationRules={validationRules}
                     cellRender={
                         (data) => <ColumnElement data={data}
                                                  keyBlock={'counterparties-providerClassifications'}/>
@@ -182,7 +181,6 @@ export const Counterparties = () => {
                     dataField="subcontractorClassifications"
                     caption={'Классификация субподрядчика'}
                     dataType={"string"}
-                    validationRules={validationRules}
                     cellRender={
                         (data) => <ColumnElement data={data}
                                                  keyBlock={'counterparties-subcontractorClassifications'}/>

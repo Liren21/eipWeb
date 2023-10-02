@@ -9,6 +9,7 @@ import 'devextreme-react/color-box';
 import 'devextreme-react/text-box';
 import 'devextreme-react/tag-box';
 import 'devextreme-react/drop-down-box';
+import 'devextreme-react/number-box';
 interface ICustomDataGrid {
     dataSource: any;
     onSaving?: any;
@@ -43,6 +44,7 @@ export const CustomDataGrid = ({
                 keyExpr={keyExpr}
                 dataSource={dataSource}
                 showBorders={true}
+
                 repaintChangesOnly
                 allowColumnReordering={true}
                 columnAutoWidth={true}
