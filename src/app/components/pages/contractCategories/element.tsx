@@ -11,18 +11,15 @@ const Element = ({data}: IElement) => {
 
 
     useEffect(() => {
-        if (data.data.style !== undefined) {
-            if (data.data.style.indexOf('#')) {
-                setStyle(JSON.parse(data.data.style))
+        setStyle(data.data.style)
+        if (data.value !== undefined) {
+            if (!data.value.toString().indexOf('#')) {
+                setColor(data.value)
+            }else {
+                setVal(data.value)
             }
         }
-        if (typeof data.value === "string" && !data.value.indexOf('{')) {
-            setColor(JSON.parse(data.value).color)
-            setVal('')
-        } else {
-            setVal(data.value)
-        }
-    }, [])
+    }, [data])
 
     return (
         <div
@@ -33,7 +30,8 @@ const Element = ({data}: IElement) => {
                 backgroundColor: color,
                 padding: '.5rem ',
                 borderRadius: '1rem'
-            }}>
+            }}
+        >
             {val}
         </div>
     );

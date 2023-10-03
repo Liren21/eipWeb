@@ -24,27 +24,44 @@ export const ContractCategories = () => {
     const onSaving = useCallback((e) => {
         e.cancel = true;
         const data = e.changes[0].data
-        data['style'] = JSON.stringify({
-            color: data.color,
-            cursive: data.cursive,
-            fontFatness: data.fontFatness,
-            colorFont: data.colorFont
-        })
-        delete data.color
-        delete data.cursive
-        delete data.fontFatness
-        delete data.colorFont
+
+        if (data !== undefined) {
+            data['style'] = JSON.stringify({
+                color: data.style.color,
+                cursive: data.style.cursive,
+                fontFatness: data.style.fontFatness,
+                colorFont: data.style.colorFont
+            })
+            delete data.color
+            delete data.cursive
+            delete data.fontFatness
+            delete data.colorFont
+        }
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
 
+    const dataChange = state.data.map((item) => {
+        if (item.style !== undefined) {
+            return {...item, style: JSON.parse(item.style)}
+        } else {
+            return {
+                ...item, style: {
+                    color: '',
+                    cursive: false,
+                    fontFatness: false,
+                    colorFont: ''
+                }
+            }
+        }
+    })
 
     return (
         <CustomDataGrid
             visible={state.isLoading}
             keyExpr="id"
-            dataSource={state.data}
+            dataSource={dataChange}
             onSaving={onSaving}
-            dataOnInitNewRow={{cursive: false, fontFatness: false}}
+            dataOnInitNewRow={{style: {cursive: false, fontFatness: false}}}
         >
             <Editing
                 mode="popup"
@@ -66,10 +83,10 @@ export const ContractCategories = () => {
                     <Item dataField={'group'}/>
                     <Item dataField="note" editorType={'dxTextArea'} colSpan={2}/>
                     <Item itemType={"group"} caption={'Стили'} colCount={2} colSpan={2}>
-                        <Item dataField="color" editorType="dxColorBox"/>
-                        <Item dataField="colorFont" editorType="dxColorBox"/>
-                        <Item dataField={'cursive'} colSpan={1}/>
-                        <Item dataField={'fontFatness'} colSpan={1}/>
+                        <Item dataField="style.color" editorType="dxColorBox"/>
+                        <Item dataField="style.colorFont" editorType="dxColorBox"/>
+                        <Item dataField={'style.cursive'} colSpan={1}/>
+                        <Item dataField={'style.fontFatness'} colSpan={1}/>
 
                     </Item>
                 </Form>
@@ -90,19 +107,16 @@ export const ContractCategories = () => {
             <Column alignment={"left"} dataField="note" caption={'Примечание'} dataType={"string"}
                     cellRender={(data) => <Element data={data}/>}
             />
-            <Column alignment={"left"} dataField="color" caption={'Цвет'} dataType={"string"}
+            <Column alignment={"left"} dataField="style.colorFont" caption={'Цвет шрифта'} dataType={"string"}
                     visible={false}
             />
-            <Column alignment={"left"} dataField="colorFont" caption={'Цвет шрифта'} dataType={"string"}
+            <Column alignment={"left"} dataField="style.cursive" caption={'Курсив'} dataType={"boolean"}
                     visible={false}
             />
-            <Column alignment={"left"} dataField="cursive" caption={'Курсив'} dataType={"boolean"}
+            <Column alignment={"left"} dataField="style.fontFatness" caption={'Жирность шрифта'} dataType={"boolean"}
                     visible={false}
             />
-            <Column alignment={"left"} dataField="fontFatness" caption={'Жирность шрифта'} dataType={"boolean"}
-                    visible={false}
-            />
-            <Column alignment={"left"} dataField="style" caption={'Цветовое обозначение'}
+            <Column alignment={"left"} dataField="style.color" caption={'Цветовое обозначение'}
                     dataType={"string"}
                     cellRender={(data) => <Element data={data}/>}
             />
