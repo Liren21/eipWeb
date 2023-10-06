@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useReducer, useState} from 'react';
 import {Column, Editing, Form, Lookup, Popup} from 'devextreme-react/data-grid';
 import reducer from '../../../../core/lib/api/reducer';
-import {saveChange, loadOrders} from '../../../../core/lib/api/actions';
+import {saveChange, loadOrders, setChanges} from '../../../../core/lib/api/actions';
 import urls from "../../../lib/urls";
 import {Item} from "devextreme-react/form";
 import {counterpartyFormatsService} from "../../../lib/services/counterpartyFormatsService";
@@ -15,7 +15,6 @@ import {CustomDataGrid} from "../../UI/CustomDataGrid/CustomDataGrid";
 import {TableVariable} from "../../../generic/Variable/TableVariable";
 import {OnEditRowKeyChange} from "../../../generic/Function/OnEditRowKeyChange";
 import CounterpartyContactPersons from "./subtable/CounterpartyContactPersons/CounterpartyContactPersons";
-import {OnChangesChange} from "../../../generic/Function/OnChangesChange";
 import './Counterparties.scss'
 import ColumnElement from "../../UI/ColumnElement/ColumnElement";
 
@@ -24,6 +23,11 @@ export const Counterparties = () => {
     const [state, dispatch] = useReducer(reducer, TableVariable);
     const [titleMethod, setTitleMethod] = useState('')
     const [subTableId, setSubTableId] = useState<number>(0)
+    const [stateValid, setStateValid] = useState<any>({
+        isCustomer: false,
+        isSubcontractor: false,
+        isProvider: false,
+    })
 
 
     const {
@@ -81,6 +85,15 @@ export const Counterparties = () => {
         return item
     });
 
+    const OnChangesChange = (dispatch, changes, setTitleMethod) => {
+        setTitleMethod("Создать")
+        if (changes.length !== 0) {
+            setStateValid(changes[0].data)
+        }
+        setChanges(dispatch, changes);
+    }
+
+
     return (
 
         <CustomDataGrid
@@ -115,10 +128,11 @@ export const Counterparties = () => {
                     <Item dataField={'counterpartyFormat.id'}/>
                     <Item dataField={'name'}/>
                     <Item dataField={'inn'}/>
-                    <Item dataField={'customerClassification.id'}/>
+                    <Item dataField={'customerClassification.id'} validationRules={stateValid.isCustomer && validationRules}/>
                     <Item dataField={'counterpartyStatus.id'}/>
-                    <Item dataField={'providerClassifications'} editorType={'dxTagBox'}/>
-                    <Item dataField={'subcontractorClassifications'} editorType={'dxTagBox'}/>
+                    <Item dataField={'providerClassifications'} editorType={'dxTagBox'}
+                          validationRules={stateValid.isProvider && validationRules}/>
+                    <Item dataField={'subcontractorClassifications'} editorType={'dxTagBox'} validationRules={stateValid.isSubcontractor && validationRules}/>
                     <Item dataField={'isSubcontractor'}/>
                     <Item dataField={'isProvider'}/>
                     <Item dataField={'isWithOutNDS'}/>
@@ -155,7 +169,7 @@ export const Counterparties = () => {
             </Column>
             <Column alignment={"left"} dataField="counterpartyStatus.id"
                     caption={'Статус контрагента'} dataType={"string"}
-                    validationRules={validationRules}>
+            >
                 <Lookup
                     dataSource={counterpartyStatus}
                     valueExpr="id"

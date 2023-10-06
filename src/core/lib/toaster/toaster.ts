@@ -39,7 +39,7 @@ class Toaster implements IToaster {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "colored",
+            theme: "light",
         })
         if (msgs.length > 6) {
             msgs.forEach((id) => {

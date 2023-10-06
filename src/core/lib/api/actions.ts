@@ -6,7 +6,7 @@ import {toast} from "react-toastify";
 export const FETCH_PENDING = 'FETCH_PENDING';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 export const FETCH_ERROR = 'FETCH_ERROR';
-export const SAVING_PENDING = 'SAVING_PENDING';
+export const SAVING_PENDING:any= 'SAVING_PENDING';
 export const SAVING_SUCCESS = 'SAVING_SUCCESS';
 export const SAVING_ERROR = 'SAVING_ERROR';
 export const SAVING_CANCEL = 'SAVING_CANCEL';
@@ -38,7 +38,7 @@ export async function saveChange(dispatch, change, URL) {
     if (change && change.type) {
         let data;
 
-        // dispatch({type: SAVING_PENDING});
+        dispatch({type: SAVING_PENDING});
 
         try {
             data = await sendChange(URL, change);
