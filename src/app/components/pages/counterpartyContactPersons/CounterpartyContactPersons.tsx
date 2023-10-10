@@ -3,7 +3,7 @@ import {Column, Editing, Form, Lookup, Popup,} from 'devextreme-react/data-grid'
 import reducer from '../../../../core/lib/api/reducer';
 import {saveChange, loadOrders} from '../../../../core/lib/api/actions';
 import urls from "../../../lib/urls";
-import {EmailRule, Item } from "devextreme-react/form";
+import {EmailRule, Item} from "devextreme-react/form";
 import {counterpartiesService} from "../../../lib/services/counterpartiesService";
 import {validationRules} from "../../../generic/ValidationRules/ValidationRules";
 import {ProcessClassificationsObj} from "../../../generic/Function/ProcessClassifications";
@@ -26,7 +26,6 @@ export const CounterpartyContactPersons = () => {
     }, [URL, reCounterparties]);
 
     const onSaving = useCallback((e) => {
-
         ProcessClassificationsObj(e.changes[0].data, "counterparty");
         e.cancel = true;
         e.promise = saveChange(dispatch, e.changes[0], URL);
@@ -36,6 +35,7 @@ export const CounterpartyContactPersons = () => {
         ...item,
         fullName: `${item.lastName} ${item.firstName} ${item.patronymicName}`,
     }));
+
     return (
         <CustomDataGrid
             visible={state.isLoading}
@@ -91,9 +91,9 @@ export const CounterpartyContactPersons = () => {
             <Column alignment={"left"} dataField="patronymicName" visible={false} allowEditing={true}
                     caption={'Отчество'} dataType={"string"} validationRules={validationRules}/>
             <Column alignment={"left"} dataField="phone" allowEditing={true}
-                    caption={'Рабочий телефон'} dataType={"number"}/>
+                    caption={'Рабочий телефон'} dataType={"string"}/>
             <Column alignment={"left"} dataField="mobilePhone" allowEditing={true}
-                    caption={'Мобильный телефон'} dataType={"number"} validationRules={validationRules}/>
+                    caption={'Мобильный телефон'} dataType={"string"} validationRules={validationRules}/>
             <Column alignment={"left"} dataField="email" allowEditing={true}
                     caption={'Электронный адрес'} dataType={"string"}/>
             <Column alignment={"left"} dataField="note" allowEditing={true}
