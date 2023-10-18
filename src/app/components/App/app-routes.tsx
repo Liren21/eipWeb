@@ -13,7 +13,7 @@ import {ContractCategories} from "../pages/contractCategories/ContractCategories
 import {Rases} from "../pages/rases/Rases";
 import {StatusDOs} from "../pages/statusDOs/StatusDOs";
 import {Employees} from "../pages/employees/Employees";
-import Test from "../pages/Test/Test";
+import {TestCounterparties} from "../pages/Test/testCounterparties/TestCounterparties";
 
 const routes = [
     {
@@ -73,8 +73,8 @@ const routes = [
         element: Employees,
     },
     {
-        path: '/test',
-        element: Test,
+        path: '/test_counterparties',
+        element: TestCounterparties,
     },
 ];
 

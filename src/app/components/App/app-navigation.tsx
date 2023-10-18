@@ -67,8 +67,12 @@ export const navigation = [
         ]
     },
     {
-        text: "Тестова страница",
-        path: '/test',
-        items: []
+        text: "Тестовые страницы",
+        items: [
+            {
+                text: 'Тест Контрагенты',
+                path: '/test_counterparties',
+            },
+        ]
     },
 ]

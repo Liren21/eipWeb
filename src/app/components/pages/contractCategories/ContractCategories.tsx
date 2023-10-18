@@ -78,7 +78,7 @@ export const ContractCategories = () => {
                     showTitle={true}
                 />
                 <Form colCount={2}>
-                    <Item dataField={'sortIndex'}/>
+                    <Item dataField={'sortIndex'} />
                     <Item dataField={'name'}/>
                     <Item dataField={'group'}/>
                     <Item dataField="note" editorType={'dxTextArea'} colSpan={2}/>
@@ -87,14 +87,10 @@ export const ContractCategories = () => {
                         <Item dataField="style.colorFont" editorType="dxColorBox"/>
                         <Item dataField={'style.cursive'} colSpan={1}/>
                         <Item dataField={'style.fontFatness'} colSpan={1}/>
-
                     </Item>
                 </Form>
             </Editing>
 
-            <Column alignment={"left"} fixed={true} dataField="id" defaultSortOrder={"asc"}
-                    caption={'ID'}
-                    allowEditing={false} dataType={"number"}/>
             <Column alignment={"left"} dataField="sortIndex" caption={'Сортировка'} dataType={"number"}
                     validationRules={validationRules} cellRender={(data) => <Element data={data}/>}
             />
