@@ -38,7 +38,7 @@ export async function saveChange(dispatch, change, URL) {
     if (change && change.type) {
         let data;
 
-        dispatch({type: SAVING_PENDING});
+        // dispatch({type: SAVING_PENDING});
 
         try {
             data = await sendChange(URL, change);

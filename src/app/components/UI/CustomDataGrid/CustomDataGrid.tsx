@@ -44,7 +44,6 @@ export const CustomDataGrid = ({
                 keyExpr={keyExpr}
                 dataSource={dataSource}
                 showBorders={true}
-
                 repaintChangesOnly
                 allowColumnReordering={true}
                 columnAutoWidth={true}

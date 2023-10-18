@@ -27,7 +27,7 @@ export const CounterpartyContactPersons = () => {
 
     const onSaving = useCallback((e) => {
         ProcessClassificationsObj(e.changes[0].data, "counterparty");
-        e.cancel = true;
+        // e.cancel = true;
         e.promise = saveChange(dispatch, e.changes[0], URL);
     }, [URL]);
 
@@ -35,6 +35,8 @@ export const CounterpartyContactPersons = () => {
         ...item,
         fullName: `${item.lastName} ${item.firstName} ${item.patronymicName}`,
     }));
+
+    const phoneEditorOptions = { mask: '+7 (X00) 000-0000', maskRules: { X: /[02-9]/ } };
 
     return (
         <CustomDataGrid
@@ -57,18 +59,18 @@ export const CounterpartyContactPersons = () => {
                 allowDeleting={true}
                 allowUpdating={true}
                 defaultEditRowKey={false}
-                changes={state.changes}
-                onChangesChange={useCallback((e) => OnChangesChange(dispatch, e, setTitleMethod), [])}
+                // changes={state.changes}
+                // onChangesChange={useCallback((e) => OnChangesChange(dispatch, e, setTitleMethod), [])}
                 editRowKey={state.editRowKey}
-                onEditRowKeyChange={useCallback((e) => OnEditRowKeyChange(dispatch, e, setTitleMethod), [])}
+                // onEditRowKeyChange={useCallback((e) => OnEditRowKeyChange(dispatch, e, setTitleMethod), [])}
             >
                 <Popup title={`${titleMethod} контактную информацию`} showTitle={true}/>
                 <Form>
                     <Item dataField="lastName"/>
                     <Item dataField="firstName"/>
                     <Item dataField="patronymicName"/>
-                    <Item dataField="phone"/>
-                    <Item dataField="mobilePhone"/>
+                    <Item dataField="phone" editorOptions={phoneEditorOptions}/>
+                    <Item dataField="mobilePhone" editorOptions={phoneEditorOptions}/>
                     <Item dataField="email">
                         <EmailRule message={'Неправильный форма. (Пример: rule@yandex.com)'}/>
                     </Item>
